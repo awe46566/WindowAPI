@@ -43,6 +43,16 @@
 build/
 Build/
 build-*/
+x64/
+Debug/
+Release/
+
+# Visual Studio user settings and caches
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
 
 # CMake generated files
 CMakeFiles/
