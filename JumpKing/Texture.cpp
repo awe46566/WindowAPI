@@ -3,10 +3,7 @@
 #include "Engine/RenderContext.h"
 #include "Texture.h"
 
-bool Texture::Load(
-    const std::wstring& path,
-    int32 row,
-    int32 col)
+bool Texture::Load(const wstring& path, int32 row, int32 col)
 {
     if (path.empty() || row <= 0 || col <= 0)
     {
@@ -23,10 +20,10 @@ bool Texture::Load(
     // 이 단계에서는 아직 Direct2D Bitmap이 만들어지지 않습니다.
     Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
     HRESULT result = wicFactory->CreateDecoderFromFilename(
-        path.c_str(),
-        nullptr,
-        GENERIC_READ,
-        WICDecodeMetadataCacheOnLoad,
+        path.c_str(),                   //c_str은 wchar_t* 를 가르킴(이미지 파일의 경로)
+        nullptr,      
+        GENERIC_READ,                   //파일을 읽기 권한으로 열음
+        WICDecodeMetadataCacheOnLoad,   //메타데이터를 언제 읽을 것인지 지정 ( 메타데이터 = 이미지 크기, 색상 프로필, 방향 정보 등등)
         decoder.GetAddressOf());
     if (FAILED(result))
     {
@@ -42,6 +39,7 @@ bool Texture::Load(
     }
 
     // 2단계: Direct2D가 알파 합성하기 좋은 픽셀 형식으로 변환합니다.
+    // -> WIC가 읽은 원본 이미지의 픽셀 형식이 다양하기 때문에 Converter로 하나의 통일된 형식으로 바꿈.
     Microsoft::WRL::ComPtr<IWICFormatConverter> converter;
     result = wicFactory->CreateFormatConverter(converter.GetAddressOf());
     if (FAILED(result))
@@ -73,15 +71,14 @@ bool Texture::Load(
 
     // 스프라이트 시트를 행과 열로 정확하게 나눌 수 있어야
     // 프레임마다 픽셀이 어긋나지 않습니다.
-    if (width % static_cast<UINT>(col) != 0 ||
-        height % static_cast<UINT>(row) != 0)
+    if (width % static_cast<UINT>(col) != 0 || height % static_cast<UINT>(row) != 0)
     {
         return false;
     }
 
     // WIC Source는 CPU 쪽의 장치 독립 데이터입니다.
     // Decoder와 Frame은 지역 ComPtr이므로 함수 종료 시 자동 해제됩니다.
-    _wicSource = std::move(converter);
+    _wicSource = move(converter);
     _bitmap.Reset();
     _bitmapGeneration = 0;
 
@@ -103,8 +100,7 @@ bool Texture::CreateBitmap(const RenderContext& context)
     }
 
     // 현재 RenderTarget에서 만든 Bitmap이라면 그대로 재사용합니다.
-    if (_bitmap != nullptr &&
-        _bitmapGeneration == context.deviceGeneration)
+    if (_bitmap != nullptr && _bitmapGeneration == context.deviceGeneration)
     {
         return true;
     }
@@ -127,10 +123,7 @@ bool Texture::CreateBitmap(const RenderContext& context)
     return true;
 }
 
-void Texture::Render(
-    const RenderContext& context,
-    const Vector2& position,
-    const D2D1_RECT_F& sourceRect)
+void Texture::Render(const RenderContext& context, const Vector2& position, const D2D1_RECT_F& sourceRect)
 {
     if (!CreateBitmap(context))
     {
@@ -150,8 +143,7 @@ void Texture::Render(
     context.target->DrawBitmap(
         _bitmap.Get(),
         destinationRect,
-        1.0f,
-        // 픽셀 아트 확대 시 색을 섞지 않아 경계가 흐려지는 것을 막습니다.
-        D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
+        1.0f,        
+        D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, // 픽셀 아트 확대 시 색을 섞지 않아 경계가 흐려지는 것을 막습니다.
         sourceRect);
 }
