@@ -22,4 +22,5 @@ private:
     HDC _backBufferDC = nullptr;
     HBITMAP _backBufferBitmap = nullptr;
     HBITMAP _previousBitmap = nullptr;
+    ULONG_PTR _gdiplusToken = 0;
 };

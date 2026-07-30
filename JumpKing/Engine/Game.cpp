@@ -9,6 +9,15 @@
 
 bool Game::Init(HWND window)
 {
+    Gdiplus::GdiplusStartupInput startupInput;
+
+    const Gdiplus::Status status = Gdiplus::GdiplusStartup(&_gdiplusToken, &startupInput, nullptr);
+    if (status != Gdiplus::Ok)
+    {
+        _gdiplusToken = 0;
+        return false;
+    }
+    
     _window = window;
     _windowDC = GetDC(_window);
     if (_windowDC == nullptr)
@@ -43,6 +52,12 @@ bool Game::Init(HWND window)
 void Game::Cleanup()
 {
     SceneManager::GetInstance().Cleanup();
+
+    if (_gdiplusToken != 0)
+    {
+        Gdiplus::GdiplusShutdown(_gdiplusToken);
+        _gdiplusToken = 0;
+    }
 
     if (_backBufferDC != nullptr && _previousBitmap != nullptr)
     {

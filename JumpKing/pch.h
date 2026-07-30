@@ -4,6 +4,7 @@
 
 #define NOMINMAX 
 #include <windows.h>	// min/max 유틸함수가 또 구현. 
+#include <gdiplus.h>
 #include <vector>
 #include <set>
 #include <map>
@@ -22,9 +23,9 @@ namespace fs = std::filesystem;
 
 //#include "Util.h"
 
-// transparent Blt
-#pragma comment(lib, "msimg32.lib")
 
+#pragma comment(lib, "msimg32.lib")
+#pragma comment(lib, "gdiplus.lib")
 // 사운드
 #include <MMSystem.h>
 #include <dsound.h>
