@@ -1,16 +1,56 @@
 #include "pch.h"
 #include "framework.h"
+#include "Engine/RenderContext.h"
 #include "Game/GameScene.h"
 
 void GameScene::Init()
 {
-    // 다음 단계에서 Player와 Block을 생성할 자리입니다.
+    wchar_t executablePath[MAX_PATH]{};
+    const DWORD pathLength = GetModuleFileNameW(
+        nullptr,
+        executablePath,
+        ARRAYSIZE(executablePath));
+
+    if (pathLength > 0 && pathLength < ARRAYSIZE(executablePath))
+    {
+        const fs::path resourcePath =
+            fs::path(executablePath).parent_path()
+            / L".."
+            / L".."
+            / L"Resource"
+            / L"MG"
+            / L"1.png";
+
+        _isBackgroundLoaded =
+            _backgroundTexture.Load(resourcePath.lexically_normal(), 1, 1);
+    }
 }
 
-void GameScene::Render(HDC hdc)
+void GameScene::Render(const RenderContext& context)
 {
-    Scene::Render(hdc);
+    if (_isBackgroundLoaded)
+    {
+        // 현재는 이미지 전체를 sourceRect로 선택합니다.
+        // 스프라이트 애니메이션에서는 이 사각형을 프레임 크기만큼 이동시킵니다.
+        const D2D1_RECT_F sourceRect = D2D1::RectF(
+            0.0f,
+            0.0f,
+            static_cast<float>(_backgroundTexture.GetWidth()),
+            static_cast<float>(_backgroundTexture.GetHeight()));
 
-    constexpr wchar_t MESSAGE[] = L"JumpKing framework is running";
-    TextOutW(hdc, 20, 50, MESSAGE, ARRAYSIZE(MESSAGE) - 1);
+        _backgroundTexture.Render(context, Vector2{}, sourceRect);
+    }
+
+    Scene::Render(context);
+
+    constexpr wchar_t message[] = L"JumpKing framework is running";
+    const D2D1_RECT_F textRect =
+        D2D1::RectF(20.0f, 50.0f, 420.0f, 90.0f);
+
+    context.target->DrawTextW(
+        message,
+        ARRAYSIZE(message) - 1,
+        context.defaultTextFormat,
+        textRect,
+        context.defaultBrush);
 }

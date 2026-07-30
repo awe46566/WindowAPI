@@ -35,7 +35,7 @@ enum class RenderLayer
     Foreground,
     Effect,
 
-    // ÃÖ´ë °³¼ö
+    // ìµœëŒ€ ê°œìˆ˜
     Count
 };
 

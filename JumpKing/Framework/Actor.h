@@ -5,6 +5,7 @@
 #include <vector>
 
 class Component;
+struct RenderContext;
 
 class Actor
 {
@@ -13,12 +14,12 @@ public:
 
     virtual void Init() {}
     virtual void Update(float deltaTime);
-    virtual void Render(HDC hdc);
+    virtual void Render(const RenderContext& context);
 
     const Vector2& GetPosition() const { return _position; }
     void SetPosition(const Vector2& position) { _position = position; }
 
-    // ¼ø¼ö °¡»óÇÔ¼ö. Actor Å¸ÀÔ°ú Layer ¼ø¼­¸¦ ¾Ë·ÁÁà¾ß ÇÔ.
+    // ìˆœìˆ˜ ê°€ìƒí•¨ìˆ˜. Actor íƒ€ì…ê³¼ Layer ìˆœì„œë¥¼ ì•Œë ¤ì¤˜ì•¼ í•¨.
     virtual RenderLayer GetRenderLayer() = 0;
     virtual ActorType GetActorType() = 0;
 

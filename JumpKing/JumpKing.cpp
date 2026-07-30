@@ -1,4 +1,4 @@
-﻿// JumpKing.cpp : 애플리케이션에 대한 진입점을 정의합니다.
+// JumpKing.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
 
 #include "pch.h"
@@ -29,7 +29,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: 여기에 코드를 입력합니다.
+    // WIC Factory는 COM 객체이므로 사용 전에 현재 스레드의 COM을 초기화합니다.
+    // 성공한 CoInitializeEx와 CoUninitialize는 반드시 한 쌍이어야 합니다.
+    const HRESULT comResult =
+        CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    if (FAILED(comResult))
+    {
+        return FALSE;
+    }
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -39,6 +46,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance (hInstance, nCmdShow))
     {
+        CoUninitialize();
         return FALSE;
     }
 
@@ -47,6 +55,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Game& game = Game::GetInstance();
     if (!game.Init(gHwnd))
     {
+        CoUninitialize();
         return FALSE;
     }
 
@@ -96,6 +105,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     game.Cleanup();
+    CoUninitialize();
     return (int) msg.wParam;
 }
 
@@ -197,13 +207,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+            // 실제 그리기는 게임 루프의 Direct2D Render에서 수행합니다.
+            // BeginPaint/EndPaint는 WM_PAINT 처리가 끝났음을 Windows에 알립니다.
             EndPaint(hWnd, &ps);
         }
         break;
     case WM_ERASEBKGND:
-        // Game의 백 버퍼가 전체 화면을 그리므로 기본 배경 지우기는 생략합니다.
+        // 매 프레임 Direct2D의 Clear가 전체 배경을 지우므로
+        // GDI의 배경 지우기를 생략해 불필요한 깜빡임을 막습니다.
         return 1;
+    case WM_SIZE:
+        // HWND와 HwndRenderTarget의 크기를 함께 맞춰야 화면이 잘리지 않습니다.
+        Game::GetInstance().Resize(
+            static_cast<uint32>(LOWORD(lParam)),
+            static_cast<uint32>(HIWORD(lParam)));
+        return 0;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

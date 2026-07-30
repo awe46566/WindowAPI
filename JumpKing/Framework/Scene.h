@@ -3,6 +3,7 @@
 #include <vector>
 
 class Actor;
+struct RenderContext;
 
 class Scene
 {
@@ -11,7 +12,7 @@ public:
 
     virtual void Init() {}
     virtual void Update(float deltaTime);
-    virtual void Render(HDC hdc);
+    virtual void Render(const RenderContext& context);
 
     void AddActor(Actor* actor);
 

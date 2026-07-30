@@ -3,8 +3,13 @@
 #include <iostream>
 
 #define NOMINMAX 
-#include <windows.h>	// min/max À¯Æ¿ÇÔ¼ö°¡ ¶Ç ±¸Çö. 
-#include <gdiplus.h>
+#include <windows.h>	// min/max ìœ í‹¸í•¨ìˆ˜ê°€ ë˜ êµ¬í˜„.
+// Direct2D: 2D ê·¸ë¦¬ê¸°, DirectWrite: í…ìŠ¤íŠ¸, WIC: PNG ë””ì½”ë”©
+#include <d2d1.h>
+#include <dwrite.h>
+#include <wincodec.h>
+// ComPtr: COM ê°ì²´ì˜ AddRef/Releaseë¥¼ ìë™ ê´€ë¦¬
+#include <wrl/client.h>
 #include <vector>
 #include <set>
 #include <map>
@@ -24,9 +29,10 @@ namespace fs = std::filesystem;
 //#include "Util.h"
 
 
-#pragma comment(lib, "msimg32.lib")
-#pragma comment(lib, "gdiplus.lib")
-// »ç¿îµå
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "dwrite.lib")
+#pragma comment(lib, "windowscodecs.lib")
+// ì‚¬ìš´ë“œ
 #include <MMSystem.h>
 #include <dsound.h>
 #pragma comment (lib, "winmm.lib")
@@ -34,22 +40,22 @@ namespace fs = std::filesystem;
 
 // Json
 #include <fstream>
-//#include "Json/nlohmann/json.hpp" // nlohmann/json Çì´õ ÆÄÀÏ
+//#include "Json/nlohmann/json.hpp" // nlohmann/json í—¤ë” íŒŒì¼
 //using json = nlohmann::json;
 
 
-// Á¤¼öÇüÀ» °ü¸®ÇÏ±â ÆíÇÑ ¿ëµµ·Î, º°ÄªÀ» ¸¸µéÀÚ. 
-// -> ¾ğ¸®¾óÀÌ ÀÌ·±¹æ½ÄÀÌ¶ó ¹Ì¸® ÀÍ¼÷ÇØÁöÀÚ.
+// ì •ìˆ˜í˜•ì„ ê´€ë¦¬í•˜ê¸° í¸í•œ ìš©ë„ë¡œ, ë³„ì¹­ì„ ë§Œë“¤ì.
+// -> ì–¸ë¦¬ì–¼ì´ ì´ëŸ°ë°©ì‹ì´ë¼ ë¯¸ë¦¬ ìµìˆ™í•´ì§€ì.
 
-using int8 = char;		// 1byte Á¤¼öÇü
-using int16 = short;	// 2byte Á¤¼öÇü
-using int32 = int;		// 4byte Á¤¼öÇü
-using int64 = long long;// 8byte Á¤¼öÇü
+using int8 = char;		// 1byte ì •ìˆ˜í˜•
+using int16 = short;	// 2byte ì •ìˆ˜í˜•
+using int32 = int;		// 4byte ì •ìˆ˜í˜•
+using int64 = long long;// 8byte ì •ìˆ˜í˜•
 
-using uint8 = unsigned char;		// 1byte Á¤¼öÇü
-using uint16 = unsigned short;	// 2byte Á¤¼öÇü
-using uint32 = unsigned int;		// 4byte Á¤¼öÇü
-using uint64 = unsigned long long;// 8byte Á¤¼öÇü
+using uint8 = unsigned char;		// 1byte ì •ìˆ˜í˜•
+using uint16 = unsigned short;	// 2byte ì •ìˆ˜í˜•
+using uint32 = unsigned int;		// 4byte ì •ìˆ˜í˜•
+using uint64 = unsigned long long;// 8byte ì •ìˆ˜í˜•
 
 //int MAX_COUNT;	
 //int32 MAX_COUNT;
@@ -121,10 +127,10 @@ struct Vector
 	}
 
 
-	// ³»Àû
-	// ¿ÜÀû
-	// Á¤±ÔÈ­
-	// Å©±â
+	// ë‚´ì 
+	// ì™¸ì 
+	// ì •ê·œí™”
+	// í¬ê¸°
 	float LengthSquared()
 	{
 		return x * x + y * y;
@@ -144,15 +150,15 @@ struct Vector
 		y /= length;
 	}
 
-	// Dot ³»Àû
+	// Dot ë‚´ì 
 	// float = cos(A)
 	float Dot(Vector other) const
 	{
 		return x * other.x + y * other.y;
 	}
 
-	// Cross ¿ÜÀû
-	// °á°ú°¡ 3D º¤ÅÍ¿©¾ßÇÏ´Âµ¥, 2D ÁÂÇ¥°è¶ó¼­ Z=0, float ÇÏ³ª¸¦ ¸®ÅÏ½ÃÅ²´Ù. (0,0,x)
+	// Cross ì™¸ì 
+	// ê²°ê³¼ê°€ 3D ë²¡í„°ì—¬ì•¼í•˜ëŠ”ë°, 2D ì¢Œí‘œê³„ë¼ì„œ Z=0, float í•˜ë‚˜ë¥¼ ë¦¬í„´ì‹œí‚¨ë‹¤. (0,0,x)
 	float Cross(Vector other)
 	{
 		return x * other.y - y * other.x;
@@ -172,7 +178,7 @@ struct Vector
 	}
 };
 
-// À©µµ¿ì »çÀÌÁî º¯°æ
+// ìœˆë„ìš° ì‚¬ì´ì¦ˆ ë³€ê²½
 constexpr int32 GWinSizeX = 1250;
 constexpr int32 GWinSizeY = 750;
 
@@ -182,13 +188,13 @@ constexpr int32 STAR_SIZE = 64;
 
 constexpr int32 PLAYER_SIZE = 192;
 
-// GridÀÇ ÇÑÄ­ ¼¿ index Á¤º¸
+// Gridì˜ í•œì¹¸ ì…€ index ì •ë³´
 struct Cell
 {
 	int32 iX = 0;
 	int32 iY = 0;
 
-	// À¯Æ¿ ÇÔ¼ö
+	// ìœ í‹¸ í•¨ìˆ˜
 	static Cell ConvertToCell(Vector pos, int32 size)
 	{
 		if (pos.x < 0 || pos.y < 0)
@@ -197,7 +203,7 @@ struct Cell
 		return Cell{(int32)pos.x / size, (int32)pos.y / size};
 	}
 
-	// ¼¿ Áß½ÉÁÂÇ¥
+	// ì…€ ì¤‘ì‹¬ì¢Œí‘œ
 	Vector ConvertToCenterPos(int32 size)
 	{
 		Vector centerPos;
@@ -212,7 +218,7 @@ struct Cell
 		return abs(iX - other.iX) + abs(iY - other.iY);
 	}
 
-	// ¹æÇâ¿¡ µû¸¥ ÀÎÁ¢ÇÑ ¼¿ ±¸ÇÏ±â
+	// ë°©í–¥ì— ë”°ë¥¸ ì¸ì ‘í•œ ì…€ êµ¬í•˜ê¸°
 	/*
 	Cell NextCell(DirType dir) const
 	{
@@ -232,8 +238,8 @@ struct Cell
 		return iX == other.iX && iY == other.iY;
 	}
 
-	// map ¿¡ Å°°ªÀ¸·Î ³Ö±â À§ÇØ
-	// '<' ¿¬»êÀÚ Á¤ÀÇ
+	// map ì— í‚¤ê°’ìœ¼ë¡œ ë„£ê¸° ìœ„í•´
+	// '<' ì—°ì‚°ì ì •ì˜
 	bool operator<(const Cell& other) const
 	{
 		if (iX != other.iX)
@@ -242,7 +248,7 @@ struct Cell
 	}
 };
 
-// ÇÑÄ­ ±×¸®µå¾È¿¡ °ÉÃÄÀÖ´Â ¸ğµç Actor °ü¸®
+// í•œì¹¸ ê·¸ë¦¬ë“œì•ˆì— ê±¸ì³ìˆëŠ” ëª¨ë“  Actor ê´€ë¦¬
 struct GridInfo
 {
 	vector<class Actor*> actors;
@@ -251,5 +257,5 @@ struct GridInfo
 struct HitResult
 {
 	Vector normal;
-	float depth = 0.f;	// °üÅë ±íÀÌ (¾ó¸¶³ª °ãÃÆ´ÂÁö)
+	float depth = 0.f;	// ê´€í†µ ê¹Šì´ (ì–¼ë§ˆë‚˜ ê²¹ì³¤ëŠ”ì§€)
 };

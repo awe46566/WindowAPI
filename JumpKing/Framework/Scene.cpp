@@ -20,11 +20,11 @@ void Scene::Update(float deltaTime)
     }
 }
 
-void Scene::Render(HDC hdc)
+void Scene::Render(const RenderContext& context)
 {
     for (Actor* actor : _actors)
     {
-        actor->Render(hdc);
+        actor->Render(context);
     }
 }
 

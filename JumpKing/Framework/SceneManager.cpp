@@ -27,11 +27,11 @@ void SceneManager::Update(float deltaTime)
     }
 }
 
-void SceneManager::Render(HDC hdc)
+void SceneManager::Render(const RenderContext& context)
 {
     if (_currentScene != nullptr)
     {
-        _currentScene->Render(hdc);
+        _currentScene->Render(context);
     }
 }
 

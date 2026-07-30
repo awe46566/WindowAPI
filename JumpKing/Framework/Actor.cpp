@@ -20,10 +20,10 @@ void Actor::Update(float deltaTime)
     }
 }
 
-void Actor::Render(HDC hdc)
+void Actor::Render(const RenderContext& context)
 {
     for (Component* component : _components)
     {
-        component->Render(hdc, _position);
+        component->Render(context, _position);
     }
 }
