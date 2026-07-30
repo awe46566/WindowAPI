@@ -1,7 +1,7 @@
 #pragma once
 
+#include "pch.h"
 #include "Engine/Types.h"
-
 #include <vector>
 
 class Component;
@@ -17,6 +17,10 @@ public:
 
     const Vector2& GetPosition() const { return _position; }
     void SetPosition(const Vector2& position) { _position = position; }
+
+    // 순수 가상함수. Actor 타입과 Layer 순서를 알려줘야 함.
+    virtual RenderLayer GetRenderLayer() = 0;
+    virtual ActorType GetActorType() = 0;
 
 protected:
     template <typename T>

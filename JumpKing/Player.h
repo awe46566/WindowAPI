@@ -3,8 +3,12 @@
 
 class Player : public Actor
 {
+	
 public:
-	void Init() override;
-	void Render(HDC hdc) override;
+	virtual void Init() override;
+	virtual void Update(float deltaTime) override;
+
+	virtual RenderLayer GetRenderLayer() override { return RenderLayer::Background; }
+	virtual ActorType GetActorType() override { return ActorType::Player; }
 
 };
