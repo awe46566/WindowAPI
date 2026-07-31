@@ -27,7 +27,7 @@ void GameScene::Init()
     }
 
     Player* player = new Player();
-    player->SetPosition(Vector2{ 384.0f, 344.0f });
+    player->SetPosition(Vector2{ 230.0f, 286.0f });
     AddActor(player);
 }
 
