@@ -79,8 +79,8 @@ void SpriteRenderer::Render(const RenderContext& context, const Vector2& ownerPo
     const D2D1_RECT_F sourceRect = D2D1::RectF(
         sourceX,
         sourceY,
-        sourceX + frameSize.width,
-        sourceY + frameSize.height);
+        sourceX + 32.0f,
+        sourceY + 40.0f);
 
     _texture.Render(context, ownerPosition, sourceRect);
 }
