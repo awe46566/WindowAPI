@@ -23,6 +23,8 @@ public:
 
     int32 GetWidth() const { return _width; }
     int32 GetHeight() const { return _height; }
+    int32 GetRowCount() const { return _row; }
+    int32 GetColumnCount() const { return _col; }
     D2D1_SIZE_F GetFrameSize() const
     {
         return D2D1::SizeF(

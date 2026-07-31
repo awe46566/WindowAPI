@@ -16,8 +16,8 @@ bool Texture::Load(const wstring& path, int32 row, int32 col)
         return false;
     }
 
-    // 1단계: 파일 형식을 읽을 수 있는 Decoder를 만듭니다.
-    // 이 단계에서는 아직 Direct2D Bitmap이 만들어지지 않습니다.
+    // 1단계: 파일 형식을 읽을 수 있는 Decoder를 만듦.
+    // 이 단계에서는 아직 Direct2D Bitmap이 만들어지지 않음.
     Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
     HRESULT result = wicFactory->CreateDecoderFromFilename(
         path.c_str(),                   //c_str은 wchar_t* 를 가르킴(이미지 파일의 경로)
@@ -30,7 +30,7 @@ bool Texture::Load(const wstring& path, int32 row, int32 col)
         return false;
     }
 
-    // PNG도 여러 프레임을 가질 수 있으므로 첫 번째 프레임을 명시적으로 선택합니다.
+    // PNG도 여러 프레임을 가질 수 있으므로 첫 번째 프레임을 명시적으로 선택
     Microsoft::WRL::ComPtr<IWICBitmapFrameDecode> frame;
     result = decoder->GetFrame(0, frame.GetAddressOf());
     if (FAILED(result))
@@ -49,8 +49,8 @@ bool Texture::Load(const wstring& path, int32 row, int32 col)
 
     result = converter->Initialize(
         frame.Get(),
-        // PBGRA의 P는 Premultiplied Alpha입니다.
-        // RGB에 Alpha가 미리 곱해진 형식이며 Direct2D의 기본 알파 합성 형식입니다.
+        // PBGRA의 P는 Premultiplied Alpha
+        // RGB에 Alpha가 미리 곱해진 형식이며 Direct2D의 기본 알파 합성 형식
         GUID_WICPixelFormat32bppPBGRA,
         WICBitmapDitherTypeNone,
         nullptr,

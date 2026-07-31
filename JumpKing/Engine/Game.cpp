@@ -154,7 +154,12 @@ void Game::Render()
     _renderTarget->BeginDraw();
 
     // 이전 Actor가 남긴 이동·회전 변환이 다음 프레임에 영향을 주지 않도록 초기화합니다.
-    _renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+    _renderTarget->SetTransform(
+        D2D1::Matrix3x2F::Scale(
+            static_cast<float>(WINDOW_SCALE), 
+            static_cast<float>(WINDOW_SCALE)
+        )
+    );
     _renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
     // Scene은 자원을 소유하지 않고, 이 프레임에 사용할 포인터만 빌려 받습니다.

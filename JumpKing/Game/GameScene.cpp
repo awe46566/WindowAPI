@@ -2,6 +2,7 @@
 #include "framework.h"
 #include "Engine/RenderContext.h"
 #include "Game/GameScene.h"
+#include "Player.h"
 
 void GameScene::Init()
 {
@@ -24,6 +25,10 @@ void GameScene::Init()
         _isBackgroundLoaded =
             _backgroundTexture.Load(resourcePath.lexically_normal(), 1, 1);
     }
+
+    Player* player = new Player();
+    player->SetPosition(Vector2{ 384.0f, 344.0f });
+    AddActor(player);
 }
 
 void GameScene::Render(const RenderContext& context)
@@ -42,15 +47,5 @@ void GameScene::Render(const RenderContext& context)
     }
 
     Scene::Render(context);
-
-    constexpr wchar_t message[] = L"JumpKing framework is running";
-    const D2D1_RECT_F textRect =
-        D2D1::RectF(20.0f, 50.0f, 420.0f, 90.0f);
-
-    context.target->DrawTextW(
-        message,
-        ARRAYSIZE(message) - 1,
-        context.defaultTextFormat,
-        textRect,
-        context.defaultBrush);
+    
 }

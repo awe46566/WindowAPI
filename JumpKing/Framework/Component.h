@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/Types.h"
+
 struct RenderContext;
 
 class Component

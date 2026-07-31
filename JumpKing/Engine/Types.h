@@ -39,6 +39,7 @@ enum class RenderLayer
     Count
 };
 
-constexpr int32 GAME_SCREEN_WIDTH = 800;
-constexpr int32 GAME_SCREEN_HEIGHT = 720;
+constexpr int32 GAME_SCREEN_WIDTH = 480;
+constexpr int32 GAME_SCREEN_HEIGHT = 360;
+constexpr int32 WINDOW_SCALE = 2;
 constexpr float TARGET_FRAME_RATE = 120.0f;
