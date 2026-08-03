@@ -12,6 +12,19 @@ struct Vector2
     float y = 0.0f;
 };
 
+struct Rect
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float width = 0.0f;
+    float height = 0.0f;
+
+    float Left() const { return x; }
+    float Top() const { return y; }
+    float Right() const { return x + width; }
+    float Bottom() const { return y + height; }
+};
+
 enum class SceneType
 {
     Game,
@@ -38,6 +51,7 @@ enum class RenderLayer
     // 최대 개수
     Count
 };
+
 
 constexpr int32 GAME_SCREEN_WIDTH = 480;
 constexpr int32 GAME_SCREEN_HEIGHT = 360;

@@ -42,8 +42,7 @@ namespace
 }
 
 void GameScene::Init()
-{
-    LevelData level;
+{   
     wchar_t executablePath[MAX_PATH]{};
     const DWORD pathLength = GetModuleFileNameW(
         nullptr,
@@ -53,25 +52,19 @@ void GameScene::Init()
     if (pathLength > 0 && pathLength < ARRAYSIZE(executablePath))
     {
         const fs::path levelPath =
-            fs::path(executablePath).parent_path() / L".." / L".." /
-            L"JumpKing" / L"Data" / L"levels.json";
+            fs::path(executablePath).parent_path() / L".." / L".." / L"JumpKing" / L"Data" / L"levels.json";
 
-        if (LoadLevelData(levelPath.lexically_normal(), "level_00", level))
+        if (LoadLevelData(levelPath.lexically_normal(), "level_00", _currentLevel))
         {
-            _isBackgroundLoaded = LoadLayerTexture(
-                level.layers.background,
-                _backgroundTexture);
-            _isMidgroundLoaded = LoadLayerTexture(
-                level.layers.midground,
-                _midgroundTexture);
-            _isForegroundLoaded = LoadLayerTexture(
-                level.layers.foreground,
-                _foregroundTexture);
+            _isBackgroundLoaded = LoadLayerTexture(_currentLevel.layers.background, _backgroundTexture);
+            _isMidgroundLoaded = LoadLayerTexture(_currentLevel.layers.midground, _midgroundTexture);
+            _isForegroundLoaded = LoadLayerTexture(_currentLevel.layers.foreground, _foregroundTexture);
         }
     }
 
     Player* player = new Player();
-    player->SetPosition(level.hasSpawn ? level.spawn : Vector2{ 230.0f, 286.0f });
+    player->SetPlatforms(&_currentLevel.platforms);
+    player->SetPosition(_currentLevel.hasSpawn ? _currentLevel.spawn : Vector2{ 230.0f, 286.0f });
     AddActor(player);
 }
 

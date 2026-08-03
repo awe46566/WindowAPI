@@ -15,7 +15,7 @@ enum class PlatformMaterial
 
 struct PlatformData
 {
-    D2D1_RECT_F bounds{};
+    Rect bounds{};
     Vector2 slope{};
     bool hasSlope = false;
     bool support = false;

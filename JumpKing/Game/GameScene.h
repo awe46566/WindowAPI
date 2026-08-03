@@ -2,6 +2,7 @@
 
 #include "Framework/Scene.h"
 #include "Texture.h"
+#include "LevelData.h"
 
 class GameScene : public Scene
 {
@@ -10,6 +11,8 @@ public:
     void Render(const RenderContext& context) override;
 
 private:
+    LevelData _currentLevel;
+
     Texture _backgroundTexture;
     Texture _midgroundTexture;
     Texture _foregroundTexture;

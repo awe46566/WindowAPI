@@ -259,11 +259,3 @@ struct HitResult
 	Vector normal;
 	float depth = 0.f;	// 관통 깊이 (얼마나 겹쳤는지)
 };
-
-struct Rect
-{
-	float x = 0.0f;
-	float y = 0.0f;
-	float width = 0.0f;
-	float height = 0.0f;
-};

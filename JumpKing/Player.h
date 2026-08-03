@@ -3,6 +3,7 @@
 
 class SpriteRenderer;
 class Collider;
+struct PlatformData;
 
 class Player : public Actor
 {
@@ -15,9 +16,19 @@ public:
 	virtual ActorType GetActorType() override { return ActorType::Player; }
 
 	void Move(float deltaTime);
+	void ApplyGravity(float deltaTime);	
+	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
 private:
+	static constexpr float GRAVITY = 900.0f;
+	static constexpr float MAX_FALL_SPEED = 600.0f;
+
 	SpriteRenderer* _spriteRenderer = nullptr;
-	Collider* _collider = nullptr;
+	Collider* _collider = nullptr;	
+
 	float _moveSpeed = 70.0f;
+	float _verticalVelocity = 0.0f;
+
+	const vector<PlatformData>* _platforms = nullptr;
+	
 };

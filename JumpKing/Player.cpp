@@ -40,7 +40,8 @@ void Player::Init()
 void Player::Update(float deltaTime)
 {
 	Actor::Update(deltaTime);
-	Player::Move(deltaTime);
+	Move(deltaTime);
+	ApplyGravity(deltaTime);
 }
 
 void Player::Move(float deltaTime) 
@@ -61,5 +62,16 @@ void Player::Move(float deltaTime)
 		position.x += _moveSpeed * deltaTime;
 	}
 
+	SetPosition(position);
+}
+
+void Player::ApplyGravity(float deltaTime)
+{
+	// 화면 좌표에서는 y가 증가할수록 아래쪽이므로 중력은 양수 방향
+	_verticalVelocity += GRAVITY * deltaTime;
+	_verticalVelocity = min(_verticalVelocity, MAX_FALL_SPEED);
+
+	Vector2 position = GetPosition();
+	position.y += _verticalVelocity * deltaTime;
 	SetPosition(position);
 }
