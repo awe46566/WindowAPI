@@ -138,8 +138,7 @@ void Game::Update()
 {
     TimeManager::GetInstance().Update();
     InputManager::GetInstance().Update();
-    SceneManager::GetInstance().Update(
-        TimeManager::GetInstance().GetDeltaTime());
+    SceneManager::GetInstance().Update(TimeManager::GetInstance().GetDeltaTime());
 }
 
 void Game::Render()

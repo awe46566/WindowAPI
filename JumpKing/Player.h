@@ -13,6 +13,9 @@ public:
 	virtual RenderLayer GetRenderLayer() override { return RenderLayer::Player; }
 	virtual ActorType GetActorType() override { return ActorType::Player; }
 
+	void Move(float deltaTime);
+
 private:
 	SpriteRenderer* _spriteRenderer = nullptr;
+	float _moveSpeed = 70.0f;
 };

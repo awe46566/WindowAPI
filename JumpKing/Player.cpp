@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "SpriteRenderer.h"
+#include "Engine/InputManager.h"
 
 void Player::Init()
 {
@@ -35,4 +36,26 @@ void Player::Init()
 void Player::Update(float deltaTime)
 {
 	Actor::Update(deltaTime);
+	Player::Move(deltaTime);
+}
+
+void Player::Move(float deltaTime) 
+{
+	Vector2 position = GetPosition();
+	InputManager& input = InputManager::GetInstance();
+
+	bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
+	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
+
+	if (isLeftPressed)
+	{
+		position.x -= _moveSpeed * deltaTime;
+	}
+
+	if (isRightPressed)
+	{
+		position.x += _moveSpeed * deltaTime;
+	}
+
+	SetPosition(position);
 }
