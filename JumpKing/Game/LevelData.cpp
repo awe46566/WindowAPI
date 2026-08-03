@@ -50,7 +50,7 @@ bool LoadLevelData(
             const float height = platform.at("height").get<float>();
 
             PlatformData data;
-            data.bounds = { x, y, x + width, y + height };
+            data.bounds = { x, y, width, height };
             data.support = platform.value("support", false);
 
             if (!platform.at("slope").is_null())

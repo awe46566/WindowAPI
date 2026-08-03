@@ -3,6 +3,7 @@
 #include "SpriteRenderer.h"
 #include "Engine/InputManager.h"
 #include "ColliderAABB.h"
+#include "Game/LevelData.h"
 
 void Player::Init()
 {
@@ -67,11 +68,42 @@ void Player::Move(float deltaTime)
 
 void Player::ApplyGravity(float deltaTime)
 {
+	Vector2 previousPosition = GetPosition();
+	Vector2 nextPosition = previousPosition;
+
 	// 화면 좌표에서는 y가 증가할수록 아래쪽이므로 중력은 양수 방향
 	_verticalVelocity += GRAVITY * deltaTime;
 	_verticalVelocity = min(_verticalVelocity, MAX_FALL_SPEED);
 
-	Vector2 position = GetPosition();
-	position.y += _verticalVelocity * deltaTime;
-	SetPosition(position);
+	nextPosition.y += _verticalVelocity * deltaTime;
+
+	if (_platforms != nullptr && _verticalVelocity >= 0.0f)
+	{
+		const Rect previousBounds = _collider->GetBounds(previousPosition);
+		const Rect nextBounds = _collider->GetBounds(nextPosition);
+
+		for (const PlatformData& platform : *_platforms)
+		{
+			if (platform.hasSlope) { continue; }			
+
+			const Rect& platformBounds = platform.bounds;
+
+			const bool overlapsHorizontally =
+				nextBounds.Right() > platformBounds.Left() &&
+				nextBounds.Left() < platformBounds.Right();
+
+			const bool crossedPlatformTop =
+				previousBounds.Bottom() <= platformBounds.Top() &&
+				nextBounds.Bottom() >= platformBounds.Top();
+
+			if (overlapsHorizontally && crossedPlatformTop)
+			{
+				nextPosition.y = platformBounds.Top() - nextBounds.height;
+				_verticalVelocity = 0.0f;
+				break;
+			}
+		}
+	}
+
+	SetPosition(nextPosition);
 }
