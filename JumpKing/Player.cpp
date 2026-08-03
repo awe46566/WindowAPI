@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "SpriteRenderer.h"
 #include "Engine/InputManager.h"
+#include "ColliderAABB.h"
 
 void Player::Init()
 {
@@ -31,6 +32,9 @@ void Player::Init()
 		// 어떤 행이 어떤 동작인지 정하기 전에는 첫 프레임만 표시합니다.
 		_spriteRenderer->SetFrame(0, 7);
 	}
+
+	_collider = AddComponent<Collider>();
+	_collider->SetSize(Vector2{ 32.0f, 40.0f });
 }
 
 void Player::Update(float deltaTime)

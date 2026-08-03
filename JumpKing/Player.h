@@ -2,6 +2,7 @@
 #include "Framework/Actor.h"
 
 class SpriteRenderer;
+class Collider;
 
 class Player : public Actor
 {
@@ -17,5 +18,6 @@ public:
 
 private:
 	SpriteRenderer* _spriteRenderer = nullptr;
+	Collider* _collider = nullptr;
 	float _moveSpeed = 70.0f;
 };
