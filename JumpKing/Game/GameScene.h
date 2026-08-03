@@ -11,5 +11,10 @@ public:
 
 private:
     Texture _backgroundTexture;
+    Texture _midgroundTexture;
+    Texture _foregroundTexture;
+
     bool _isBackgroundLoaded = false;
+    bool _isMidgroundLoaded = false;
+    bool _isForegroundLoaded = false;
 };

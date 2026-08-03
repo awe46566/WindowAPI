@@ -3,6 +3,7 @@
 #include "Engine/Game.h"
 #include "Engine/InputManager.h"
 #include "Engine/RenderContext.h"
+#include "Engine/ResourceCatalog.h"
 #include "Engine/TimeManager.h"
 #include "Framework/SceneManager.h"
 
@@ -66,6 +67,27 @@ bool Game::Init(HWND window)
 
     TimeManager::GetInstance().Init();
     InputManager::GetInstance().Init(_window);
+
+    wchar_t executablePath[MAX_PATH]{};
+    const DWORD pathLength = GetModuleFileNameW(
+        nullptr,
+        executablePath,
+        ARRAYSIZE(executablePath));
+    if (pathLength == 0 || pathLength >= ARRAYSIZE(executablePath))
+    {
+        Cleanup();
+        return false;
+    }
+
+    const fs::path catalogPath =
+        fs::path(executablePath).parent_path() / L".." / L".." /
+        L"JumpKing" / L"Data" / L"images.json";
+    if (!ResourceCatalog::GetInstance().Load(catalogPath.lexically_normal()))
+    {
+        Cleanup();
+        return false;
+    }
+
     SceneManager::GetInstance().Init();
 
     return true;

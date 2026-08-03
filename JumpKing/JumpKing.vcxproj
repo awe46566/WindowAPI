@@ -136,6 +136,7 @@
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\InputManager.h" />
     <ClInclude Include="Engine\RenderContext.h" />
+    <ClInclude Include="Engine\ResourceCatalog.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\TimeManager.h" />
     <ClInclude Include="Engine\Types.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Game\GameScene.h" />
+    <ClInclude Include="Game\LevelData.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="JumpKing.h" />
     <ClInclude Include="pch.h" />
@@ -157,12 +159,14 @@
     <ClCompile Include="ColliderAABB.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\InputManager.cpp" />
+    <ClCompile Include="Engine\ResourceCatalog.cpp" />
     <ClCompile Include="Engine\TimeManager.cpp" />
     <ClCompile Include="Framework\Actor.cpp" />
     <ClCompile Include="Framework\Component.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Game\GameScene.cpp" />
+    <ClCompile Include="Game\LevelData.cpp" />
     <ClCompile Include="JumpKing.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

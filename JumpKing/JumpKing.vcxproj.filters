@@ -42,6 +42,9 @@
     <ClInclude Include="Engine\RenderContext.h">
       <Filter>헤더 파일\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ResourceCatalog.h">
+      <Filter>헤더 파일\Engine</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Singleton.h">
       <Filter>헤더 파일\Engine</Filter>
     </ClInclude>
@@ -64,6 +67,9 @@
       <Filter>헤더 파일\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameScene.h">
+      <Filter>헤더 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\LevelData.h">
       <Filter>헤더 파일\Game</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -101,6 +107,9 @@
     <ClCompile Include="Engine\InputManager.cpp">
       <Filter>소스 파일\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ResourceCatalog.cpp">
+      <Filter>소스 파일\Engine</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\TimeManager.cpp">
       <Filter>소스 파일\Engine</Filter>
     </ClCompile>
@@ -117,6 +126,9 @@
       <Filter>소스 파일\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameScene.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\LevelData.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
     <ClCompile Include="JumpKing.cpp">
