@@ -1,0 +1,514 @@
+{
+  "images": {
+    "lobby_logo": {
+      "path": "../Resource/images/logos/title_logo.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "king_sheet": {
+      "path": "../Resource/images/sheets/base.png",
+      "rows": 9,
+      "columns": 11
+    },
+    "mg_01": {
+      "path": "../Resource/MG/1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_01": {
+      "path": "../Resource/FG/fg1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_02": {
+      "path": "../Resource/MG/2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_02": {
+      "path": "../Resource/FG/fg2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_03": {
+      "path": "../Resource/MG/3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_03": {
+      "path": "../Resource/FG/fg3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_04": {
+      "path": "../Resource/MG/4.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_04": {
+      "path": "../Resource/BG/bg4.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_04": {
+      "path": "../Resource/FG/fg4.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_05": {
+      "path": "../Resource/MG/5.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_05": {
+      "path": "../Resource/BG/bg5.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_05": {
+      "path": "../Resource/FG/fg5.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_06": {
+      "path": "../Resource/MG/6.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_06": {
+      "path": "../Resource/BG/bg6.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_06": {
+      "path": "../Resource/FG/fg6.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_07": {
+      "path": "../Resource/MG/7.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_08": {
+      "path": "../Resource/MG/8.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_09": {
+      "path": "../Resource/MG/9.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_09": {
+      "path": "../Resource/FG/fg9.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_10": {
+      "path": "../Resource/MG/10.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_10": {
+      "path": "../Resource/FG/fg10.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_11": {
+      "path": "../Resource/MG/11.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_12": {
+      "path": "../Resource/MG/12.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_13": {
+      "path": "../Resource/MG/13.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_14": {
+      "path": "../Resource/MG/14.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_14": {
+      "path": "../Resource/BG/bg14.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_15": {
+      "path": "../Resource/MG/15.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_15": {
+      "path": "../Resource/BG/bg15.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_16": {
+      "path": "../Resource/MG/16.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_16": {
+      "path": "../Resource/BG/bg16.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_16": {
+      "path": "../Resource/FG/fg16.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_17": {
+      "path": "../Resource/MG/17.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_17": {
+      "path": "../Resource/BG/bg17.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_17": {
+      "path": "../Resource/FG/fg17.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_18": {
+      "path": "../Resource/MG/18.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_18": {
+      "path": "../Resource/BG/bg18.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_18": {
+      "path": "../Resource/FG/fg18.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_19": {
+      "path": "../Resource/MG/19.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_19": {
+      "path": "../Resource/BG/bg19.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_20": {
+      "path": "../Resource/MG/20.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_20": {
+      "path": "../Resource/BG/bg20.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_21": {
+      "path": "../Resource/MG/21.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_21": {
+      "path": "../Resource/BG/bg21.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_21": {
+      "path": "../Resource/FG/fg21.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_22": {
+      "path": "../Resource/MG/22.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_22": {
+      "path": "../Resource/BG/bg22.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_22": {
+      "path": "../Resource/FG/fg22.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_23": {
+      "path": "../Resource/MG/23.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_23": {
+      "path": "../Resource/BG/bg23.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_24": {
+      "path": "../Resource/MG/24.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_24": {
+      "path": "../Resource/BG/bg24.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_25": {
+      "path": "../Resource/MG/25.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_25": {
+      "path": "../Resource/BG/bg25.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_25": {
+      "path": "../Resource/FG/fg25.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_26": {
+      "path": "../Resource/MG/26.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_26": {
+      "path": "../Resource/BG/bg26.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_26": {
+      "path": "../Resource/FG/fg26.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_27": {
+      "path": "../Resource/MG/27.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_27": {
+      "path": "../Resource/BG/bg27.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_27": {
+      "path": "../Resource/FG/fg27.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_28": {
+      "path": "../Resource/MG/28.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_28": {
+      "path": "../Resource/BG/bg28.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_28": {
+      "path": "../Resource/FG/fg28.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_29": {
+      "path": "../Resource/MG/29.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_29": {
+      "path": "../Resource/BG/bg29.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_29": {
+      "path": "../Resource/FG/fg29.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_30": {
+      "path": "../Resource/MG/30.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_30": {
+      "path": "../Resource/BG/bg30.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_30": {
+      "path": "../Resource/FG/fg30.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_31": {
+      "path": "../Resource/MG/31.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_31": {
+      "path": "../Resource/BG/bg31.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_31": {
+      "path": "../Resource/FG/fg31.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_32": {
+      "path": "../Resource/MG/32.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_32": {
+      "path": "../Resource/BG/bg32.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_32": {
+      "path": "../Resource/FG/fg32.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_33": {
+      "path": "../Resource/MG/33.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_34": {
+      "path": "../Resource/MG/34.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_35": {
+      "path": "../Resource/MG/35.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_36": {
+      "path": "../Resource/MG/36.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_36": {
+      "path": "../Resource/BG/bg36.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_36": {
+      "path": "../Resource/FG/fg36.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_37": {
+      "path": "../Resource/MG/37.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_37": {
+      "path": "../Resource/BG/bg37.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_37": {
+      "path": "../Resource/FG/fg37.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_38": {
+      "path": "../Resource/MG/38.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_38": {
+      "path": "../Resource/BG/bg38.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_38": {
+      "path": "../Resource/FG/fg38.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_39": {
+      "path": "../Resource/MG/39.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_39": {
+      "path": "../Resource/BG/bg39.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_39": {
+      "path": "../Resource/FG/fg39.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_40": {
+      "path": "../Resource/MG/40.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_40": {
+      "path": "../Resource/BG/bg40.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_40": {
+      "path": "../Resource/FG/fg40.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_41": {
+      "path": "../Resource/MG/41.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_41": {
+      "path": "../Resource/BG/bg41.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_42": {
+      "path": "../Resource/MG/42.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_42": {
+      "path": "../Resource/BG/bg42.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "mg_43": {
+      "path": "../Resource/MG/43.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "bg_43": {
+      "path": "../Resource/BG/bg43.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "fg_43": {
+      "path": "../Resource/FG/fg43.png",
+      "rows": 1,
+      "columns": 1
+    }
+  }
+}
