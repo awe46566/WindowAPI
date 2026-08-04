@@ -140,7 +140,7 @@ void Player::UpdateJump(float deltaTime)
 
   			if (input.GetButtonUp(KeyType::Space))
 			{
-				StartJump(deltaTime);
+				StartJump();
 				_jumpState = JumpState::AirBorne;
 			}
 			break;
@@ -151,7 +151,7 @@ void Player::UpdateJump(float deltaTime)
 	}
 }
 
-void Player::StartJump(float deltaTime)
+void Player::StartJump()
 {
 	//점프 충전량과 좌우 방향에 따라 velocity 설정
 	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(MAX_CHARGE_STEP - 1);

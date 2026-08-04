@@ -18,7 +18,7 @@ public:
 	void Move(float deltaTime);
 	void ApplyGravity(float deltaTime);	
 	void UpdateJump(float deltaTime);
-	void StartJump(float deltaTime);
+	void StartJump();
 	void OnLanded();
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
