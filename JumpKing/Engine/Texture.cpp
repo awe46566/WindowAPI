@@ -123,7 +123,7 @@ bool Texture::CreateBitmap(const RenderContext& context)
     return true;
 }
 
-void Texture::Render(const RenderContext& context, const Vector2& position, const D2D1_RECT_F& sourceRect)
+void Texture::Render(const RenderContext& context, const Vector2& position, const D2D1_RECT_F& sourceRect, bool flipX)
 {
     if (!CreateBitmap(context))
     {
@@ -140,10 +140,35 @@ void Texture::Render(const RenderContext& context, const Vector2& position, cons
         position.x + sourceWidth,
         position.y + sourceHeight);
 
+    D2D1_MATRIX_3X2_F previousTransform;
+    context.target->GetTransform(&previousTransform);
+
+    if (flipX)
+    {
+        const float centerX =
+            (destinationRect.left + destinationRect.right) * 0.5f;
+
+        const float centerY =
+            (destinationRect.top + destinationRect.bottom) * 0.5f;
+
+        const D2D1_MATRIX_3X2_F flipTransform =
+            D2D1::Matrix3x2F::Scale(
+                D2D1::SizeF(-1.0f, 1.0f),
+                D2D1::Point2F(centerX, centerY));
+
+        context.target->SetTransform(
+            flipTransform * previousTransform);
+    }
+
     context.target->DrawBitmap(
         _bitmap.Get(),
         destinationRect,
-        1.0f,        
-        D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, // 픽셀 아트 확대 시 색을 섞지 않아 경계가 흐려지는 것을 막습니다.
+        1.0f,
+        D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
         sourceRect);
+
+    if (flipX)
+    {
+        context.target->SetTransform(previousTransform);
+    }
 }

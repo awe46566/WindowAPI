@@ -19,7 +19,8 @@ public:
     void Render(
         const RenderContext& context,
         const Vector2& position,
-        const D2D1_RECT_F& sourceRect);
+        const D2D1_RECT_F& sourceRect,
+        bool flipX = false);
 
     int32 GetWidth() const { return _width; }
     int32 GetHeight() const { return _height; }

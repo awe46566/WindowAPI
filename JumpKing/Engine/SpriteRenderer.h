@@ -22,6 +22,7 @@ public:
     void ResetAnim(int32 row, bool loop, float duration);
     void SetFrame(int32 row, int32 col);
     void SetFullFrame(bool fullFrame) { _fullFrame = fullFrame; }
+    void setFlipX(bool flipX) { _flipX = flipX; }
 
     bool IsEnd() const { return _isEnd; }
 
@@ -36,6 +37,7 @@ private:
     bool _isEnd = false;
     bool _loop = false;
     bool _fullFrame = false;
+    bool _flipX = false;
 
     float _duration = 0.0f;
     float _sumTime = 0.0f;

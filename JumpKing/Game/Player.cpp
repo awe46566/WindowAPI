@@ -61,10 +61,12 @@ void Player::Move(float deltaTime)
 		if (isLeftPressed && !isRightPressed)
 		{
 			_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;
+			_spriteRenderer->setFlipX(true);
 		}
 		else if (isRightPressed && !isLeftPressed)
 		{
 			_velocity.x = GameConstants::PLAYER_MOVE_SPEED;
+			_spriteRenderer->setFlipX(false);
 		}
 
 	}
@@ -195,10 +197,12 @@ void Player::ChargingDirection()
 	if (isLeftPressed && !isRightPressed)
 	{
 		_jumpDirection = { -GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
+		_spriteRenderer->setFlipX(true);
 	}
 	else if (isRightPressed && !isLeftPressed)
 	{
 		_jumpDirection = { GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
+		_spriteRenderer->setFlipX(false);
 	}
 	else
 	{
