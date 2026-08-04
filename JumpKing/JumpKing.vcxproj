@@ -144,6 +144,7 @@
     <ClInclude Include="Framework\Component.h" />
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
+    <ClInclude Include="GameConstants.h" />
     <ClInclude Include="Game\GameScene.h" />
     <ClInclude Include="Game\LevelData.h" />
     <ClInclude Include="framework.h" />

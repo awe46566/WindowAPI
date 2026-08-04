@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Engine/SpriteRenderer.h"
 #include "Engine/InputManager.h"
+#include "Engine/GameConstants.h"
 #include "Framework/ColliderAABB.h"
 #include "Game/LevelData.h"
 
@@ -35,7 +36,7 @@ void Player::Init()
 	}
 
 	_collider = AddComponent<Collider>();
-	_collider->SetSize(Vector2{ 32.0f, 40.0f });
+	_collider->SetSize(Vector2{ GameConstants::PLAYER_COLLIDER_WIDTH, GameConstants::PLAYER_COLLIDER_HEIGHT });
 }
 
 void Player::Update(float deltaTime)
@@ -59,11 +60,11 @@ void Player::Move(float deltaTime)
 
 		if (isLeftPressed && !isRightPressed)
 		{
-			_velocity.x = -MOVE_SPEED;
+			_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;
 		}
 		else if (isRightPressed && !isLeftPressed)
 		{
-			_velocity.x = MOVE_SPEED;
+			_velocity.x = GameConstants::PLAYER_MOVE_SPEED;
 		}
 
 	}
@@ -83,8 +84,8 @@ void Player::ApplyGravity(float deltaTime)
 	Vector2 nextPosition = previousPosition;
 
 	// 화면 좌표에서는 y가 증가할수록 아래쪽이므로 중력은 양수 방향
-	_velocity.y += GRAVITY * deltaTime;
-	_velocity.y = min(_velocity.y, MAX_FALL_SPEED);
+	_velocity.y += GameConstants::PLAYER_GRAVITY * deltaTime;
+	_velocity.y = min(_velocity.y, GameConstants::PLAYER_MAX_FALL_SPEED);
 
 	nextPosition.y += _velocity.y * deltaTime;
 
@@ -148,9 +149,9 @@ void Player::UpdateJump(float deltaTime)
 
 				//점프 충전 최대치 설정
 				_jumpChargeTime += deltaTime;		
-				_jumpChargeTime = min(_jumpChargeTime, MAX_JUMP_CHARGE_TIME);
+				_jumpChargeTime = min(_jumpChargeTime, GameConstants::PLAYER_MAX_JUMP_CHARGE_TIME);
 				//점프 충전 게이지 1~35단계
-				_jumpChargeStep = 1 + static_cast<int>((_jumpChargeTime / MAX_JUMP_CHARGE_TIME) * (MAX_CHARGE_STEP - 1));
+				_jumpChargeStep = 1 + static_cast<int>((_jumpChargeTime / GameConstants::PLAYER_MAX_JUMP_CHARGE_TIME) * (GameConstants::PLAYER_MAX_JUMP_CHARGE_STEP - 1));
 			}
 
   			if (input.GetButtonUp(KeyType::Space))
@@ -168,8 +169,8 @@ void Player::UpdateJump(float deltaTime)
 void Player::StartJump()
 {
 	//점프 충전량과 좌우 방향에 따라 velocity 설정
-	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(MAX_CHARGE_STEP - 1);
-	const float jumpSpeed = MIN_JUMP_SPEED + (MAX_JUMP_SPEED - MIN_JUMP_SPEED) * chargeRatio;
+	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(GameConstants::PLAYER_MAX_JUMP_CHARGE_STEP - 1);
+	const float jumpSpeed = GameConstants::PLAYER_MIN_JUMP_SPEED + (GameConstants::PLAYER_MAX_JUMP_SPEED - GameConstants::PLAYER_MIN_JUMP_SPEED) * chargeRatio;
 
 	_velocity.x = _jumpDirection.x * jumpSpeed;
 	_velocity.y = _jumpDirection.y * jumpSpeed;
@@ -193,11 +194,11 @@ void Player::ChargingDirection()
 
 	if (isLeftPressed && !isRightPressed)
 	{
-		_jumpDirection = { -0.5f, -1.0f };
+		_jumpDirection = { -GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
 	}
 	else if (isRightPressed && !isLeftPressed)
 	{
-		_jumpDirection = { 0.5f, -1.0f };
+		_jumpDirection = { GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
 	}
 	else
 	{

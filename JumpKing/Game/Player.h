@@ -24,14 +24,6 @@ public:
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
 private:
-	static constexpr float MOVE_SPEED = 70.0f;
-	static constexpr float GRAVITY = 900.0f;
-	static constexpr float MAX_FALL_SPEED = 600.0f;
-	static constexpr float MAX_JUMP_SPEED = 600.0f;
-	static constexpr float MIN_JUMP_SPEED = 100.0f;
-	static constexpr float MAX_JUMP_CHARGE_TIME = 0.6f;
-	static constexpr int MAX_CHARGE_STEP = 35;
-
 	const vector<PlatformData>* _platforms = nullptr;
 	SpriteRenderer* _spriteRenderer = nullptr;
 	Collider* _collider = nullptr;	
