@@ -23,6 +23,7 @@ public:
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
 private:
+	static constexpr float MOVE_SPEED = 70.0f;
 	static constexpr float GRAVITY = 900.0f;
 	static constexpr float MAX_FALL_SPEED = 600.0f;
 	static constexpr float MAX_JUMP_SPEED = 550.0f;
@@ -30,15 +31,14 @@ private:
 	static constexpr float MAX_JUMP_CHARGE_TIME = 0.6f;
 	static constexpr int MAX_CHARGE_STEP = 35;
 
+	const vector<PlatformData>* _platforms = nullptr;
 	SpriteRenderer* _spriteRenderer = nullptr;
 	Collider* _collider = nullptr;	
 	JumpState _jumpState = JumpState::Ready;
 
 	float _jumpChargeTime = 0.0f;
 	int _jumpChargeStep = 0;
-	float _moveSpeed = 70.0f;
-	float _verticalVelocity = 0.0f;
-
-	const vector<PlatformData>* _platforms = nullptr;
+	//float _verticalVelocity = 0.0f;
+	Vector2 _velocity;
 	
 };

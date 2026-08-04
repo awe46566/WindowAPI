@@ -50,20 +50,27 @@ void Player::Move(float deltaTime)
 	Vector2 position = GetPosition();
 	InputManager& input = InputManager::GetInstance();
 
-	bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
-	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
-
-	if (isLeftPressed)
+	if (_jumpState != JumpState::AirBorne)
 	{
-		position.x -= _moveSpeed * deltaTime;
-	}
+		bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
+		bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
 
-	if (isRightPressed)
-	{
-		position.x += _moveSpeed * deltaTime;
-	}
+		if (isLeftPressed && !isRightPressed)
+		{
+			_velocity.x = -MOVE_SPEED;
+		}
+		else if (isRightPressed && !isLeftPressed)
+		{
+			_velocity.x = MOVE_SPEED;
+		}
+		else
+		{
+			_velocity.x = 0.0f;
+		}
 
-	SetPosition(position);
+		position.x += _velocity.x * deltaTime;
+		SetPosition(position);
+	}
 }
 
 void Player::ApplyGravity(float deltaTime)
@@ -72,12 +79,12 @@ void Player::ApplyGravity(float deltaTime)
 	Vector2 nextPosition = previousPosition;
 
 	// 화면 좌표에서는 y가 증가할수록 아래쪽이므로 중력은 양수 방향
-	_verticalVelocity += GRAVITY * deltaTime;
-	_verticalVelocity = min(_verticalVelocity, MAX_FALL_SPEED);
+	_velocity.y += GRAVITY * deltaTime;
+	_velocity.y = min(_velocity.y, MAX_FALL_SPEED);
 
-	nextPosition.y += _verticalVelocity * deltaTime;
+	nextPosition.y += _velocity.y * deltaTime;
 
-	if (_platforms != nullptr && _verticalVelocity >= 0.0f)
+	if (_platforms != nullptr && _velocity.y >= 0.0f)
 	{
 		const Rect previousBounds = _collider->GetBounds(previousPosition);
 		const Rect nextBounds = _collider->GetBounds(nextPosition);
@@ -99,7 +106,7 @@ void Player::ApplyGravity(float deltaTime)
 			if (overlapsHorizontally && crossedPlatformTop)
 			{
 				nextPosition.y = platformBounds.Top() - nextBounds.height;
-				_verticalVelocity = 0.0f;
+				_velocity.y = 0.0f;
 				if (_jumpState == JumpState::AirBorne)
 				{
 					OnLanded();
@@ -157,13 +164,13 @@ void Player::StartJump()
 	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(MAX_CHARGE_STEP - 1);
 	const float jumpSpeed = MIN_JUMP_SPEED + (MAX_JUMP_SPEED - MIN_JUMP_SPEED) * chargeRatio;
 
-	_verticalVelocity = -jumpSpeed;
+	_velocity.y = -jumpSpeed;
 }
 
 void Player::OnLanded()
 {
 	_jumpChargeTime = 0.0f;
 	_jumpChargeStep = 1;
-	_verticalVelocity = 0.0f;
+	_velocity.y = 0.0f;
 	_jumpState = JumpState::Ready;
 }
