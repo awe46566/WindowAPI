@@ -99,7 +99,7 @@
     <ClInclude Include="Framework\ColliderAABB.h">
       <Filter>헤더 파일\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="GameConstants.h">
+    <ClInclude Include="Engine\GameConstants.h">
       <Filter>헤더 파일\Engine</Filter>
     </ClInclude>
   </ItemGroup>
