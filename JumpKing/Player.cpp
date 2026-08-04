@@ -40,7 +40,7 @@ void Player::Init()
 
 void Player::Update(float deltaTime)
 {
-	Actor::Update(deltaTime);
+	UpdateJump(deltaTime);
 	Move(deltaTime);
 	ApplyGravity(deltaTime);
 }
@@ -107,3 +107,45 @@ void Player::ApplyGravity(float deltaTime)
 
 	SetPosition(nextPosition);
 }
+
+void Player::UpdateJump(float deltaTime)
+{
+	// 충전 시작, 충전량 증가, 키를 놓았을 때 점프 실행	
+	InputManager& input = InputManager::GetInstance();
+
+	switch (_jumpState)
+	{
+		case JumpState::Ready:
+			if (input.GetButtonDown(KeyType::Space))
+			{
+				_jumpCharge = 0.0f;
+				_jumpState = JumpState::Charging;
+			}
+			break;
+
+		case JumpState::Charging:
+			if (input.GetButtonPressed(KeyType::Space))
+			{
+				_jumpCharge += deltaTime;
+				//점프 충전 최대치 설정
+				_jumpCharge = min(_jumpCharge, MAX_JUMP_CHARGE_TIME);				
+			}
+
+  			if (input.GetButtonUp(KeyType::Space))
+			{
+				StartJump(deltaTime);
+				_jumpState = JumpState::AirBorne;
+			}
+			break;
+
+		case JumpState::AirBorne:
+			//땅 착지 체크
+			break;
+	}
+}
+
+void Player::StartJump(float deltaTime)
+{
+	//점프 충전량과 좌우 방향에 따라 velocity 설정
+}
+

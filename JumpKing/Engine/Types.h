@@ -52,6 +52,13 @@ enum class RenderLayer
     Count
 };
 
+enum class JumpState
+{
+    Ready,      // 점프 가능 상태
+    Charging,   // 점프 차징 상태
+    AirBorne    // 공중에 있는 상태
+};
+
 
 constexpr int32 GAME_SCREEN_WIDTH = 480;
 constexpr int32 GAME_SCREEN_HEIGHT = 360;
