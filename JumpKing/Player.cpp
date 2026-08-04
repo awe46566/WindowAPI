@@ -134,7 +134,8 @@ void Player::UpdateJump(float deltaTime)
 				_jumpChargeTime += deltaTime;
 				//점프 충전 최대치 설정
 				_jumpChargeTime = min(_jumpChargeTime, MAX_JUMP_CHARGE_TIME);
-				_jumpChargeStep = 1 + static_cast<int>(_jumpChargeTime / MAX_JUMP_CHARGE_TIME) * (MAX_CHARGE_STEP - 1);
+				//점프 충전 게이지 1~35단계
+				_jumpChargeStep = 1 + static_cast<int>((_jumpChargeTime / MAX_JUMP_CHARGE_TIME) * (MAX_CHARGE_STEP - 1));
 			}
 
   			if (input.GetButtonUp(KeyType::Space))

@@ -25,8 +25,8 @@ public:
 private:
 	static constexpr float GRAVITY = 900.0f;
 	static constexpr float MAX_FALL_SPEED = 600.0f;
-	static constexpr float MAX_JUMP_SPEED = 500.0f;
-	static constexpr float MIN_JUMP_SPEED = 250.0f;
+	static constexpr float MAX_JUMP_SPEED = 550.0f;
+	static constexpr float MIN_JUMP_SPEED = 100.0f;
 	static constexpr float MAX_JUMP_CHARGE_TIME = 0.6f;
 	static constexpr int MAX_CHARGE_STEP = 35;
 
