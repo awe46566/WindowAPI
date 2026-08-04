@@ -50,8 +50,10 @@ void Player::Move(float deltaTime)
 	Vector2 position = GetPosition();
 	InputManager& input = InputManager::GetInstance();
 
-	if (_jumpState != JumpState::AirBorne)
+	if (_jumpState == JumpState::Ready)
 	{
+		_velocity.x = 0.0f;
+
 		bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
 		bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
 
@@ -63,14 +65,16 @@ void Player::Move(float deltaTime)
 		{
 			_velocity.x = MOVE_SPEED;
 		}
-		else
-		{
-			_velocity.x = 0.0f;
-		}
 
-		position.x += _velocity.x * deltaTime;
-		SetPosition(position);
 	}
+	else if (_jumpState == JumpState::Charging)
+	{
+		// 차징 상태는 정지
+		_velocity.x = 0.0f;
+	}
+
+	position.x += _velocity.x * deltaTime;
+	SetPosition(position);
 }
 
 void Player::ApplyGravity(float deltaTime)
@@ -131,6 +135,7 @@ void Player::UpdateJump(float deltaTime)
 			{				
 				_jumpChargeTime = 0.0f;
 				_jumpChargeStep = 1;
+				_jumpDirection = { 0.0f, -1.0f };
 				_jumpState = JumpState::Charging;				
 			}
 			break;
@@ -138,8 +143,11 @@ void Player::UpdateJump(float deltaTime)
 		case JumpState::Charging:
 			if (input.GetButtonPressed(KeyType::Space))
 			{				
-				_jumpChargeTime += deltaTime;
+				//방향 설정
+				ChargingDirection();
+
 				//점프 충전 최대치 설정
+				_jumpChargeTime += deltaTime;		
 				_jumpChargeTime = min(_jumpChargeTime, MAX_JUMP_CHARGE_TIME);
 				//점프 충전 게이지 1~35단계
 				_jumpChargeStep = 1 + static_cast<int>((_jumpChargeTime / MAX_JUMP_CHARGE_TIME) * (MAX_CHARGE_STEP - 1));
@@ -152,8 +160,7 @@ void Player::UpdateJump(float deltaTime)
 			}
 			break;
 
-		case JumpState::AirBorne:
-			//공중에 있을때 입력 막기
+		case JumpState::AirBorne:			
 			break;
 	}
 }
@@ -164,13 +171,38 @@ void Player::StartJump()
 	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(MAX_CHARGE_STEP - 1);
 	const float jumpSpeed = MIN_JUMP_SPEED + (MAX_JUMP_SPEED - MIN_JUMP_SPEED) * chargeRatio;
 
-	_velocity.y = -jumpSpeed;
+	_velocity.x = _jumpDirection.x * jumpSpeed;
+	_velocity.y = _jumpDirection.y * jumpSpeed;
 }
 
 void Player::OnLanded()
 {
 	_jumpChargeTime = 0.0f;
 	_jumpChargeStep = 1;
-	_velocity.y = 0.0f;
+	_velocity = { 0.0f, 0.0f };
+	_jumpDirection = { 0.0f, -1.0f };
 	_jumpState = JumpState::Ready;
+}
+
+void Player::ChargingDirection()
+{
+	InputManager& input = InputManager::GetInstance();
+
+	bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
+	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
+
+	if (isLeftPressed && !isRightPressed)
+	{
+		_jumpDirection = { -0.5f, -1.0f };
+	}
+	else if (isRightPressed && !isLeftPressed)
+	{
+		_jumpDirection = { 0.5f, -1.0f };
+	}
+	else
+	{
+		_jumpDirection = { 0.0f, -1.0f };
+	}
+
+	_jumpDirection.Normalize();
 }
