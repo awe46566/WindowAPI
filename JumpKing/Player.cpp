@@ -100,6 +100,10 @@ void Player::ApplyGravity(float deltaTime)
 			{
 				nextPosition.y = platformBounds.Top() - nextBounds.height;
 				_verticalVelocity = 0.0f;
+				if (_jumpState == JumpState::AirBorne)
+				{
+					OnLanded();
+				}
 				break;
 			}
 		}
@@ -117,18 +121,20 @@ void Player::UpdateJump(float deltaTime)
 	{
 		case JumpState::Ready:
 			if (input.GetButtonDown(KeyType::Space))
-			{
-				_jumpCharge = 0.0f;
-				_jumpState = JumpState::Charging;
+			{				
+				_jumpChargeTime = 0.0f;
+				_jumpChargeStep = 1;
+				_jumpState = JumpState::Charging;				
 			}
 			break;
 
 		case JumpState::Charging:
 			if (input.GetButtonPressed(KeyType::Space))
-			{
-				_jumpCharge += deltaTime;
+			{				
+				_jumpChargeTime += deltaTime;
 				//점프 충전 최대치 설정
-				_jumpCharge = min(_jumpCharge, MAX_JUMP_CHARGE_TIME);				
+				_jumpChargeTime = min(_jumpChargeTime, MAX_JUMP_CHARGE_TIME);
+				_jumpChargeStep = 1 + static_cast<int>(_jumpChargeTime / MAX_JUMP_CHARGE_TIME) * (MAX_CHARGE_STEP - 1);
 			}
 
   			if (input.GetButtonUp(KeyType::Space))
@@ -139,7 +145,7 @@ void Player::UpdateJump(float deltaTime)
 			break;
 
 		case JumpState::AirBorne:
-			//땅 착지 체크
+			//공중에 있을때 입력 막기
 			break;
 	}
 }
@@ -147,5 +153,16 @@ void Player::UpdateJump(float deltaTime)
 void Player::StartJump(float deltaTime)
 {
 	//점프 충전량과 좌우 방향에 따라 velocity 설정
+	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(MAX_CHARGE_STEP - 1);
+	const float jumpSpeed = MIN_JUMP_SPEED + (MAX_JUMP_SPEED - MIN_JUMP_SPEED) * chargeRatio;
+
+	_verticalVelocity = -jumpSpeed;
 }
 
+void Player::OnLanded()
+{
+	_jumpChargeTime = 0.0f;
+	_jumpChargeStep = 1;
+	_verticalVelocity = 0.0f;
+	_jumpState = JumpState::Ready;
+}
