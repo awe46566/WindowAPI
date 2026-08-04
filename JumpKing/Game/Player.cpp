@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Player.h"
-#include "SpriteRenderer.h"
+#include "Engine/SpriteRenderer.h"
 #include "Engine/InputManager.h"
-#include "ColliderAABB.h"
+#include "Framework/ColliderAABB.h"
 #include "Game/LevelData.h"
 
 void Player::Init()

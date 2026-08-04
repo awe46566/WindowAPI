@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Framework/Scene.h"
-#include "Texture.h"
+#include "Engine/Texture.h"
 #include "LevelData.h"
 
 class GameScene : public Scene
