@@ -9,6 +9,7 @@ class GameScene : public Scene
 public:
     void Init() override;
     void Render(const RenderContext& context) override;
+    void DrawCollider(const RenderContext& context);
 
 private:
     LevelData _currentLevel;

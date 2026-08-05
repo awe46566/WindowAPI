@@ -2,6 +2,7 @@
 #include "framework.h"
 #include "Engine/RenderContext.h"
 #include "Engine/ResourceCatalog.h"
+#include "Engine/DebugRenderer.h"
 #include "Game/GameScene.h"
 #include "Game/LevelData.h"
 #include "Player.h"
@@ -72,10 +73,22 @@ void GameScene::Render(const RenderContext& context)
 {
     // 먼저 그린 이미지가 뒤에 놓이고, 나중에 그린 이미지가 앞을 덮습니다.
     RenderTextureLayer(_backgroundTexture, _isBackgroundLoaded, context);
-    RenderTextureLayer(_midgroundTexture, _isMidgroundLoaded, context);
+    RenderTextureLayer(_midgroundTexture, _isMidgroundLoaded, context);  
 
     Scene::Render(context);
 
     // Foreground는 플레이어보다 앞에 보여야 하므로 Actor 렌더링 뒤에 그립니다.
     RenderTextureLayer(_foregroundTexture, _isForegroundLoaded, context);
+    DrawCollider(context);
+}
+
+void GameScene::DrawCollider(const RenderContext& context)
+{
+    for (PlatformData& platform : _currentLevel.platforms)
+    {
+        if (platform.hasSlope)
+            continue;
+
+        DebugRenderer::DrawRect(context, platform.bounds, D2D1::ColorF(D2D1::ColorF::Red));
+    }
 }
