@@ -10,6 +10,7 @@ public:
     void Init() override;
     void Render(const RenderContext& context) override;
     void DrawCollider(const RenderContext& context);
+    void ColliderOnOff();
 
 private:
     LevelData _currentLevel;

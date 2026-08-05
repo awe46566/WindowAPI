@@ -3,6 +3,7 @@
 #include "Engine/RenderContext.h"
 #include "Engine/ResourceCatalog.h"
 #include "Engine/DebugRenderer.h"
+#include "Engine/InputManager.h"
 #include "Game/GameScene.h"
 #include "Game/LevelData.h"
 #include "Player.h"
@@ -80,6 +81,7 @@ void GameScene::Render(const RenderContext& context)
     // Foreground는 플레이어보다 앞에 보여야 하므로 Actor 렌더링 뒤에 그립니다.
     RenderTextureLayer(_foregroundTexture, _isForegroundLoaded, context);
     DrawCollider(context);
+    ColliderOnOff();
 }
 
 void GameScene::DrawCollider(const RenderContext& context)
@@ -92,3 +94,13 @@ void GameScene::DrawCollider(const RenderContext& context)
         DebugRenderer::DrawRect(context, platform.bounds, D2D1::ColorF(D2D1::ColorF::Red));
     }
 }
+
+void GameScene::ColliderOnOff()
+{
+    InputManager& input = InputManager::GetInstance();
+    if (input.GetButtonDown(KeyType::F1))
+    {
+        DebugRenderer::ToggleColliderLine();
+    }
+}
+

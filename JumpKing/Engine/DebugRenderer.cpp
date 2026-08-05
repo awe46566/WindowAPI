@@ -1,8 +1,12 @@
 #include "pch.h"
 #include "DebugRenderer.h"
 
+bool DebugRenderer::_showCollider = false;
 void DebugRenderer::DrawRect(const RenderContext& context, const Rect& rect, const D2D1_COLOR_F& color)
 {
+	if (!_showCollider)
+		return;
+
 	if (context.target == nullptr || context.defaultBrush == nullptr)
 		return;
 
@@ -24,3 +28,15 @@ void DebugRenderer::DrawRect(const RenderContext& context, const Rect& rect, con
 
 	context.defaultBrush->SetColor(previousColor);
 }
+
+void DebugRenderer::ToggleColliderLine()
+{
+	_showCollider = !_showCollider;
+}
+
+bool DebugRenderer::VisibleState()
+{
+	return _showCollider;
+}
+
+

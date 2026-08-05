@@ -72,6 +72,7 @@ void Player::Move(float deltaTime)
 
 		bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
 		bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
+	
 
 		if (isLeftPressed && !isRightPressed)
 		{
