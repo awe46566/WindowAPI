@@ -42,6 +42,12 @@ struct Rect
     float Bottom() const { return y + height; }
 };
 
+struct HitResult
+{
+    Vector2 normal;
+    float depth = 0.0f;
+};
+
 enum class SceneType
 {
     Game,

@@ -2,7 +2,7 @@
 #include "Framework/Actor.h"
 
 class SpriteRenderer;
-class Collider;
+class ColliderAABB;
 struct PlatformData;
 
 class Player : public Actor
@@ -22,12 +22,14 @@ public:
 	void StartJump();
 	void OnLanded();
 	void ChargingDirection();
+	void HorizontalCollision(Vector2& nextPosition);
+	void VerticalCollision(Vector2& nextPosition);
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
 private:
 	const vector<PlatformData>* _platforms = nullptr;
 	SpriteRenderer* _spriteRenderer = nullptr;
-	Collider* _collider = nullptr;	
+	ColliderAABB* _collider = nullptr;	
 	JumpState _jumpState = JumpState::Ready;
 
 	Vector2 _velocity;

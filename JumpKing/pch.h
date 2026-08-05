@@ -254,8 +254,3 @@ struct GridInfo
 	vector<class Actor*> actors;
 };
 
-struct HitResult
-{
-	Vector normal;
-	float depth = 0.f;	// 관통 깊이 (얼마나 겹쳤는지)
-};

@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "Framework/Component.h"
 
-class Collider : public Component
+class ColliderAABB : public Component
 {
 public:
 	void SetSize(const Vector2& size) { _size = size; }

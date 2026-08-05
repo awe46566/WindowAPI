@@ -143,6 +143,7 @@
     <ClInclude Include="Engine\TimeManager.h" />
     <ClInclude Include="Engine\Types.h" />
     <ClInclude Include="Framework\Actor.h" />
+    <ClInclude Include="Framework\CollisionManager.h" />
     <ClInclude Include="Framework\Component.h" />
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Engine\ResourceCatalog.cpp" />
     <ClCompile Include="Engine\TimeManager.cpp" />
     <ClCompile Include="Framework\Actor.cpp" />
+    <ClCompile Include="Framework\CollisionManager.cpp" />
     <ClCompile Include="Framework\Component.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />

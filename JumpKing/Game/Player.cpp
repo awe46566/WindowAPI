@@ -4,6 +4,7 @@
 #include "Engine/InputManager.h"
 #include "Engine/GameConstants.h"
 #include "Engine/DebugRenderer.h"
+#include "Framework/CollisionManager.h"
 #include "Framework/ColliderAABB.h"
 #include "Game/LevelData.h"
 
@@ -36,7 +37,7 @@ void Player::Init()
 		_spriteRenderer->SetFrame(0, 7);
 	}
 
-	_collider = AddComponent<Collider>();
+	_collider = AddComponent<ColliderAABB>();
 	_collider->SetSize(Vector2{ GameConstants::PLAYER_COLLIDER_WIDTH, GameConstants::PLAYER_COLLIDER_HEIGHT });
 }
 
@@ -93,6 +94,7 @@ void Player::Move(float deltaTime)
 	}
 
 	position.x += _velocity.x * deltaTime;
+	HorizontalCollision(position);
 	SetPosition(position);
 }
 
@@ -107,38 +109,7 @@ void Player::ApplyGravity(float deltaTime)
 
 	nextPosition.y += _velocity.y * deltaTime;
 
-	if (_platforms != nullptr && _velocity.y >= 0.0f)
-	{
-		const Rect previousBounds = _collider->GetBounds(previousPosition);
-		const Rect nextBounds = _collider->GetBounds(nextPosition);
-
-		for (const PlatformData& platform : *_platforms)
-		{
-			if (platform.hasSlope) { continue; }			
-
-			const Rect& platformBounds = platform.bounds;
-
-			const bool overlapsHorizontally =
-				nextBounds.Right() > platformBounds.Left() &&
-				nextBounds.Left() < platformBounds.Right();
-
-			const bool crossedPlatformTop =
-				previousBounds.Bottom() <= platformBounds.Top() &&
-				nextBounds.Bottom() >= platformBounds.Top();
-
-			if (overlapsHorizontally && crossedPlatformTop)
-			{
-				nextPosition.y = platformBounds.Top() - nextBounds.height;
-				_velocity.y = 0.0f;
-				if (_jumpState == JumpState::AirBorne)
-				{
-					OnLanded();
-				}
-				break;
-			}
-		}
-	}
-
+	VerticalCollision(nextPosition);
 	SetPosition(nextPosition);
 }
 
@@ -230,4 +201,77 @@ void Player::ChargingDirection()
 	}
 
 	_jumpDirection.Normalize();
+}
+
+void Player::HorizontalCollision(Vector2& nextPosition)
+{
+	//수평 충돌 체크
+	if (_platforms != nullptr)
+	{
+		for (const PlatformData& platform : *_platforms)
+		{
+			if (platform.hasSlope)
+				continue;
+
+			const Rect nextBounds =
+				_collider->GetBounds(nextPosition);
+
+			HitResult hit;
+
+			if (CollisionManager::GetInstance().CheckAABBToAABB(
+				nextBounds,
+				platform.bounds,
+				hit))
+			{
+				// 수평면 충돌만 처리
+				if (hit.normal.x != 0.0f)
+				{
+					nextPosition.x += hit.normal.x * hit.depth;
+					_velocity.x = 0.0f;
+				}
+			}
+		}
+	}
+}
+
+void Player::VerticalCollision(Vector2& nextPosition)
+{
+	//수직 충돌 체크
+	if (_platforms != nullptr)
+	{
+		for (const PlatformData& platform : *_platforms)
+		{
+			if (platform.hasSlope)
+				continue;
+
+			const Rect nextBounds =
+				_collider->GetBounds(nextPosition);
+
+			HitResult hit;
+
+			if (!CollisionManager::GetInstance().CheckAABBToAABB(
+				nextBounds,
+				platform.bounds,
+				hit))
+			{
+				continue;
+			}
+
+			// 바닥 또는 천장 충돌만 처리
+			if (hit.normal.y == 0.0f)
+				continue;
+
+			nextPosition.y += hit.normal.y * hit.depth;
+			_velocity.y = 0.0f;
+
+			// 위쪽으로 밀려났다면 플랫폼 위에 착지
+			if (hit.normal.y < 0.0f)
+			{
+				if (_jumpState == JumpState::AirBorne)
+				{
+					OnLanded();
+				}
+			}
+		}
+	}
 }
