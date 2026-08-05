@@ -3,6 +3,7 @@
 #include "Engine/SpriteRenderer.h"
 #include "Engine/InputManager.h"
 #include "Engine/GameConstants.h"
+#include "Engine/DebugRenderer.h"
 #include "Framework/ColliderAABB.h"
 #include "Game/LevelData.h"
 
@@ -45,6 +46,20 @@ void Player::Update(float deltaTime)
 	Move(deltaTime);
 	ApplyGravity(deltaTime);
 }
+
+void Player::Render(const RenderContext& context)
+{
+	Actor::Render(context);
+
+	if (_collider != nullptr)
+	{
+		const Rect bounds = _collider->GetBounds(GetPosition());
+
+		DebugRenderer::DrawRect(context, bounds, D2D1::ColorF(D2D1::ColorF::Red));
+	
+	}
+}
+
 
 void Player::Move(float deltaTime) 
 {
@@ -196,7 +211,7 @@ void Player::ChargingDirection()
 	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
 
 	// 점프 일정 거리 이하면 수평 속도 조정
-	float horizontalDirection = (_jumpChargeStep < 20) ? GameConstants::PLAYER_LOW_HORIZONTAL_JUMP_DIRECTION : GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION;
+	float horizontalDirection = (_jumpChargeStep < 21) ? GameConstants::PLAYER_LOW_HORIZONTAL_JUMP_DIRECTION : GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION;
 
 	if (isLeftPressed && !isRightPressed)
 	{

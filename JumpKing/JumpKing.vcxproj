@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\DebugRenderer.h" />
     <ClInclude Include="Engine\GameConstants.h" />
     <ClInclude Include="Framework\ColliderAABB.h" />
     <ClInclude Include="Engine\Game.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Engine\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\DebugRenderer.cpp" />
     <ClCompile Include="Framework\ColliderAABB.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\InputManager.cpp" />

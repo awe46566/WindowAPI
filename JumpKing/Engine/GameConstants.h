@@ -22,7 +22,7 @@ namespace GameConstants
     constexpr int PLAYER_MAX_JUMP_CHARGE_STEP = 35;
 
     // 플레이어 점프 방향(수평, 수직)
-    constexpr float PLAYER_LOW_HORIZONTAL_JUMP_DIRECTION = 1.0f;
+    constexpr float PLAYER_LOW_HORIZONTAL_JUMP_DIRECTION = 0.85f;
     constexpr float PLAYER_HORIZONTAL_JUMP_DIRECTION = 0.35f;
     constexpr float PLAYER_VERTICAL_JUMP_DIRECTION = -1.0f;
 
