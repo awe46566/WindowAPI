@@ -154,6 +154,7 @@ void Player::UpdateJump(float deltaTime)
 				_jumpChargeTime = min(_jumpChargeTime, GameConstants::PLAYER_MAX_JUMP_CHARGE_TIME);
 				//점프 충전 게이지 1~35단계
 				_jumpChargeStep = 1 + static_cast<int>((_jumpChargeTime / GameConstants::PLAYER_MAX_JUMP_CHARGE_TIME) * (GameConstants::PLAYER_MAX_JUMP_CHARGE_STEP - 1));
+				
 			}
 
   			if (input.GetButtonUp(KeyType::Space))
@@ -194,14 +195,17 @@ void Player::ChargingDirection()
 	bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
 	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
 
+	// 점프 일정 거리 이하면 수평 속도 조정
+	float horizontalDirection = (_jumpChargeStep < 20) ? GameConstants::PLAYER_LOW_HORIZONTAL_JUMP_DIRECTION : GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION;
+
 	if (isLeftPressed && !isRightPressed)
 	{
-		_jumpDirection = { -GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
+		_jumpDirection = { -horizontalDirection, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
 		_spriteRenderer->setFlipX(true);
 	}
 	else if (isRightPressed && !isLeftPressed)
 	{
-		_jumpDirection = { GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
+		_jumpDirection = { horizontalDirection, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
 		_spriteRenderer->setFlipX(false);
 	}
 	else

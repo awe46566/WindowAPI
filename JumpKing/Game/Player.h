@@ -33,7 +33,6 @@ private:
 	Vector2 _jumpDirection = { 0.0f, -1.0f };
 
 	float _jumpChargeTime = 0.0f;
-	int _jumpChargeStep = 0;
-	
+	int _jumpChargeStep = 0;	
 	
 };
