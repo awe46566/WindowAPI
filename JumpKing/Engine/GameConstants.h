@@ -27,6 +27,6 @@ namespace GameConstants
     constexpr float PLAYER_VERTICAL_JUMP_DIRECTION = -1.0f;
 
     // 플레이어 콜라이더 크기
-    constexpr float PLAYER_COLLIDER_WIDTH = 32.0f;
-    constexpr float PLAYER_COLLIDER_HEIGHT = 40.0f;
+    constexpr float PLAYER_COLLIDER_WIDTH = 20.0f;
+    constexpr float PLAYER_COLLIDER_HEIGHT = 27.0f;
 }

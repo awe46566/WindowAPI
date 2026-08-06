@@ -37,8 +37,13 @@ void Player::Init()
 		_spriteRenderer->SetFrame(0, 7);
 	}
 
+
 	_collider = AddComponent<ColliderAABB>();
 	_collider->SetSize(Vector2{ GameConstants::PLAYER_COLLIDER_WIDTH, GameConstants::PLAYER_COLLIDER_HEIGHT });
+
+	const float offsetX = (32.0f - GameConstants::PLAYER_COLLIDER_WIDTH) / 2.0f;
+	const float offsetY = 40.0f - GameConstants::PLAYER_COLLIDER_HEIGHT;
+	_collider->SetOffset(Vector2{ offsetX, offsetY });
 }
 
 void Player::Update(float deltaTime)
@@ -65,6 +70,7 @@ void Player::Render(const RenderContext& context)
 void Player::Move(float deltaTime) 
 {
 	Vector2 position = GetPosition();
+	Vector2 nextPosition = position;
 	InputManager& input = InputManager::GetInstance();
 
 	if (_jumpState == JumpState::Ready)
@@ -93,9 +99,10 @@ void Player::Move(float deltaTime)
 		_velocity.x = 0.0f;
 	}
 
-	position.x += _velocity.x * deltaTime;
-	HorizontalCollision(position);
-	SetPosition(position);
+	nextPosition.x += _velocity.x * deltaTime;
+
+	HorizontalCollision(nextPosition);
+	SetPosition(nextPosition);
 }
 
 void Player::ApplyGravity(float deltaTime)

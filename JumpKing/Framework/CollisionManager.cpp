@@ -38,11 +38,11 @@ bool CollisionManager::CheckAABBToAABB(const Rect& movingBounds, const Rect& sta
 	}
 	else if (minOverlap == overlapFromBottom)
 	{
-		result.normal = Vector2{ 0.0f, 1.0f };
+		result.normal = Vector2{ 0.0f, -1.0f };
 	}
 	else
 	{
-		result.normal = Vector2{ 0.0f, -1.0f };
+		result.normal = Vector2{ 0.0f, 1.0f };
 	}
 
 	return true;
