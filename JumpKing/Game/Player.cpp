@@ -4,53 +4,44 @@
 #include "Engine/InputManager.h"
 #include "Engine/GameConstants.h"
 #include "Engine/DebugRenderer.h"
+#include "Engine/ResourceCatalog.h"
 #include "Framework/CollisionManager.h"
 #include "Framework/ColliderAABB.h"
 #include "Game/LevelData.h"
 
+namespace
+{
+	// player_king.png의 한 칸 크기. 프레임 재생 시작 위치(row)와
+	// 콜라이더 오프셋 계산에 공통으로 쓰인다.
+	constexpr float PLAYER_SPRITE_CELL_SIZE = 36.0f;
+}
+
 void Player::Init()
 {
-	wchar_t executablePath[MAX_PATH]{};
-	const DWORD pathLength = GetModuleFileNameW(
-		nullptr,
-		executablePath,
-		ARRAYSIZE(executablePath));
-
-	if (pathLength == 0 || pathLength >= ARRAYSIZE(executablePath))
-	{
-		return;
-	}
-
-	const fs::path texturePath =
-		fs::path(executablePath).parent_path()
-		/ L".."
-		/ L".."
-		/ L"Resource"
-		/ L"images"
-		/ L"sheets"
-		/ L"base.png";
-
 	_spriteRenderer = AddComponent<SpriteRenderer>();
-	if (_spriteRenderer->Load(texturePath.lexically_normal(), 9, 11))
-	{
-		// 어떤 행이 어떤 동작인지 정하기 전에는 첫 프레임만 표시합니다.
-		_spriteRenderer->SetFrame(0, 7);
-	}
 
+	const ImageResource* image = ResourceCatalog::GetInstance().FindImage("player_king");
+	if (image != nullptr && _spriteRenderer->Load(image->path, image->rows, image->columns))
+	{
+		_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Idle), 0);
+	}
 
 	_collider = AddComponent<ColliderAABB>();
 	_collider->SetSize(Vector2{ GameConstants::PLAYER_COLLIDER_WIDTH, GameConstants::PLAYER_COLLIDER_HEIGHT });
 
-	const float offsetX = (32.0f - GameConstants::PLAYER_COLLIDER_WIDTH) / 2.0f;
-	const float offsetY = 40.0f - GameConstants::PLAYER_COLLIDER_HEIGHT;
+	const float offsetX = (PLAYER_SPRITE_CELL_SIZE - GameConstants::PLAYER_COLLIDER_WIDTH) / 2.0f;
+	const float offsetY = PLAYER_SPRITE_CELL_SIZE - GameConstants::PLAYER_COLLIDER_HEIGHT;
 	_collider->SetOffset(Vector2{ offsetX, offsetY });
 }
 
 void Player::Update(float deltaTime)
 {
+	Actor::Update(deltaTime);
+
 	UpdateJump(deltaTime);
 	Move(deltaTime);
 	ApplyGravity(deltaTime);
+	UpdateAnimation(deltaTime);
 }
 
 void Player::Render(const RenderContext& context)
@@ -231,9 +222,11 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 				if (hit.normal.x != 0.0f)
 				{
 					nextPosition.x += hit.normal.x * hit.depth;
-				
+
 					// velocity의 부호를 뒤집어 방향 Bounce 힘만큼 반사
 					_velocity.x = -_velocity.x * GameConstants::PLAYER_WALL_BOUNCE_RESTITUTION;
+
+					_collisionFlashTimer = GameConstants::PLAYER_COLLISION_FLASH_DURATION;
 				}
 			}
 		}
@@ -279,5 +272,74 @@ void Player::VerticalCollision(Vector2& nextPosition)
 				}
 			}
 		}
+	}
+}
+
+void Player::UpdateAnimation(float deltaTime)
+{
+	if (_spriteRenderer == nullptr)
+	{
+		return;
+	}
+
+	if (_collisionFlashTimer > 0.0f)
+	{
+		_collisionFlashTimer -= deltaTime;
+	}
+
+	PlayerAnimState desired = PlayerAnimState::Idle;
+
+	if (_collisionFlashTimer > 0.0f)
+	{
+		desired = PlayerAnimState::Collision;
+	}
+	else if (_jumpState == JumpState::Charging)
+	{
+		desired = PlayerAnimState::Charge;
+	}
+	else if (_jumpState == JumpState::AirBorne)
+	{
+		// 화면 좌표는 y가 증가할수록 아래쪽이므로, y속도가 음수면 상승 중
+		desired = (_velocity.y < 0.0f) ? PlayerAnimState::Up : PlayerAnimState::Down;
+	}
+	else
+	{
+		desired = (_velocity.x != 0.0f) ? PlayerAnimState::Move : PlayerAnimState::Idle;
+	}
+
+	if (desired == _animState)
+	{
+		return;
+	}
+	_animState = desired;
+
+	switch (_animState)
+	{
+		case PlayerAnimState::Idle:
+			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Idle), 0);
+			break;
+
+		case PlayerAnimState::Move:
+			_spriteRenderer->ResetAnim(static_cast<int32>(PlayerAnimState::Move), true, GameConstants::PLAYER_MOVE_ANIM_DURATION, 3);
+			break;
+
+		case PlayerAnimState::Charge:
+			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Charge), 0);
+			break;
+
+		case PlayerAnimState::Collision:
+			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Collision), 0);
+			break;
+
+		case PlayerAnimState::Up:
+			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Up), 0);
+			break;
+
+		case PlayerAnimState::Down:
+			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Down), 0);
+			break;
+
+		default:
+			break;
 	}
 }

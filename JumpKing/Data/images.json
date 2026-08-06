@@ -10,6 +10,11 @@
       "rows": 9,
       "columns": 11
     },
+    "player_king": {
+      "path": "../Resource/images/sheets/player_king.png",
+      "rows": 7,
+      "columns": 3
+    },
     "mg_01": {
       "path": "../Resource/MG/1.png",
       "rows": 1,

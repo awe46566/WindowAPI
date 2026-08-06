@@ -25,8 +25,7 @@ void SpriteRenderer::Update(float deltaTime)
 
     const int32 columnCount = _texture.GetColumnCount();
     const int32 rowCount = _texture.GetRowCount();
-    const int32 totalCount =
-        _fullFrame ? columnCount * rowCount : columnCount;
+    const int32 totalCount = _fullFrame ? columnCount * rowCount : (_frameCount > 0 ? min(_frameCount, columnCount) : columnCount);
 
     if (totalCount <= 0)
     {
@@ -79,13 +78,13 @@ void SpriteRenderer::Render(const RenderContext& context, const Vector2& ownerPo
     const D2D1_RECT_F sourceRect = D2D1::RectF(
         sourceX,
         sourceY,
-        sourceX + 32.0f,
-        sourceY + 40.0f);
+        sourceX + frameSize.width,
+        sourceY + frameSize.height);
 
     _texture.Render(context, ownerPosition, sourceRect, _flipX);
 }
 
-void SpriteRenderer::ResetAnim(int32 row, bool loop, float duration)
+void SpriteRenderer::ResetAnim(int32 row, bool loop, float duration, int32 frameCount)
 {
     if (!_isLoaded || row < 0 || row >= _texture.GetRowCount() || duration <= 0.0f)
     {
@@ -98,6 +97,7 @@ void SpriteRenderer::ResetAnim(int32 row, bool loop, float duration)
     _isEnd = false;
     _loop = loop;
     _duration = duration;
+    _frameCount = frameCount;
     _sumTime = 0.0f;
 }
 
