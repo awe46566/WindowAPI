@@ -2,7 +2,7 @@
 
 namespace GameConstants
 {
-    // 화면 설정
+    // 윈도우 설정
     constexpr int SCREEN_WIDTH = 480;
     constexpr int SCREEN_HEIGHT = 360;
     constexpr int WINDOW_SCALE = 2;
@@ -26,7 +26,10 @@ namespace GameConstants
     constexpr float PLAYER_HORIZONTAL_JUMP_DIRECTION = 0.35f;
     constexpr float PLAYER_VERTICAL_JUMP_DIRECTION = -1.0f;
 
-    // 플레이어 콜라이더 크기
+    // 플레이어 Collider 크기
     constexpr float PLAYER_COLLIDER_WIDTH = 20.0f;
     constexpr float PLAYER_COLLIDER_HEIGHT = 27.0f;
+
+    // 플레이어 벽 튕김
+    constexpr float PLAYER_WALL_BOUNCE_RESTITUTION = 0.5f; // 0=흡수, 1=완전탄성
 }

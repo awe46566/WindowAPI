@@ -225,16 +225,15 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 
 			HitResult hit;
 
-			if (CollisionManager::GetInstance().CheckAABBToAABB(
-				nextBounds,
-				platform.bounds,
-				hit))
+			if (CollisionManager::GetInstance().CheckAABBToAABB(nextBounds, platform.bounds, hit))
 			{
 				// 수평면 충돌만 처리
 				if (hit.normal.x != 0.0f)
 				{
 					nextPosition.x += hit.normal.x * hit.depth;
-					_velocity.x = 0.0f;
+				
+					// velocity의 부호를 뒤집어 방향 Bounce 힘만큼 반사
+					_velocity.x = -_velocity.x * GameConstants::PLAYER_WALL_BOUNCE_RESTITUTION;
 				}
 			}
 		}
