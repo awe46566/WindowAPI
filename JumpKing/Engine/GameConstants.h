@@ -2,40 +2,40 @@
 
 namespace GameConstants
 {
-    // ìœˆë„ìš° ì„¤ì •
+    // À©µµ¿ì ¼³Á¤
     constexpr int SCREEN_WIDTH = 480;
     constexpr int SCREEN_HEIGHT = 360;
     constexpr int WINDOW_SCALE = 2;
     constexpr float TARGET_FRAME_RATE = 120.0f;
 
-    // í”Œë ˆì´ì–´ ìŠ¤í”¼ë“œ
+    // ÇÃ·¹ÀÌ¾î ½ºÇÇµå
     constexpr float PLAYER_MOVE_SPEED = 70.0f;
 
-    // í”Œë ˆì´ì–´ ì¤‘ë ¥
+    // ÇÃ·¹ÀÌ¾î Áß·Â
     constexpr float PLAYER_GRAVITY = 900.0f;
     constexpr float PLAYER_MAX_FALL_SPEED = 600.0f;
 
-    // í”Œë ˆì´ì–´ ì í”„
+    // ÇÃ·¹ÀÌ¾î Á¡ÇÁ
     constexpr float PLAYER_MIN_JUMP_SPEED = 100.0f;
     constexpr float PLAYER_MAX_JUMP_SPEED = 600.0f;
     constexpr float PLAYER_MAX_JUMP_CHARGE_TIME = 0.6f;
     constexpr int PLAYER_MAX_JUMP_CHARGE_STEP = 35;
 
-    // í”Œë ˆì´ì–´ ì í”„ ë°©í–¥
+    // ÇÃ·¹ÀÌ¾î Á¡ÇÁ ¹æÇâ
     constexpr float PLAYER_LOW_HORIZONTAL_JUMP_DIRECTION = 0.85f;
     constexpr float PLAYER_HORIZONTAL_JUMP_DIRECTION = 0.35f;
     constexpr float PLAYER_VERTICAL_JUMP_DIRECTION = -1.0f;
 
-    // í”Œë ˆì´ì–´ Collider í¬ê¸°
+    // ÇÃ·¹ÀÌ¾î Collider Å©±â
     constexpr float PLAYER_COLLIDER_WIDTH = 19.0f;
     constexpr float PLAYER_COLLIDER_HEIGHT = 22.0f;
 
-    // í”Œë ˆì´ì–´ ë²½ ë°˜ì‚¬
+    // ÇÃ·¹ÀÌ¾î º® ¹Ý»ç
     constexpr float PLAYER_WALL_BOUNCE_RESTITUTION = 0.5f;
 
-    // í”Œë ˆì´ì–´ ì• ë‹ˆë©”ì´ì…˜ ìž¬ìƒ ì‹œê°„(ì´ˆ)
+    // ÇÃ·¹ÀÌ¾î ¾Ö´Ï¸ÞÀÌ¼Ç Àç»ý ½Ã°£(ÃÊ)
     constexpr float PLAYER_MOVE_ANIM_DURATION = 0.5f;
 
-    // ë²½ì— ë¶€ë”ªí˜”ì„ ë•Œ Collision í”„ë ˆìž„ì„ ë³´ì—¬ì£¼ëŠ” ì‹œê°„(ì´ˆ)
+    // º®¿¡ ºÎµúÇûÀ» ¶§ Collision ÇÁ·¹ÀÓÀ» º¸¿©ÁÖ´Â ½Ã°£(ÃÊ)
     constexpr float PLAYER_COLLISION_FLASH_DURATION = 0.15f;
 }
