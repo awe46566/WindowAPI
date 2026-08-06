@@ -27,9 +27,9 @@ namespace GameConstants
     constexpr float PLAYER_VERTICAL_JUMP_DIRECTION = -1.0f;
 
     // 플레이어 Collider 크기
-    constexpr float PLAYER_COLLIDER_WIDTH = 20.0f;
-    constexpr float PLAYER_COLLIDER_HEIGHT = 27.0f;
+    constexpr float PLAYER_COLLIDER_WIDTH = 19.0f;
+    constexpr float PLAYER_COLLIDER_HEIGHT = 22.0f;
 
-    // 플레이어 벽 튕김
-    constexpr float PLAYER_WALL_BOUNCE_RESTITUTION = 0.5f; // 0=흡수, 1=완전탄성
+    // 플레이어 벽 반사
+    constexpr float PLAYER_WALL_BOUNCE_RESTITUTION = 0.5f;
 }
