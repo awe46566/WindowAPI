@@ -4,6 +4,7 @@
 #include "Engine/ResourceCatalog.h"
 #include "Engine/DebugRenderer.h"
 #include "Engine/InputManager.h"
+#include "Engine/GameConstants.h"
 #include "Game/GameScene.h"
 #include "Game/LevelData.h"
 #include "Player.h"
@@ -74,7 +75,53 @@ void GameScene::Init()
     {
         player->SetPosition(Vector2{ 230.0f, 286.0f });
     }
+    _player = player;
     AddActor(player);
+}
+
+void GameScene::Update(float deltaTime)
+{
+    Scene::Update(deltaTime);
+    CheckLevelTransition();
+}
+
+void GameScene::CheckLevelTransition()
+{
+    // TODO: _player->GetPosition().y 가 0 또는 GameConstants::SCREEN_HEIGHT를
+    // 벗어났는지 확인하고, 벗어났다면 TransitionToLevel(newIndex, newY)를 호출한다.
+    // - 위로 나감(y < 0) -> index + 1, 새 y = y + SCREEN_HEIGHT
+    // - 아래로 나감(y > SCREEN_HEIGHT) -> index - 1, 새 y = y - SCREEN_HEIGHT
+    // - _levels 범위를 벗어나는 index(맨 위/맨 아래 레벨)는 전환하지 않는다.
+    if (_player->GetPosition().y < 0.0f)
+    {     
+        float nextY = _player->GetPosition().y + GameConstants::SCREEN_HEIGHT;
+        TransitionToLevel(_currentLevelIndex + 1, nextY);
+    }
+    else if (_player->GetPosition().y > GameConstants::SCREEN_HEIGHT)
+    {
+        float nextY = _player->GetPosition().y - GameConstants::SCREEN_HEIGHT;
+        TransitionToLevel(_currentLevelIndex - 1, nextY);
+    }
+
+}
+
+void GameScene::TransitionToLevel(int newIndex, float newY)
+{
+    // TODO: _currentLevelIndex를 newIndex로 바꾸고, CurrentLevel()의
+    // background/midground/foreground를 LoadLayerTexture로 다시 로드해
+    // _isXLoaded 플래그와 함께 갱신한다. _player->SetPlatforms(&CurrentLevel().platforms)로
+    // 새 레벨의 플랫폼을 연결하고, 플레이어 x는 유지한 채 y만 newY로 재배치한다.
+    _currentLevelIndex = newIndex;
+
+    _isBackgroundLoaded = LoadLayerTexture(CurrentLevel().layers.background, _backgroundTexture);
+    _isMidgroundLoaded = LoadLayerTexture(CurrentLevel().layers.midground, _midgroundTexture);
+    _isForegroundLoaded = LoadLayerTexture(CurrentLevel().layers.foreground, _foregroundTexture);
+
+    Vector2 position = _player->GetPosition();
+    position.y = newY;
+
+    _player->SetPosition(position);
+    _player->SetPlatforms(&CurrentLevel().platforms);    
 }
 
 void GameScene::Render(const RenderContext& context)
