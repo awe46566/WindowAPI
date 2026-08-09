@@ -166,6 +166,7 @@ void Player::StartJump()
 
 void Player::OnLanded()
 {
+	_collisionFlash = false;
 	_jumpChargeTime = 0.0f;
 	_jumpChargeStep = 1;
 	_velocity = { 0.0f, 0.0f };
@@ -226,7 +227,7 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 					// velocity의 부호를 뒤집어 방향 Bounce 힘만큼 반사
 					_velocity.x = -_velocity.x * GameConstants::PLAYER_WALL_BOUNCE_RESTITUTION;
 
-					_collisionFlashTimer = GameConstants::PLAYER_COLLISION_FLASH_DURATION;
+					_collisionFlash = true;
 				}
 			}
 		}
@@ -267,8 +268,8 @@ void Player::VerticalCollision(Vector2& nextPosition)
 			if (hit.normal.y < 0.0f)
 			{
 				if (_jumpState == JumpState::AirBorne)
-				{
-					OnLanded();
+				{	
+					OnLanded();							
 				}
 			}
 		}
@@ -282,14 +283,9 @@ void Player::UpdateAnimation(float deltaTime)
 		return;
 	}
 
-	if (_collisionFlashTimer > 0.0f)
-	{
-		_collisionFlashTimer -= deltaTime;
-	}
-
 	PlayerAnimState desired = PlayerAnimState::Idle;
 
-	if (_collisionFlashTimer > 0.0f)
+	if (_collisionFlash)
 	{
 		desired = PlayerAnimState::Collision;
 	}

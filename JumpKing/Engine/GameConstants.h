@@ -34,8 +34,5 @@ namespace GameConstants
     constexpr float PLAYER_WALL_BOUNCE_RESTITUTION = 0.5f;
 
     // 플레이어 애니메이션 재생 시간(초)
-    constexpr float PLAYER_MOVE_ANIM_DURATION = 0.5f;
-
-    // 벽에 부딪혔을 때 Collision 프레임을 보여주는 시간(초)
-    constexpr float PLAYER_COLLISION_FLASH_DURATION = 0.15f;
+    constexpr float PLAYER_MOVE_ANIM_DURATION = 0.2f;
 }

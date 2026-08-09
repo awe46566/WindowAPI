@@ -52,5 +52,5 @@ private:
 	int _jumpChargeStep = 0;
 
 	PlayerAnimState _animState = PlayerAnimState::Idle;
-	float _collisionFlashTimer = 0.0f;
+	bool _collisionFlash = false;
 };
