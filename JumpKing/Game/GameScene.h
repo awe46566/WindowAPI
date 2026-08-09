@@ -3,6 +3,7 @@
 #include "Framework/Scene.h"
 #include "Engine/Texture.h"
 #include "LevelData.h"
+#include <vector>
 
 class GameScene : public Scene
 {
@@ -13,7 +14,10 @@ public:
     void ColliderOnOff();
 
 private:
-    LevelData _currentLevel;
+    const LevelData& CurrentLevel() const { return _levels[_currentLevelIndex]; }
+
+    std::vector<LevelData> _levels;
+    int _currentLevelIndex = 0;
 
     Texture _backgroundTexture;
     Texture _midgroundTexture;

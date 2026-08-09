@@ -43,3 +43,5 @@ bool LoadLevelData(
     const std::filesystem::path& jsonPath,
     const std::string& levelId,
     LevelData& output);
+
+bool LoadAllLevelData(const filesystem::path& jsonPath, vector<LevelData>& output);

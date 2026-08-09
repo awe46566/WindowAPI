@@ -2,22 +2,10 @@
 #include "Game/LevelData.h"
 #include "../../BounceBall_Data/Json/nlohmann/json.hpp"
 
-bool LoadLevelData(
-    const std::filesystem::path& jsonPath,
-    const std::string& levelId,
-    LevelData& output)
+namespace
 {
-    std::ifstream input(jsonPath);
-    if (!input)
+    bool ParseLevelData(const nlohmann::json& level, LevelData& output)
     {
-        return false;
-    }
-
-    try
-    {
-        const nlohmann::json document = nlohmann::json::parse(input);
-        const nlohmann::json& level = document.at("levels").at(levelId);
-
         LevelData loaded;
         loaded.index = level.at("index").get<int>();
 
@@ -75,11 +63,63 @@ bool LoadLevelData(
         {
             return false;
         }
-
-        output = std::move(loaded);
+        
+        output = move(loaded); 
         return true;
     }
+}
+
+bool LoadLevelData(const std::filesystem::path& jsonPath, const std::string& levelId, LevelData& output)
+{
+    ifstream input(jsonPath);
+    if (!input) 
+        return false;
+
+    try
+    {
+        const nlohmann::json document = nlohmann::json::parse(input);
+        const nlohmann::json& level = document.at("levels").at(levelId);
+        return ParseLevelData(level, output);
+    }
     catch (const nlohmann::json::exception&)
+    {
+        return false;
+    }
+}
+
+bool LoadAllLevelData(const filesystem::path& jsonPath, vector<LevelData>& output)
+{
+    ifstream input(jsonPath);
+    if (!input)
+        return false;
+
+    try
+    {
+        const nlohmann::json document = nlohmann::json::parse(input);
+        const nlohmann::json& levels = document.at("levels");
+
+        vector<LevelData> loaded;
+
+        for (const auto& [levelId, levelJson] : levels.items())
+        {
+            LevelData data;
+            if (!ParseLevelData(levelJson, data))
+            {
+                false;
+            }
+            loaded.push_back(move(data));
+        }
+
+        sort(loaded.begin(), loaded.end(),
+            [](const LevelData& a, const LevelData& b)
+            {
+                return a.index < b.index;
+            });
+
+        output = move(loaded);
+        return true;
+    }
+    catch(const nlohmann::json::exception&)
     {
         return false;
     }

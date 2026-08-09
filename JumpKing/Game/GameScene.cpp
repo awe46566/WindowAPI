@@ -56,17 +56,24 @@ void GameScene::Init()
         const fs::path levelPath =
             fs::path(executablePath).parent_path() / L".." / L".." / L"JumpKing" / L"Data" / L"levels.json";
 
-        if (LoadLevelData(levelPath.lexically_normal(), "level_00", _currentLevel))
+        if (LoadAllLevelData(levelPath.lexically_normal(), _levels))
         {
-            _isBackgroundLoaded = LoadLayerTexture(_currentLevel.layers.background, _backgroundTexture);
-            _isMidgroundLoaded = LoadLayerTexture(_currentLevel.layers.midground, _midgroundTexture);
-            _isForegroundLoaded = LoadLayerTexture(_currentLevel.layers.foreground, _foregroundTexture);
+            _isBackgroundLoaded = LoadLayerTexture(CurrentLevel().layers.background, _backgroundTexture);
+            _isMidgroundLoaded = LoadLayerTexture(CurrentLevel().layers.midground, _midgroundTexture);
+            _isForegroundLoaded = LoadLayerTexture(CurrentLevel().layers.foreground, _foregroundTexture);
         }
     }
 
     Player* player = new Player();
-    player->SetPlatforms(&_currentLevel.platforms);
-    player->SetPosition(_currentLevel.hasSpawn ? _currentLevel.spawn : Vector2{ 230.0f, 286.0f });
+    if (!_levels.empty())
+    {
+        player->SetPlatforms(&CurrentLevel().platforms);
+        player->SetPosition(CurrentLevel().hasSpawn ? CurrentLevel().spawn : Vector2{ 230.0f, 286.0f });
+    }
+    else
+    {
+        player->SetPosition(Vector2{ 230.0f, 286.0f });
+    }
     AddActor(player);
 }
 
@@ -86,7 +93,10 @@ void GameScene::Render(const RenderContext& context)
 
 void GameScene::DrawCollider(const RenderContext& context)
 {
-    for (PlatformData& platform : _currentLevel.platforms)
+    if (_levels.empty())
+        return;
+
+    for (const PlatformData& platform : CurrentLevel().platforms)
     {
         if (platform.hasSlope)
             continue;
