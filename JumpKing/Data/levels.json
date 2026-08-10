@@ -90,6 +90,19 @@
           "slope": null,
           "material": "land",
           "support": false
+        },
+        {
+          "id": "p999",
+          "x": 248,
+          "y": 298,
+          "width": 48,
+          "height": 32,
+          "slope": [
+            1,
+            1
+          ],
+          "material": "ice",
+          "support": false
         }
       ],
       "spawn": {

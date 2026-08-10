@@ -124,3 +124,31 @@ bool LoadAllLevelData(const filesystem::path& jsonPath, vector<LevelData>& outpu
         return false;
     }
 }
+
+bool IsSlopeFloor(const PlatformData& platform)
+{
+    return platform.slope.y > 0.0f;
+}
+
+bool IsSlopeRisingRight(const PlatformData& platform)
+{
+    return platform.slope.x * platform.slope.y > 0.0f;
+}
+
+void GetSlopeEndpoints(const PlatformData& platform, Vector2& outLeft, Vector2& outRight)
+{
+    const Rect& bounds = platform.bounds;
+
+    if (IsSlopeRisingRight(platform))
+    {
+        // BL -> TR 대각선
+        outLeft = { bounds.Left(), bounds.Bottom() };
+        outRight = { bounds.Right(), bounds.Top() };
+    }
+    else
+    {
+        // TL -> BR 대각선
+        outLeft = { bounds.Left(), bounds.Top() };
+        outRight = { bounds.Right(), bounds.Bottom() };
+    }
+}

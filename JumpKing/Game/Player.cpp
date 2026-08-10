@@ -101,6 +101,9 @@ void Player::ApplyGravity(float deltaTime)
 	Vector2 previousPosition = GetPosition();
 	Vector2 nextPosition = previousPosition;
 
+	// 매 프레임 리셋하고, VerticalCollision에서 바닥에 닿았을 때 다시 세팅한다.
+	_isGrounded = false;
+
 	// 화면 좌표에서는 y가 증가할수록 아래쪽이므로 중력은 양수 방향
 	_velocity.y += GameConstants::PLAYER_GRAVITY * deltaTime;
 	_velocity.y = min(_velocity.y, GameConstants::PLAYER_MAX_FALL_SPEED);
@@ -242,7 +245,10 @@ void Player::VerticalCollision(Vector2& nextPosition)
 		for (const PlatformData& platform : *_platforms)
 		{
 			if (platform.hasSlope)
+			{
+				ResolveSlopeCollision(platform, nextPosition);
 				continue;
+			}
 
 			const Rect nextBounds =
 				_collider->GetBounds(nextPosition);
@@ -267,13 +273,37 @@ void Player::VerticalCollision(Vector2& nextPosition)
 			// 위쪽으로 밀려났다면 플랫폼 위에 착지
 			if (hit.normal.y < 0.0f)
 			{
+				_isGrounded = true;
+				_groundMaterial = platform.material;
+				_groundSlope = { 0.0f, 0.0f };
+
 				if (_jumpState == JumpState::AirBorne)
-				{	
-					OnLanded();							
+				{
+					OnLanded();
 				}
 			}
 		}
 	}
+}
+
+float Player::GetSlopeSurfaceY(const PlatformData& platform, float x) const
+{
+	// TODO(user): x를 [bounds.Left(), bounds.Right()]로 clamp한 뒤,
+	// LevelData.h의 IsSlopeRisingRight/IsSlopeFloor 규칙대로
+	// 대각선 위의 y를 선형보간해서 반환한다.
+	return platform.bounds.Top();
+}
+
+bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition)
+{
+	// TODO(user): 계획 문서(unified-jingling-brooks.md) 2번 항목 참고.
+	// 1) _collider->GetBounds(nextPosition)와 platform.bounds가 수평으로 겹치는지 확인
+	// 2) 콜라이더 중심 x에서 GetSlopeSurfaceY로 표면 y 계산
+	// 3) floor면 콜라이더 bottom을, ceiling이면 top을 표면에 스냅
+	// 4) _velocity.y = 0, AirBorne 상태였다면 OnLanded() 호출
+	// 5) floor에 착지했다면 _isGrounded=true, _groundMaterial=platform.material,
+	//    _groundSlope=platform.slope 로 기록 (미끄러짐 로직이 여기서 참조함)
+	return false;
 }
 
 void Player::UpdateAnimation(float deltaTime)

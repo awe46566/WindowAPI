@@ -1,9 +1,9 @@
 #pragma once
 #include "Framework/Actor.h"
+#include "Game/LevelData.h"
 
 class SpriteRenderer;
 class ColliderAABB;
-struct PlatformData;
 
 // player_king.png의 row 순서와 그대로 대응한다 (Idle=row0, Move=row1, ...).
 enum class PlayerAnimState
@@ -40,6 +40,10 @@ public:
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
 private:
+	// TODO(user): 슬로프 표면 y 계산 및 충돌 스냅. 설계는 계획 문서 참고.
+	float GetSlopeSurfaceY(const PlatformData& platform, float x) const;
+	bool ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition);
+
 	const vector<PlatformData>* _platforms = nullptr;
 	SpriteRenderer* _spriteRenderer = nullptr;
 	ColliderAABB* _collider = nullptr;
@@ -53,4 +57,9 @@ private:
 
 	PlayerAnimState _animState = PlayerAnimState::Idle;
 	bool _collisionFlash = false;
+
+	// 현재 서 있는 바닥 정보. 평지면 _groundSlope는 {0,0}.
+	bool _isGrounded = false;
+	PlatformMaterial _groundMaterial = PlatformMaterial::Land;
+	Vector2 _groundSlope{};
 };

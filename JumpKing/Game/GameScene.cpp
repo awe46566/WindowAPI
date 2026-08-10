@@ -146,7 +146,16 @@ void GameScene::DrawCollider(const RenderContext& context)
     for (const PlatformData& platform : CurrentLevel().platforms)
     {
         if (platform.hasSlope)
+        {
+            Vector2 left, right;
+            GetSlopeEndpoints(platform, left, right);
+            DebugRenderer::DrawLine(
+                context,
+                left,
+                right,
+                IsSlopeFloor(platform) ? D2D1::ColorF(D2D1::ColorF::Lime) : D2D1::ColorF(D2D1::ColorF::Cyan));
             continue;
+        }
 
         DebugRenderer::DrawRect(context, platform.bounds, D2D1::ColorF(D2D1::ColorF::Red));
     }
