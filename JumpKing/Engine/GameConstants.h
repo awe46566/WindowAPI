@@ -44,7 +44,7 @@ namespace GameConstants
     // Ice / slope movement - placeholder values, tune by playtest
     constexpr float PLAYER_ICE_ACCEL = 250.0f;
     constexpr float PLAYER_ICE_FRICTION = 80.0f;
-    constexpr float PLAYER_SLOPE_SLIDE_ACCEL = 200.0f;
+    constexpr float PLAYER_SLOPE_SLIDE_ACCEL = 500.0f;
     constexpr float PLAYER_SLOPE_SNAP_TOLERANCE = 4.0f;
     constexpr float PLAYER_ICE_LANDING_SPEED_RETENTION = 0.5f;
 }

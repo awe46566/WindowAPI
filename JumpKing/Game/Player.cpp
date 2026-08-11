@@ -66,21 +66,38 @@ void Player::Move(float deltaTime)
 
 	if (_jumpState == JumpState::Ready)
 	{
-		_velocity.x = 0.0f;
-
 		bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
 		bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
-	
-
-		if (isLeftPressed && !isRightPressed)
+		
+		if (_groundSlope.x != 0.0f || _groundSlope.y != 0.0f)
 		{
-			_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;
-			_spriteRenderer->setFlipX(true);
+			// 입력 무시, 내리막 가속 + 재질별 마찰		
+			float downhillSign = (_groundSlope.x > 0.0f) ? -1.0f : 1.0f;
+			_velocity.x += downhillSign * GameConstants::PLAYER_SLOPE_SLIDE_ACCEL * deltaTime;
 		}
-		else if (isRightPressed && !isLeftPressed)
+		else if (_groundMaterial == PlatformMaterial::Ice)
 		{
-			_velocity.x = GameConstants::PLAYER_MOVE_SPEED;
-			_spriteRenderer->setFlipX(false);
+			// sprite FlipX
+			if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
+			else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
+
+			// 입력 방향으로 가속 + PLAYER_ICE_FRICTION으로 감쇠
+		}
+		else
+		{
+			// sprite FlipX
+			if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
+			else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
+
+			_velocity.x = 0.0f;
+			if (isLeftPressed && !isRightPressed)
+			{
+				_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;				
+			}
+			else if (isRightPressed && !isLeftPressed)
+			{
+				_velocity.x = GameConstants::PLAYER_MOVE_SPEED;				
+			}
 		}
 
 	}
@@ -318,14 +335,34 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 	{
 		float centerX = (nextBounds.Right() + nextBounds.Left()) * 0.5f;
 		float surfaceY = GetSlopeSurfaceY(platform, centerX);
+		float bottomDiff = surfaceY - nextBounds.Bottom();
+		float topDiff = surfaceY - nextBounds.Top();
 
 		if (IsSlopeFloor(platform))
 		{
-			nextPosition.y += surfaceY - nextBounds.Bottom();
+			if ( _velocity.y >= 0.0f &&
+				bottomDiff >= -GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE &&
+				bottomDiff <= GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE)
+			{
+				_velocity.y = 0.0f;
+				nextPosition.y += bottomDiff;
+
+				_isGrounded = true;
+				_groundMaterial = platform.material;
+				_groundSlope = platform.slope;
+
+				if (_jumpState == JumpState::AirBorne)
+				{
+					OnLanded();
+				}
+			}
 		}
-		else
-		{
-			nextPosition.y += surfaceY - nextBounds.Top();
+		else if(_velocity.y <= 0.0f &&
+			topDiff >= -GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE &&
+			topDiff <= GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE)
+		{						
+			_velocity.y = 0.0f;
+			nextPosition.y += topDiff;
 		}
 	}
 
@@ -342,6 +379,10 @@ void Player::UpdateAnimation(float deltaTime)
 	PlayerAnimState desired = PlayerAnimState::Idle;
 
 	if (_collisionFlash)
+	{
+		desired = PlayerAnimState::Collision;
+	}
+	else if (_isGrounded && (_groundSlope.x != 0.0f || _groundSlope.y != 0.0f))
 	{
 		desired = PlayerAnimState::Collision;
 	}

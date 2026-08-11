@@ -1038,7 +1038,7 @@
           "width": 48,
           "height": 48,
           "slope": [
-            -1,
+             1,
             -1
           ],
           "material": "land",
@@ -1077,7 +1077,7 @@
           "width": 17,
           "height": 15,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -1117,8 +1117,18 @@
           "height": 15,
           "slope": [
             1,
-            1
+            -1
           ],
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p040",
+          "x": 368,
+          "y": 48,
+          "width": 17,
+          "height": 32,
+          "slope": null,
           "material": "land",
           "support": false
         },
@@ -1129,7 +1139,7 @@
           "width": 15,
           "height": 16,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -1155,7 +1165,7 @@
           "width": 31,
           "height": 29,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
