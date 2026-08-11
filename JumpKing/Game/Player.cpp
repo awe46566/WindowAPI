@@ -89,9 +89,28 @@ void Player::Move(float deltaTime)
 		
 		if (_groundSlope.x != 0.0f || _groundSlope.y != 0.0f)
 		{
-			// 입력 무시, 내리막 가속 + 재질별 마찰		
+			// 입력 무시, 내리막 가속 + 재질별 마찰
 			float downhillSign = (_groundSlope.x > 0.0f) ? -1.0f : 1.0f;
 			_velocity.x += downhillSign * GameConstants::PLAYER_SLOPE_SLIDE_ACCEL * deltaTime;
+
+			// 재질별 마찰 감속 (0을 지나쳐 역방향으로 뒤집히지 않도록 가드)
+			float slopeFriction = (_groundMaterial == PlatformMaterial::Ice)
+				? GameConstants::PLAYER_SLOPE_ICE_FRICTION
+				: GameConstants::PLAYER_SLOPE_FRICTION;
+			float frictionDelta = slopeFriction * deltaTime;
+
+			if (_velocity.x > 0.0f)
+			{
+				_velocity.x = max(0.0f, _velocity.x - frictionDelta);
+			}
+			else if (_velocity.x < 0.0f)
+			{
+				_velocity.x = min(0.0f, _velocity.x + frictionDelta);
+			}
+
+			_velocity.x = clamp(_velocity.x,
+				-GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED,
+				GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED);
 		}
 		else if (_groundMaterial == PlatformMaterial::Ice)
 		{

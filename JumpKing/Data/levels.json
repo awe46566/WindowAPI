@@ -1125,9 +1125,39 @@
         {
           "id": "p040",
           "x": 368,
-          "y": 48,
+          "y": 45,
           "width": 17,
-          "height": 32,
+          "height": 3,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p041",
+          "x": 333,
+          "y": 80,
+          "width": 3,
+          "height": 30,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p042",
+          "x": 383,
+          "y": 81,
+          "width": 1,
+          "height": 30,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p043",
+          "x": 265,
+          "y": 25,
+          "width": 1,
+          "height": 20,
           "slope": null,
           "material": "land",
           "support": false
@@ -1458,7 +1488,7 @@
           "width": 24,
           "height": 25,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -1497,7 +1527,7 @@
           "width": 18,
           "height": 16,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -2101,6 +2131,16 @@
           "support": false
         },
         {
+          "id": "p023",
+          "x": 32,
+          "y": 144,
+          "width": 23,
+          "height": 1,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
           "id": "p022",
           "x": 32,
           "y": 120,
@@ -2285,7 +2325,7 @@
           "width": 22,
           "height": 24,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -2298,7 +2338,7 @@
           "width": 48,
           "height": 48,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -2324,7 +2364,7 @@
           "width": 26,
           "height": 26,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -2562,7 +2602,7 @@
           "width": 25,
           "height": 21,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -2751,7 +2791,7 @@
           "width": 23,
           "height": 23,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -3546,7 +3586,7 @@
           "width": 16,
           "height": 15,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -3559,7 +3599,7 @@
           "width": 18,
           "height": 17,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -3572,7 +3612,7 @@
           "width": 23,
           "height": 23,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -3637,7 +3677,7 @@
           "width": 24,
           "height": 24,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -3650,7 +3690,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -4266,7 +4306,7 @@
           "width": 88,
           "height": 87,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -4279,7 +4319,7 @@
           "width": 8,
           "height": 9,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -4292,7 +4332,7 @@
           "width": 8,
           "height": 9,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -5056,7 +5096,7 @@
           "width": 48,
           "height": 46,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -5069,7 +5109,7 @@
           "width": 32,
           "height": 29,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -5082,7 +5122,7 @@
           "width": 24,
           "height": 26,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -5407,7 +5447,7 @@
           "width": 23,
           "height": 22,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -5420,7 +5460,7 @@
           "width": 24,
           "height": 27,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -5671,7 +5711,7 @@
           "width": 40,
           "height": 38,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -5684,7 +5724,7 @@
           "width": 32,
           "height": 34,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -5697,7 +5737,7 @@
           "width": 32,
           "height": 33,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6278,7 +6318,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6291,7 +6331,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6304,7 +6344,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6317,7 +6357,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6330,7 +6370,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6343,7 +6383,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6356,7 +6396,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6369,7 +6409,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6676,7 +6716,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6689,7 +6729,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6702,7 +6742,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6715,7 +6755,7 @@
           "width": 8,
           "height": 8,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6882,7 +6922,7 @@
           "width": 23,
           "height": 21,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6895,7 +6935,7 @@
           "width": 24,
           "height": 23,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6908,7 +6948,7 @@
           "width": 16,
           "height": 17,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -6973,7 +7013,7 @@
           "width": 24,
           "height": 26,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6986,7 +7026,7 @@
           "width": 26,
           "height": 26,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -6999,7 +7039,7 @@
           "width": 13,
           "height": 11,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -7064,7 +7104,7 @@
           "width": 16,
           "height": 16,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "land",
@@ -7077,7 +7117,7 @@
           "width": 16,
           "height": 16,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "land",
@@ -7300,7 +7340,7 @@
           "width": 40,
           "height": 39,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",
@@ -7313,7 +7353,7 @@
           "width": 24,
           "height": 24,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",
@@ -7352,7 +7392,7 @@
           "width": 24,
           "height": 23,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "ice",
@@ -7365,7 +7405,7 @@
           "width": 11,
           "height": 8,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",
@@ -7391,7 +7431,7 @@
           "width": 25,
           "height": 24,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",
@@ -7404,7 +7444,7 @@
           "width": 24,
           "height": 24,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "ice",
@@ -7627,7 +7667,7 @@
           "width": 31,
           "height": 26,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "ice",
@@ -7640,7 +7680,7 @@
           "width": 21,
           "height": 22,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "ice",
@@ -7666,7 +7706,7 @@
           "width": 21,
           "height": 24,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "ice",
@@ -7679,7 +7719,7 @@
           "width": 23,
           "height": 24,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",
@@ -7705,7 +7745,7 @@
           "width": 26,
           "height": 23,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "ice",
@@ -7718,7 +7758,7 @@
           "width": 24,
           "height": 23,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",
@@ -7731,7 +7771,7 @@
           "width": 8,
           "height": 6,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",
@@ -7757,7 +7797,7 @@
           "width": 16,
           "height": 16,
           "slope": [
-            -1,
+            1,
             -1
           ],
           "material": "ice",

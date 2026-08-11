@@ -12,7 +12,7 @@ namespace GameConstants
     constexpr float PLAYER_MOVE_SPEED = 70.0f;
 
     // ������ ���Ŭ�� �̵� �ӵ�
-    constexpr float PLAYER_NOCLIP_SPEED = 200.0f;
+    constexpr float PLAYER_NOCLIP_SPEED = 600.0f;
 
     // �÷��̾� �߷�
     constexpr float PLAYER_GRAVITY = 900.0f;
@@ -50,4 +50,9 @@ namespace GameConstants
     constexpr float PLAYER_SLOPE_SLIDE_ACCEL = 500.0f;
     constexpr float PLAYER_SLOPE_SNAP_TOLERANCE = 4.0f;
     constexpr float PLAYER_ICE_LANDING_SPEED_RETENTION = 0.5f;
+
+    // Slope slide speed cap / friction - placeholder values, tune by playtest
+    constexpr float PLAYER_SLOPE_MAX_SLIDE_SPEED = 250.0f;
+    constexpr float PLAYER_SLOPE_FRICTION = 200.0f;
+    constexpr float PLAYER_SLOPE_ICE_FRICTION = 50.0f;
 }
