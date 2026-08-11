@@ -38,6 +38,24 @@ void Player::Update(float deltaTime)
 {
 	Actor::Update(deltaTime);
 
+	if (InputManager::GetInstance().GetButtonDown(KeyType::C))
+	{
+		_noclip = !_noclip;
+		if (!_noclip)
+		{
+			// 노클립 종료 시 정상 물리로 깨끗하게 복귀
+			_velocity = { 0.0f, 0.0f };
+			_jumpState = JumpState::Ready;
+		}
+	}
+
+	if (_noclip)
+	{
+		UpdateNoclip(deltaTime);
+		UpdateAnimation(deltaTime);
+		return;
+	}
+
 	UpdateJump(deltaTime);
 	Move(deltaTime);
 	ApplyGravity(deltaTime);
@@ -111,6 +129,37 @@ void Player::Move(float deltaTime)
 
 	HorizontalCollision(nextPosition);
 	SetPosition(nextPosition);
+}
+
+void Player::UpdateNoclip(float deltaTime)
+{
+	InputManager& input = InputManager::GetInstance();
+	Vector2 position = GetPosition();
+
+	bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
+	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
+	bool isUpPressed = input.GetButtonPressed(KeyType::Up) || input.GetButtonDown(KeyType::Up);
+	bool isDownPressed = input.GetButtonPressed(KeyType::Down) || input.GetButtonDown(KeyType::Down);
+
+	if (isLeftPressed && !isRightPressed)
+	{
+		position.x -= GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+	}
+	else if (isRightPressed && !isLeftPressed)
+	{
+		position.x += GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+	}
+
+	if (isUpPressed && !isDownPressed)
+	{
+		position.y -= GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+	}
+	else if (isDownPressed && !isUpPressed)
+	{
+		position.y += GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+	}
+
+	SetPosition(position);
 }
 
 void Player::ApplyGravity(float deltaTime)

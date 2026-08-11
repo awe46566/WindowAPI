@@ -11,6 +11,9 @@ namespace GameConstants
     // �÷��̾� ���ǵ�
     constexpr float PLAYER_MOVE_SPEED = 70.0f;
 
+    // ������ ���Ŭ�� �̵� �ӵ�
+    constexpr float PLAYER_NOCLIP_SPEED = 200.0f;
+
     // �÷��̾� �߷�
     constexpr float PLAYER_GRAVITY = 900.0f;
     constexpr float PLAYER_MAX_FALL_SPEED = 600.0f;

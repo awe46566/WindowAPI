@@ -31,6 +31,7 @@ public:
 	void Move(float deltaTime);
 	void ApplyGravity(float deltaTime);
 	void UpdateJump(float deltaTime);
+	void UpdateNoclip(float deltaTime);
 	void StartJump();
 	void OnLanded();
 	void ChargingDirection();
@@ -62,4 +63,6 @@ private:
 	bool _isGrounded = false;
 	PlatformMaterial _groundMaterial = PlatformMaterial::Land;
 	Vector2 _groundSlope{};
+
+	bool _noclip = false;
 };

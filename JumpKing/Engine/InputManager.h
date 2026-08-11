@@ -9,8 +9,11 @@ enum class KeyType : uint32
 {
     Left = VK_LEFT,
     Right = VK_RIGHT,
+    Up = VK_UP,
+    Down = VK_DOWN,
     Space = VK_SPACE,
-    F1 = VK_F1
+    F1 = VK_F1,
+    C = 'C'
 };
 
 enum class KeyState
