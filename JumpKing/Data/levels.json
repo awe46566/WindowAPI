@@ -90,20 +90,8 @@
           "slope": null,
           "material": "land",
           "support": false
-        },
-        {
-          "id": "p999",
-          "x": 248,
-          "y": 298,
-          "width": 48,
-          "height": 32,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "ice",
-          "support": false
         }
+        
       ],
       "spawn": {
         "x": 230,
@@ -1044,32 +1032,7 @@
           "material": "land",
           "support": false
         },
-        {
-          "id": "p029",
-          "x": 290,
-          "y": 64,
-          "width": 46,
-          "height": 46,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p030",
-          "x": 336,
-          "y": 48,
-          "width": 17,
-          "height": 16,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
+        
         {
           "id": "p031",
           "x": 336,
@@ -1083,41 +1046,16 @@
           "material": "land",
           "support": false
         },
-        {
-          "id": "p032",
-          "x": 353,
-          "y": 33,
-          "width": 15,
-          "height": 15,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
+        
         {
           "id": "p033",
-          "x": 368,
+          "x": 290,
           "y": 16,
-          "width": 17,
-          "height": 17,
+          "width": 95,
+          "height": 95,
           "slope": [
             1,
             1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p034",
-          "x": 368,
-          "y": 33,
-          "width": 17,
-          "height": 15,
-          "slope": [
-            1,
-            -1
           ],
           "material": "land",
           "support": false
@@ -1402,9 +1340,9 @@
         {
           "id": "p016",
           "x": 247,
-          "y": 287,
-          "width": 16,
-          "height": 18,
+          "y": 295,
+          "width": 15,
+          "height": 10,
           "slope": null,
           "material": "land",
           "support": false
@@ -1472,8 +1410,8 @@
           "id": "p022",
           "x": 247,
           "y": 272,
-          "width": 16,
-          "height": 15,
+          "width": 48,
+          "height": 45,
           "slope": [
             -1,
             1
@@ -1494,32 +1432,7 @@
           "material": "land",
           "support": false
         },
-        {
-          "id": "p024",
-          "x": 262,
-          "y": 287,
-          "width": 18,
-          "height": 17,
-          "slope": [
-            -1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p025",
-          "x": 279,
-          "y": 304,
-          "width": 18,
-          "height": 16,
-          "slope": [
-            -1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
+        
         {
           "id": "p026",
           "x": 262,
@@ -1530,6 +1443,16 @@
             1,
             -1
           ],
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p027",
+          "x": 280,
+          "y": 320,
+          "width": 15,
+          "height": 1,
+          "slope": null,
           "material": "land",
           "support": false
         }
@@ -2682,6 +2605,26 @@
           "support": false
         },
         {
+          "id": "p022",
+          "x": 191,
+          "y": 65,
+          "width": 1,
+          "height": 60,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p023",
+          "x": 233,
+          "y": 65,
+          "width": 1,
+          "height": 60,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
           "id": "p006",
           "x": 169,
           "y": 88,
@@ -3191,6 +3134,26 @@
           "x": 232,
           "y": 128,
           "width": 16,
+          "height": 72,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p017",
+          "x": 248,
+          "y": 115,
+          "width": 0.25,
+          "height": 72,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p018",
+          "x": 280,
+          "y": 115,
+          "width": 0.25,
           "height": 72,
           "slope": null,
           "material": "land",
@@ -3806,6 +3769,16 @@
           "support": false
         },
         {
+          "id": "p019",
+          "x": 80,
+          "y": 185,
+          "width": 40,
+          "height": 0.25,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
           "id": "p007",
           "x": 8,
           "y": 256,
@@ -3999,6 +3972,26 @@
           "y": 104,
           "width": 33,
           "height": 32,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p017",
+          "x": 75,
+          "y": 136,
+          "width": 33,
+          "height": 0.25,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p018",
+          "x": 365,
+          "y": 136,
+          "width": 40,
+          "height": 0.25,
           "slope": null,
           "material": "land",
           "support": false
@@ -4453,6 +4446,16 @@
           "support": false
         },
         {
+          "id": "p020",
+          "x": 260,
+          "y": 193,
+          "width": 100,
+          "height": 0.25,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
           "id": "p010",
           "x": 344,
           "y": 264,
@@ -4798,11 +4801,31 @@
           "support": false
         },
         {
+          "id": "p018",
+          "x": 53,
+          "y": 145,
+          "width": 100,
+          "height": 0.25,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
           "id": "p003",
           "x": 208,
           "y": 224,
           "width": 72,
           "height": 23,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p017",
+          "x": 196,
+          "y": 177,
+          "width": 100,
+          "height": 0.25,
           "slope": null,
           "material": "land",
           "support": false
@@ -4843,6 +4866,16 @@
           "y": 344,
           "width": 72,
           "height": 15,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p016",
+          "x": 340,
+          "y": 297,
+          "width": 100,
+          "height": 0.25,
           "slope": null,
           "material": "land",
           "support": false
@@ -6954,51 +6987,13 @@
           "material": "land",
           "support": false
         },
-        {
-          "id": "p017",
-          "x": 112,
-          "y": 272,
-          "width": 16,
-          "height": 15,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p018",
-          "x": 128,
-          "y": 249,
-          "width": 23,
-          "height": 23,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p019",
-          "x": 151,
-          "y": 225,
-          "width": 24,
-          "height": 24,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
+        
         {
           "id": "p020",
-          "x": 175,
+          "x": 112,
           "y": 216,
-          "width": 8,
-          "height": 9,
+          "width": 70,
+          "height": 70,
           "slope": [
             1,
             1
@@ -7049,8 +7044,8 @@
           "id": "p024",
           "x": 297,
           "y": 216,
-          "width": 16,
-          "height": 16,
+          "width": 70,
+          "height": 70,
           "slope": [
             -1,
             1
@@ -7058,45 +7053,7 @@
           "material": "land",
           "support": false
         },
-        {
-          "id": "p025",
-          "x": 313,
-          "y": 232,
-          "width": 26,
-          "height": 26,
-          "slope": [
-            -1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p026",
-          "x": 339,
-          "y": 258,
-          "width": 13,
-          "height": 14,
-          "slope": [
-            -1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p027",
-          "x": 352,
-          "y": 272,
-          "width": 16,
-          "height": 15,
-          "slope": [
-            -1,
-            1
-          ],
-          "material": "land",
-          "support": false
-        },
+        
         {
           "id": "p028",
           "x": 192,
@@ -7311,8 +7268,8 @@
           "id": "p017",
           "x": 49,
           "y": 200,
-          "width": 57,
-          "height": 57,
+          "width": 70,
+          "height": 70,
           "slope": [
             -1,
             1
@@ -7320,19 +7277,7 @@
           "material": "ice",
           "support": false
         },
-        {
-          "id": "p018",
-          "x": 106,
-          "y": 257,
-          "width": 14,
-          "height": 15,
-          "slope": [
-            -1,
-            1
-          ],
-          "material": "ice",
-          "support": false
-        },
+        
         {
           "id": "p019",
           "x": 56,
@@ -7359,25 +7304,13 @@
           "material": "ice",
           "support": false
         },
-        {
-          "id": "p021",
-          "x": 232,
-          "y": 272,
-          "width": 32,
-          "height": 32,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "ice",
-          "support": false
-        },
+        
         {
           "id": "p022",
           "x": 184,
-          "y": 304,
-          "width": 48,
-          "height": 48,
+          "y": 268,
+          "width": 85,
+          "height": 85,
           "slope": [
             1,
             1
@@ -7624,35 +7557,13 @@
           "material": "ice",
           "support": false
         },
-        {
-          "id": "p016",
-          "x": 215,
-          "y": 288,
-          "width": 27,
-          "height": 24,
-          "slope": null,
-          "material": "ice",
-          "support": false
-        },
+        
         {
           "id": "p017",
-          "x": 192,
-          "y": 238,
-          "width": 50,
-          "height": 50,
-          "slope": [
-            1,
-            1
-          ],
-          "material": "ice",
-          "support": false
-        },
-        {
-          "id": "p018",
-          "x": 242,
+          "x": 188,
           "y": 192,
-          "width": 46,
-          "height": 46,
+          "width": 100,
+          "height": 100,
           "slope": [
             1,
             1
@@ -7660,25 +7571,13 @@
           "material": "ice",
           "support": false
         },
-        {
-          "id": "p019",
-          "x": 260,
-          "y": 238,
-          "width": 31,
-          "height": 26,
-          "slope": [
-            -1,
-            -1
-          ],
-          "material": "ice",
-          "support": false
-        },
+        
         {
           "id": "p020",
-          "x": 291,
+          "x": 220,
           "y": 216,
-          "width": 21,
-          "height": 22,
+          "width": 93,
+          "height": 93,
           "slope": [
             -1,
             -1
@@ -7695,19 +7594,6 @@
           "slope": [
             -1,
             1
-          ],
-          "material": "ice",
-          "support": false
-        },
-        {
-          "id": "p022",
-          "x": 242,
-          "y": 264,
-          "width": 21,
-          "height": 24,
-          "slope": [
-            -1,
-            -1
           ],
           "material": "ice",
           "support": false
