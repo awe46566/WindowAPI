@@ -197,6 +197,11 @@ void Player::ApplyGravity(float deltaTime)
 
 	VerticalCollision(nextPosition);
 	SetPosition(nextPosition);
+
+	if (!_isGrounded && _jumpState == JumpState::Ready)
+	{
+		_jumpState = JumpState::AirBorne;
+	}
 }
 
 void Player::UpdateJump(float deltaTime)

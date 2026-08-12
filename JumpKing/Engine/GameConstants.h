@@ -53,6 +53,6 @@ namespace GameConstants
 
     // Slope slide speed cap / friction - placeholder values, tune by playtest
     constexpr float PLAYER_SLOPE_MAX_SLIDE_SPEED = 250.0f;
-    constexpr float PLAYER_SLOPE_FRICTION = 200.0f;
+    constexpr float PLAYER_SLOPE_FRICTION = 100.0f;
     constexpr float PLAYER_SLOPE_ICE_FRICTION = 50.0f;
 }

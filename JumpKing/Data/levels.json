@@ -7247,9 +7247,9 @@
         {
           "id": "p015",
           "x": 232,
-          "y": 304,
+          "y": 320,
           "width": 24,
-          "height": 56,
+          "height": 40,
           "slope": null,
           "material": "ice",
           "support": false
@@ -7298,7 +7298,7 @@
           "width": 24,
           "height": 24,
           "slope": [
-            1,
+            -1,
             -1
           ],
           "material": "ice",
