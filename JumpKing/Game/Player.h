@@ -55,6 +55,7 @@ private:
 
 	float _jumpChargeTime = 0.0f;
 	int _jumpChargeStep = 0;
+	bool _isMoveInputPressed = false;
 
 	PlayerAnimState _animState = PlayerAnimState::Idle;
 	bool _collisionFlash = false;

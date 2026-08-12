@@ -40,14 +40,14 @@ namespace GameConstants
     constexpr float PLAYER_MOVE_ANIM_DURATION = 0.2f;
 
     // Ground movement (land) - placeholder values, tune by playtest
-    constexpr float PLAYER_GROUND_ACCEL = 600.0f;
-    constexpr float PLAYER_GROUND_FRICTION = 900.0f;
+    constexpr float PLAYER_GROUND_ACCEL = 500.0f;
+    constexpr float PLAYER_GROUND_FRICTION = 1000.0f;
     constexpr float PLAYER_MAX_GROUND_SPEED = PLAYER_MOVE_SPEED;
 
     // Ice / slope movement - placeholder values, tune by playtest
-    constexpr float PLAYER_ICE_ACCEL = 250.0f;
+    constexpr float PLAYER_ICE_ACCEL = 500.0f;
     constexpr float PLAYER_ICE_FRICTION = 80.0f;
-    constexpr float PLAYER_SLOPE_SLIDE_ACCEL = 500.0f;
+    constexpr float PLAYER_SLOPE_SLIDE_ACCEL = 1000.0f;
     constexpr float PLAYER_SLOPE_SNAP_TOLERANCE = 4.0f;
     constexpr float PLAYER_ICE_LANDING_SPEED_RETENTION = 0.5f;
 
