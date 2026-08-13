@@ -3,6 +3,8 @@
 #include "Framework/Scene.h"
 #include "Engine/Texture.h"
 #include "LevelData.h"
+#include "Weather.h"
+#include "Wind.h"
 #include <vector>
 
 class Player;
@@ -24,6 +26,8 @@ private:
     std::vector<LevelData> _levels;
     int _currentLevelIndex = 0;
     Player* _player = nullptr;
+    Wind _wind;
+    Weather _weather;
 
     Texture _backgroundTexture;
     Texture _midgroundTexture;

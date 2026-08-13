@@ -59,6 +59,16 @@ namespace
             loaded.platforms.push_back(data);
         }
 
+        loaded.hasWind = level.value("wind", false);
+
+        const std::string weather = level.value("weather", std::string(""));
+        loaded.weather =
+            weather == "rain" ? WeatherType::Rain :
+            weather == "light_rain" ? WeatherType::LightRain :
+            weather == "snow" ? WeatherType::Snow :
+            weather == "light_snow" ? WeatherType::LightSnow :
+            WeatherType::None;
+
         if (loaded.sourceSize.x <= 0.0f || loaded.sourceSize.y <= 0.0f)
         {
             return false;

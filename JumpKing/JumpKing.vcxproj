@@ -149,6 +149,8 @@
     <ClInclude Include="Framework\SceneManager.h" />
     <ClInclude Include="Game\GameScene.h" />
     <ClInclude Include="Game\LevelData.h" />
+    <ClInclude Include="Game\Wind.h" />
+    <ClInclude Include="Game\Weather.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="JumpKing.h" />
     <ClInclude Include="pch.h" />
@@ -172,6 +174,8 @@
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Game\GameScene.cpp" />
     <ClCompile Include="Game\LevelData.cpp" />
+    <ClCompile Include="Game\Wind.cpp" />
+    <ClCompile Include="Game\Weather.cpp" />
     <ClCompile Include="JumpKing.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

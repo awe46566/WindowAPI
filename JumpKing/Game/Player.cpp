@@ -57,8 +57,9 @@ void Player::Update(float deltaTime)
 	}
 
 	UpdateJump(deltaTime);
-	
+
 	Move(deltaTime);
+	ApplyWind(deltaTime);
 	ApplyGravity(deltaTime);
 
 	UpdateAnimation(deltaTime);
@@ -149,8 +150,7 @@ void Player::Move(float deltaTime)
 			// sprite FlipX
 			if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
 			else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
-
-			_velocity.x = 0.0f;
+			
 			if (isLeftPressed && !isRightPressed)
 			{
 				_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;				
@@ -158,6 +158,19 @@ void Player::Move(float deltaTime)
 			else if (isRightPressed && !isLeftPressed)
 			{
 				_velocity.x = GameConstants::PLAYER_MOVE_SPEED;				
+			}
+			else
+			{
+				float frictionDelta = GameConstants::PLAYER_GROUND_FRICTION * deltaTime;
+
+				if (_velocity.x > 0.0f)
+				{
+					_velocity.x = max(0.0f, _velocity.x - frictionDelta);
+				}
+				else if (_velocity.x < 0.0f)
+				{
+					_velocity.x = min(0.0f, _velocity.x + frictionDelta);
+				}
 			}
 		}
 
@@ -172,6 +185,21 @@ void Player::Move(float deltaTime)
 
 	HorizontalCollision(nextPosition);
 	SetPosition(nextPosition);
+}
+
+void Player::ApplyWind(float deltaTime)
+{
+	// TODO(user): Python Level.py::update_wind()의 규칙을 이식한다.
+	//   - 공중이면(!_isGrounded) 항상 적용.
+	//   - 바닥에 서 있으면 _groundMaterial이 Snow가 아닐 때만 적용.
+	//     (여기서 참조하는 _isGrounded/_groundMaterial은 바로 위 Move()가 쓰는 것과 같은,
+	//      "이전 프레임에 계산된" 값이다 - ApplyGravity가 이번 프레임 값으로 갱신하는 건
+	//      이 함수 다음이기 때문.)
+	//   - 조건을 만족하면 _velocity.x += _windForceX * deltaTime;
+	if (!_isGrounded || _groundMaterial != PlatformMaterial::Snow)
+	{
+		_velocity.x += _windForceX * deltaTime;
+	}
 }
 
 void Player::UpdateNoclip(float deltaTime)

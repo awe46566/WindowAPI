@@ -41,7 +41,7 @@ namespace GameConstants
 
     // Ground movement (land) - placeholder values, tune by playtest
     constexpr float PLAYER_GROUND_ACCEL = 500.0f;
-    constexpr float PLAYER_GROUND_FRICTION = 1000.0f;
+    constexpr float PLAYER_GROUND_FRICTION = 600.0f;
     constexpr float PLAYER_MAX_GROUND_SPEED = PLAYER_MOVE_SPEED;
 
     // Ice / slope movement - placeholder values, tune by playtest
@@ -55,4 +55,12 @@ namespace GameConstants
     constexpr float PLAYER_SLOPE_MAX_SLIDE_SPEED = 250.0f;
     constexpr float PLAYER_SLOPE_FRICTION = 100.0f;
     constexpr float PLAYER_SLOPE_ICE_FRICTION = 50.0f;
+
+    // Wind - placeholder values, tune by playtest
+    constexpr float WIND_PHASE_SPEED = 0.377f;   // rad/s, phase accumulator speed
+    constexpr float WIND_AMPLITUDE = 6.25f;      // sine wave amplitude
+    constexpr float WIND_FORCE_ACCEL = 100.0f;    // px/s^2 applied to Player::_velocity.x
+
+    // Weather - placeholder value, tune by playtest
+    constexpr float WEATHER_FRAME_INTERVAL = 0.1f;   // seconds per animation frame (4-frame loop)
 }

@@ -62,6 +62,7 @@ void GameScene::Init()
             _isBackgroundLoaded = LoadLayerTexture(CurrentLevel().layers.background, _backgroundTexture);
             _isMidgroundLoaded = LoadLayerTexture(CurrentLevel().layers.midground, _midgroundTexture);
             _isForegroundLoaded = LoadLayerTexture(CurrentLevel().layers.foreground, _foregroundTexture);
+            _weather.LoadVariant(CurrentLevel().weather, CurrentLevel().index);
         }
     }
 
@@ -81,6 +82,16 @@ void GameScene::Init()
 
 void GameScene::Update(float deltaTime)
 {
+    _wind.Update(deltaTime);
+    _weather.Update(deltaTime);
+
+    if (!_levels.empty())
+    {
+        _player->SetWindForceX(CurrentLevel().hasWind
+            ? _wind.GetForce() * GameConstants::WIND_FORCE_ACCEL
+            : 0.0f);
+    }
+
     Scene::Update(deltaTime);
     CheckLevelTransition();
 }
@@ -116,6 +127,7 @@ void GameScene::TransitionToLevel(int newIndex, float newY)
     _isBackgroundLoaded = LoadLayerTexture(CurrentLevel().layers.background, _backgroundTexture);
     _isMidgroundLoaded = LoadLayerTexture(CurrentLevel().layers.midground, _midgroundTexture);
     _isForegroundLoaded = LoadLayerTexture(CurrentLevel().layers.foreground, _foregroundTexture);
+    _weather.LoadVariant(CurrentLevel().weather, CurrentLevel().index);
 
     Vector2 position = _player->GetPosition();
     position.y = newY;
@@ -132,6 +144,7 @@ void GameScene::Render(const RenderContext& context)
 
     Scene::Render(context);
 
+    _weather.Render(context, CurrentLevel().hasWind, _wind.GetScrollOffset());
     // Foreground는 플레이어보다 앞에 보여야 하므로 Actor 렌더링 뒤에 그립니다.
     RenderTextureLayer(_foregroundTexture, _isForegroundLoaded, context);
     DrawCollider(context);

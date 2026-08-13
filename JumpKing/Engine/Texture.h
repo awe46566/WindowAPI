@@ -22,6 +22,11 @@ public:
         const D2D1_RECT_F& sourceRect,
         bool flipX = false);
 
+    ID2D1Bitmap* GetOrCreateBitmap(const RenderContext& context)
+    {
+        return CreateBitmap(context) ? _bitmap.Get() : nullptr;
+    }
+
     int32 GetWidth() const { return _width; }
     int32 GetHeight() const { return _height; }
     int32 GetRowCount() const { return _row; }

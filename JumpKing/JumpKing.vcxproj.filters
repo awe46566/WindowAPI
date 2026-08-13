@@ -72,6 +72,12 @@
     <ClInclude Include="Game\LevelData.h">
       <Filter>헤더 파일\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Wind.h">
+      <Filter>헤더 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Weather.h">
+      <Filter>헤더 파일\Game</Filter>
+    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -132,6 +138,12 @@
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\LevelData.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Wind.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Weather.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
     <ClCompile Include="JumpKing.cpp">

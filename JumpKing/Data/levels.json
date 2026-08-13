@@ -10,6 +10,7 @@
         "midground": "mg_01",
         "foreground": "fg_01"
       },
+      "wind": true,
       "platforms": [
         {
           "id": "p000",
@@ -1468,6 +1469,7 @@
         "midground": "mg_09",
         "foreground": "fg_09"
       },
+      "weather" : "light_rain",
       "platforms": [
         {
           "id": "p000",
@@ -1667,6 +1669,7 @@
         "midground": "mg_10",
         "foreground": "fg_10"
       },
+      "weather": "light_rain",
       "platforms": [
         {
           "id": "p000",
@@ -1832,6 +1835,7 @@
       "layers": {
         "midground": "mg_11"
       },
+      "weather" : "rain",
       "platforms": [
         {
           "id": "p000",
@@ -2087,6 +2091,7 @@
       "layers": {
         "midground": "mg_12"
       },
+      "weather": "rain",
       "platforms": [
         {
           "id": "p000",
@@ -2304,6 +2309,7 @@
       "layers": {
         "midground": "mg_13"
       },
+      "weather" : "rain",
       "platforms": [
         {
           "id": "p000",
@@ -4582,6 +4588,7 @@
         "midground": "mg_23",
         "background": "bg_23"
       },
+      "weather" :"light_snow",
       "platforms": [
         {
           "id": "p000",
@@ -4675,6 +4682,7 @@
         "midground": "mg_24",
         "background": "bg_24"
       },
+      "weather" :"light_snow",
       "platforms": [
         {
           "id": "p000",
@@ -4769,6 +4777,7 @@
         "background": "bg_25",
         "foreground": "fg_25"
       },
+      "weather" :"light_snow",
       "platforms": [
         {
           "id": "p000",
@@ -4991,6 +5000,8 @@
         "background": "bg_26",
         "foreground": "fg_26"
       },
+      "weather" :"light_snow",
+      "wind": true,
       "platforms": [
         {
           "id": "p000",
@@ -5174,6 +5185,8 @@
         "background": "bg_27",
         "foreground": "fg_27"
       },
+      "weather" : "snow",
+      "wind": true,
       "platforms": [
         {
           "id": "p000",
@@ -5278,6 +5291,8 @@
         "background": "bg_28",
         "foreground": "fg_28"
       },
+      "wind": true,
+      "weather": "snow",
       "platforms": [
         {
           "id": "p000",
@@ -5392,6 +5407,8 @@
         "background": "bg_29",
         "foreground": "fg_29"
       },
+      "wind": true,
+      "weather" : "snow",
       "platforms": [
         {
           "id": "p000",
@@ -5512,6 +5529,8 @@
         "background": "bg_30",
         "foreground": "fg_30"
       },
+      "wind": true,
+      "weather" : "snow",
       "platforms": [
         {
           "id": "p000",
@@ -5636,6 +5655,8 @@
         "background": "bg_31",
         "foreground": "fg_31"
       },
+      "wind": true,
+      "weather" : "snow",
       "platforms": [
         {
           "id": "p000",
@@ -5789,6 +5810,8 @@
         "background": "bg_32",
         "foreground": "fg_32"
       },
+      "wind" : true,
+      "weather" : "light_snow",
       "platforms": [
         {
           "id": "p000",

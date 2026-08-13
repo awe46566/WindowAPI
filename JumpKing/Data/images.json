@@ -514,6 +514,111 @@
       "path": "../Resource/FG/fg43.png",
       "rows": 1,
       "columns": 1
+    },
+    "weather_rain_0": {
+      "path": "../Resource/weather/rain0.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_rain_1": {
+      "path": "../Resource/weather/rain1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_rain_2": {
+      "path": "../Resource/weather/rain2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_rain_3": {
+      "path": "../Resource/weather/rain3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_rain_0": {
+      "path": "../Resource/weather/light_rain0.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_rain_1": {
+      "path": "../Resource/weather/light_rain1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_rain_2": {
+      "path": "../Resource/weather/light_rain2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_rain_3": {
+      "path": "../Resource/weather/light_rain3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_snow_0": {
+      "path": "../Resource/weather/snow0.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_snow_1": {
+      "path": "../Resource/weather/snow1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_snow_2": {
+      "path": "../Resource/weather/snow2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_snow_3": {
+      "path": "../Resource/weather/snow3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_snow_0": {
+      "path": "../Resource/weather/light_snow0.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_snow_1": {
+      "path": "../Resource/weather/light_snow1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_snow_2": {
+      "path": "../Resource/weather/light_snow2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weather_light_snow_3": {
+      "path": "../Resource/weather/light_snow3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weathermask_8": {
+      "path": "../Resource/weather/light_rainmask9.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weathermask_9": {
+      "path": "../Resource/weather/light_rainmask10.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weathermask_10": {
+      "path": "../Resource/weather/rainmask11.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weathermask_11": {
+      "path": "../Resource/weather/rainmask12.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "weathermask_12": {
+      "path": "../Resource/weather/rainmask13.png",
+      "rows": 1,
+      "columns": 1
     }
   }
 }

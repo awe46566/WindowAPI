@@ -40,6 +40,9 @@ public:
 	void UpdateAnimation(float deltaTime);
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
+	void ApplyWind(float deltaTime);
+	void SetWindForceX(float forceX) { _windForceX = forceX; }
+
 private:
 	// TODO(user): 슬로프 표면 y 계산 및 충돌 스냅. 설계는 계획 문서 참고.
 	float GetSlopeSurfaceY(const PlatformData& platform, float x) const;
@@ -66,4 +69,6 @@ private:
 	Vector2 _groundSlope{};
 
 	bool _noclip = false;
+
+	float _windForceX = 0.0f;
 };

@@ -13,6 +13,15 @@ enum class PlatformMaterial
     Snow
 };
 
+enum class WeatherType
+{
+    None,
+    Rain,
+    LightRain,
+    Snow,
+    LightSnow
+};
+
 struct PlatformData
 {
     Rect bounds{};
@@ -54,6 +63,9 @@ struct LevelData
     Vector2 spawn;
     bool hasSpawn = false;
     std::vector<PlatformData> platforms;
+
+    bool hasWind = false;
+    WeatherType weather = WeatherType::None;
 };
 
 bool LoadLevelData(
