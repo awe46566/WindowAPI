@@ -10,7 +10,6 @@
         "midground": "mg_01",
         "foreground": "fg_01"
       },
-      "wind": true,
       "platforms": [
         {
           "id": "p000",

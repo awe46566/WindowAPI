@@ -371,7 +371,8 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 					// velocity의 부호를 뒤집어 방향 Bounce 힘만큼 반사
 					_velocity.x = -_velocity.x * GameConstants::PLAYER_WALL_BOUNCE_RESTITUTION;
 
-					_collisionFlash = true;
+					if (!_isGrounded)				
+						_collisionFlash = true;
 				}
 			}
 		}
