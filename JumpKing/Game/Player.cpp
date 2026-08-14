@@ -85,65 +85,20 @@ void Player::Move(float deltaTime)
 	Vector2 nextPosition = position;
 	InputManager& input = InputManager::GetInstance();
 
+	bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
+	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
+
 	if (_jumpState == JumpState::Ready)
-	{
-		bool isLeftPressed = input.GetButtonPressed(KeyType::Left) || input.GetButtonDown(KeyType::Left);
-		bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
+	{	
 		_isMoveInputPressed = isLeftPressed || isRightPressed;
 		
 		if (_groundSlope.x != 0.0f || _groundSlope.y != 0.0f)
 		{
-			// 입력 무시, 내리막 가속 + 재질별 마찰
-			float downhillSign = (_groundSlope.x > 0.0f) ? -1.0f : 1.0f;
-			_velocity.x += downhillSign * GameConstants::PLAYER_SLOPE_SLIDE_ACCEL * deltaTime;
-
-			// 재질별 마찰 감속 (0을 지나쳐 역방향으로 뒤집히지 않도록 가드)
-			float slopeFriction = (_groundMaterial == PlatformMaterial::Ice)
-				? GameConstants::PLAYER_SLOPE_ICE_FRICTION
-				: GameConstants::PLAYER_SLOPE_FRICTION;
-			float frictionDelta = slopeFriction * deltaTime;
-
-			if (_velocity.x > 0.0f)
-			{
-				_velocity.x = max(0.0f, _velocity.x - frictionDelta);
-			}
-			else if (_velocity.x < 0.0f)
-			{
-				_velocity.x = min(0.0f, _velocity.x + frictionDelta);
-			}
-
-			_velocity.x = clamp(_velocity.x,
-				-GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED,
-				GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED);
+			ApplySlopeSlide(deltaTime);
 		}
 		else if (_groundMaterial == PlatformMaterial::Ice)
 		{
-			// sprite FlipX
-			if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
-			else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
-
-			// 입력 방향으로 가속 + PLAYER_ICE_FRICTION으로 감쇠			
-			if (isLeftPressed && !isRightPressed)
-			{
-				_velocity.x = -GameConstants::PLAYER_MOVE_SPEED ;
-			}
-			else if (isRightPressed && !isLeftPressed)
-			{
-				_velocity.x = GameConstants::PLAYER_MOVE_SPEED;
-			}
-			else
-			{
-				float frictionDelta = GameConstants::PLAYER_ICE_FRICTION * deltaTime;
-
-				if (_velocity.x > 0.0f)
-				{
-					_velocity.x = max(0.0f, _velocity.x - frictionDelta);
-				}
-				else if (_velocity.x < 0.0f)
-				{
-					_velocity.x = min(0.0f, _velocity.x + frictionDelta);
-				}
-			}
+			ApplyIceMovement(deltaTime, isLeftPressed, isRightPressed);
 		}
 		else
 		{
@@ -177,8 +132,18 @@ void Player::Move(float deltaTime)
 	}
 	else if (_jumpState == JumpState::Charging)
 	{
-		// 차징 상태는 정지
-		_velocity.x = 0.0f;
+		if (_groundSlope.x != 0.0f || _groundSlope.y != 0.0f)
+		{
+			ApplySlopeSlide(deltaTime);
+		}
+		else if (_groundMaterial == PlatformMaterial::Ice)
+		{
+			ApplyIceFriction(deltaTime);
+		}
+		else
+		{
+			_velocity.x = 0.0f;
+		}	
 	}
 
 	nextPosition.x += _velocity.x * deltaTime;
@@ -189,18 +154,73 @@ void Player::Move(float deltaTime)
 
 void Player::ApplyWind(float deltaTime)
 {
-	// TODO(user): Python Level.py::update_wind()의 규칙을 이식한다.
-	//   - 공중이면(!_isGrounded) 항상 적용.
-	//   - 바닥에 서 있으면 _groundMaterial이 Snow가 아닐 때만 적용.
-	//     (여기서 참조하는 _isGrounded/_groundMaterial은 바로 위 Move()가 쓰는 것과 같은,
-	//      "이전 프레임에 계산된" 값이다 - ApplyGravity가 이번 프레임 값으로 갱신하는 건
-	//      이 함수 다음이기 때문.)
-	//   - 조건을 만족하면 _velocity.x += _windForceX * deltaTime;
 	if (!_isGrounded || _groundMaterial != PlatformMaterial::Snow)
 	{
 		_velocity.x += _windForceX * deltaTime;
 	}
 }
+
+void Player::ApplySlopeSlide(float deltaTime)
+{
+	// 입력 무시, 내리막 가속 + 재질별 마찰
+	float downhillSign = (_groundSlope.x > 0.0f) ? -1.0f : 1.0f;
+	_velocity.x += downhillSign * GameConstants::PLAYER_SLOPE_SLIDE_ACCEL * deltaTime;
+
+	// 재질별 마찰 감속 (0을 지나쳐 역방향으로 뒤집히지 않도록 가드)
+	float slopeFriction = (_groundMaterial == PlatformMaterial::Ice)
+		? GameConstants::PLAYER_SLOPE_ICE_FRICTION
+		: GameConstants::PLAYER_SLOPE_FRICTION;
+	float frictionDelta = slopeFriction * deltaTime;
+
+	if (_velocity.x > 0.0f)
+	{
+		_velocity.x = max(0.0f, _velocity.x - frictionDelta);
+	}
+	else if (_velocity.x < 0.0f)
+	{
+		_velocity.x = min(0.0f, _velocity.x + frictionDelta);
+	}
+
+	_velocity.x = clamp(_velocity.x,
+		-GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED,
+		GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED);
+}
+
+void Player::ApplyIceMovement(float deltaTime, bool isLeftPressed, bool isRightPressed)
+{
+	// sprite FlipX
+	if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
+	else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
+
+	// 입력 방향으로 가속 + PLAYER_ICE_FRICTION으로 감쇠			
+	if (isLeftPressed && !isRightPressed)
+	{
+		_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;
+	}
+	else if (isRightPressed && !isLeftPressed)
+	{
+		_velocity.x = GameConstants::PLAYER_MOVE_SPEED;
+	}
+	else
+	{
+		ApplyIceFriction(deltaTime);
+	}
+}
+
+void Player::ApplyIceFriction(float deltaTime)
+{
+	float frictionDelta = GameConstants::PLAYER_ICE_FRICTION * deltaTime;
+
+	if (_velocity.x > 0.0f)
+	{
+		_velocity.x = max(0.0f, _velocity.x - frictionDelta);
+	}
+	else if (_velocity.x < 0.0f)
+	{
+		_velocity.x = min(0.0f, _velocity.x + frictionDelta);
+	}
+}
+
 
 void Player::UpdateNoclip(float deltaTime)
 {
@@ -313,7 +333,11 @@ void Player::OnLanded()
 	_collisionFlash = false;
 	_jumpChargeTime = 0.0f;
 	_jumpChargeStep = 1;
-	_velocity = { 0.0f, 0.0f };
+
+	if (_groundMaterial != PlatformMaterial::Ice) 
+		_velocity.x = 0.0f;
+	_velocity.y = 0.0f;
+	
 	_jumpDirection = { 0.0f, -1.0f };
 	_jumpState = JumpState::Ready;
 }
@@ -430,9 +454,6 @@ void Player::VerticalCollision(Vector2& nextPosition)
 
 float Player::GetSlopeSurfaceY(const PlatformData& platform, float x) const
 {
-	// TODO : x를 [bounds.Left(), bounds.Right()]로 clamp한 뒤,
-	// LevelData.h의 IsSlopeRisingRight/IsSlopeFloor 규칙대로
-	// 대각선 위의 y를 선형보간해서 반환한다.
 	x = max(platform.bounds.Left(), min(x, platform.bounds.Right()));
 
 	Vector2 left, right;
@@ -446,13 +467,6 @@ float Player::GetSlopeSurfaceY(const PlatformData& platform, float x) const
 
 bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition)
 {
-	// TODO 
-	// 1) _collider->GetBounds(nextPosition)와 platform.bounds가 수평으로 겹치는지 확인
-	// 2) 콜라이더 중심 x에서 GetSlopeSurfaceY로 표면 y 계산
-	// 3) floor면 콜라이더 bottom을, ceiling이면 top을 표면에 스냅
-	// 4) _velocity.y = 0, AirBorne 상태였다면 OnLanded() 호출
-	// 5) floor에 착지했다면 _isGrounded=true, _groundMaterial=platform.material,
-	//    _groundSlope=platform.slope 로 기록 (미끄러짐 로직이 여기서 참조함)
 	const Rect nextBounds = _collider->GetBounds(nextPosition);
 	
 	if (nextBounds.Left() < platform.bounds.Right() 

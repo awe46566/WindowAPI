@@ -7027,34 +7027,8 @@
           "id": "p021",
           "x": 289,
           "y": 232,
-          "width": 24,
-          "height": 26,
-          "slope": [
-            1,
-            -1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p022",
-          "x": 313,
-          "y": 258,
-          "width": 26,
-          "height": 26,
-          "slope": [
-            1,
-            -1
-          ],
-          "material": "land",
-          "support": false
-        },
-        {
-          "id": "p023",
-          "x": 339,
-          "y": 284,
-          "width": 13,
-          "height": 11,
+          "width": 63,
+          "height": 69,
           "slope": [
             1,
             -1
@@ -7424,7 +7398,7 @@
           "x": 0,
           "y": 0,
           "width": 8,
-          "height": 219,
+          "height": 360,
           "slope": null,
           "material": "ice",
           "support": false
@@ -7565,6 +7539,16 @@
           "y": 224,
           "width": 16,
           "height": 16,
+          "slope": null,
+          "material": "ice",
+          "support": true
+        },
+        {
+          "id": "p030",
+          "x": 273,
+          "y": 244,
+          "width": 16,
+          "height": 20,
           "slope": null,
           "material": "ice",
           "support": true
@@ -7734,7 +7718,7 @@
           "slope": null,
           "material": "ice",
           "support": false
-        },
+        },        
         {
           "id": "p001",
           "x": 112,
@@ -8138,6 +8122,26 @@
           ],
           "material": "ice",
           "support": false
+        },
+        {
+          "id": "p016",
+          "x": -2,
+          "y": 0,
+          "width": 2,
+          "height": 360,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p017",
+          "x": 480,
+          "y": 0,
+          "width": 2,
+          "height": 360,
+          "slope": null,
+          "material": "land",
+          "support": false
         }
       ]
     },
@@ -8261,6 +8265,26 @@
           "slope": null,
           "material": "land",
           "support": false
+        },
+        {
+          "id": "p011",
+          "x": -2,
+          "y": 0,
+          "width": 2,
+          "height": 360,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p012",
+          "x": 480,
+          "y": 0,
+          "width": 2,
+          "height": 360,
+          "slope": null,
+          "material": "land",
+          "support": false
         }
       ]
     },
@@ -8364,6 +8388,26 @@
           "slope": null,
           "material": "land",
           "support": false
+        },
+        {
+          "id": "p009",
+          "x": -2,
+          "y": 0,
+          "width": 2,
+          "height": 360,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p010",
+          "x": 480,
+          "y": 0,
+          "width": 2,
+          "height": 360,
+          "slope": null,
+          "material": "land",
+          "support": false
         }
       ]
     },
@@ -8445,6 +8489,26 @@
           "y": 128,
           "width": 6,
           "height": 16,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p007",
+          "x": -2,
+          "y": 0,
+          "width": 2,
+          "height": 360,
+          "slope": null,
+          "material": "land",
+          "support": false
+        },
+        {
+          "id": "p008",
+          "x": 480,
+          "y": 0,
+          "width": 2,
+          "height": 360,
           "slope": null,
           "material": "land",
           "support": false

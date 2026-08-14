@@ -40,6 +40,10 @@ public:
 	void UpdateAnimation(float deltaTime);
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
+	void ApplyIceFriction(float deltaTime);
+	void ApplySlopeSlide(float deltaTime);
+	void ApplyIceMovement(float deltaTime, bool isLeftPressed, bool isRightPressed);
+
 	void ApplyWind(float deltaTime);
 	void SetWindForceX(float forceX) { _windForceX = forceX; }
 
