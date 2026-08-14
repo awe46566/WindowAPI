@@ -265,7 +265,7 @@ void Player::ApplyGravity(float deltaTime)
 	_velocity.y = min(_velocity.y, GameConstants::PLAYER_MAX_FALL_SPEED);
 
 	nextPosition.y += _velocity.y * deltaTime;
-	VerticalCollision(nextPosition);
+	VerticalCollision(nextPosition, deltaTime);
 
 	SetPosition(nextPosition);
 
@@ -372,6 +372,11 @@ void Player::ChargingDirection()
 
 void Player::HorizontalCollision(Vector2& nextPosition)
 {
+	// 슬로프에 서 있는 동안은 인접한 flat 채움 타일에 wall-bounce로 걸리지 않게 무시한다.
+	// (수직 방향 제어는 ResolveSlopeCollision이 전담)
+	if (_isGrounded && (_groundSlope.x != 0.0f || _groundSlope.y != 0.0f))
+		return;
+
 	//수평 충돌 체크
 	if (_platforms != nullptr)
 	{
@@ -403,50 +408,63 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 	}
 }
 
-void Player::VerticalCollision(Vector2& nextPosition)
+void Player::VerticalCollision(Vector2& nextPosition, float deltaTime)
 {
-	//수직 충돌 체크
-	if (_platforms != nullptr)
+	if (_platforms == nullptr)
+		return;
+
+	// 슬로프를 먼저 처리해서, 램프 끝의 flat 채움 타일이 같은 프레임에
+	// 겹치더라도 슬로프 착지 판정을 덮어쓰지 못하게 우선권을 준다.
+	bool groundedOnSlope = false;
+
+	for (const PlatformData& platform : *_platforms)
 	{
-		for (const PlatformData& platform : *_platforms)
+		if (!platform.hasSlope)
+			continue;
+
+		if (ResolveSlopeCollision(platform, nextPosition, deltaTime))
+			groundedOnSlope = true;
+	}
+
+	for (const PlatformData& platform : *_platforms)
+	{
+		if (platform.hasSlope)
+			continue;
+
+		const Rect nextBounds =
+			_collider->GetBounds(nextPosition);
+
+		HitResult hit;
+
+		if (!CollisionManager::GetInstance().CheckAABBToAABB(
+			nextBounds,
+			platform.bounds,
+			hit))
 		{
-			if (platform.hasSlope)
+			continue;
+		}
+
+		// 바닥 또는 천장 충돌만 처리
+		if (hit.normal.y == 0.0f)
+			continue;
+
+		// 이번 프레임에 이미 슬로프에 착지했다면 flat 타일의 바닥 판정은 무시
+		if (groundedOnSlope && hit.normal.y < 0.0f)
+			continue;
+
+		nextPosition.y += hit.normal.y * hit.depth;
+		_velocity.y = 0.0f;
+
+		// 위쪽으로 밀려났다면 플랫폼 위에 착지
+		if (hit.normal.y < 0.0f)
+		{
+			_isGrounded = true;
+			_groundMaterial = platform.material;
+			_groundSlope = { 0.0f, 0.0f };
+
+			if (_jumpState == JumpState::AirBorne)
 			{
-				ResolveSlopeCollision(platform, nextPosition);
-				continue;
-			}
-
-			const Rect nextBounds =
-				_collider->GetBounds(nextPosition);
-
-			HitResult hit;
-
-			if (!CollisionManager::GetInstance().CheckAABBToAABB(
-				nextBounds,
-				platform.bounds,
-				hit))
-			{
-				continue;
-			}
-
-			// 바닥 또는 천장 충돌만 처리
-			if (hit.normal.y == 0.0f)
-				continue;
-
-			nextPosition.y += hit.normal.y * hit.depth;
-			_velocity.y = 0.0f;
-
-			// 위쪽으로 밀려났다면 플랫폼 위에 착지
-			if (hit.normal.y < 0.0f)
-			{
-				_isGrounded = true;
-				_groundMaterial = platform.material;
-				_groundSlope = { 0.0f, 0.0f };
-
-				if (_jumpState == JumpState::AirBorne)
-				{
-					OnLanded();
-				}
+				OnLanded();
 			}
 		}
 	}
@@ -454,8 +472,12 @@ void Player::VerticalCollision(Vector2& nextPosition)
 
 float Player::GetSlopeSurfaceY(const PlatformData& platform, float x) const
 {
-	x = max(platform.bounds.Left(), min(x, platform.bounds.Right()));
-
+	// x를 타일 bounds 안으로 clamp하지 않는다: clamp하면 콜라이더 중심이
+	// 타일 경계를 넘는 순간 표면이 그 지점 높이로 납작해져서, 경사가 갑자기
+	// 끊긴 것처럼 보인다 (램프 끝에서 멈칫거리는 원인). ResolveSlopeCollision이
+	// 이미 x 겹침 검사를 하고 나서만 이 함수를 부르므로, 여기서 벗어나는 범위는
+	// 플레이어 콜라이더 폭 절반 정도로 제한된다 - 같은 타일의 대각선을 그만큼만
+	// 자연스럽게 연장(extrapolate)한다.
 	Vector2 left, right;
 
 	GetSlopeEndpoints(platform, left, right);
@@ -465,13 +487,20 @@ float Player::GetSlopeSurfaceY(const PlatformData& platform, float x) const
 	return y;
 }
 
-bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition)
+bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition, float deltaTime)
 {
 	const Rect nextBounds = _collider->GetBounds(nextPosition);
-	
-	if (nextBounds.Left() < platform.bounds.Right() 
+
+	if (nextBounds.Left() < platform.bounds.Right()
 		&& nextBounds.Right() > platform.bounds.Left())
 	{
+		// 스냅 허용치를 고정 4px이 아니라 이번 프레임에 실제로 움직인 거리만큼
+		// 넉넉하게 잡는다. 슬라이드 속도가 빠를 때 고정값으로는 한 프레임 만에
+		// 표면에서 벗어나 접지가 끊겼다가(→AirBorne→OnLanded로 velocity.x가
+		// 0으로 리셋) 다시 붙는 멈칫거림이 생겼었다.
+		float frameTravel = (abs(_velocity.x) + abs(_velocity.y)) * deltaTime;
+		float tolerance = max(GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE, frameTravel);
+
 		float centerX = (nextBounds.Right() + nextBounds.Left()) * 0.5f;
 		float surfaceY = GetSlopeSurfaceY(platform, centerX);
 		float bottomDiff = surfaceY - nextBounds.Bottom();
@@ -479,8 +508,7 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 
 		if (IsSlopeFloor(platform))
 		{
-			if (bottomDiff >= -GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE &&
-				bottomDiff <= GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE)
+			if (bottomDiff >= -tolerance && bottomDiff <= tolerance)
 			{
 				_velocity.y = 0.0f;
 				nextPosition.y += bottomDiff;
@@ -493,10 +521,11 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 				{
 					OnLanded();
 				}
+
+				return true;
 			}
 		}
-		else if (topDiff >= -GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE &&
-			topDiff <= GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE)
+		else if (topDiff >= -tolerance && topDiff <= tolerance)
 		{
 			_velocity.y = 0.0f;
 			nextPosition.y += topDiff;
