@@ -3,6 +3,7 @@
 #include "Engine/ResourceCatalog.h"
 #include "Engine/RenderContext.h"
 #include "Engine/GameConstants.h"
+using namespace GameConstants;
 
 namespace
 {
@@ -59,16 +60,16 @@ void Weather::Update(float deltaTime)
     // while 루프를 참고해 채운다.
     //   - _isLoaded가 false면 아무것도 하지 않는다.
     //   - _frameTimer += deltaTime.
-    //   - _frameTimer가 GameConstants::WEATHER_FRAME_INTERVAL 이상인 동안(while) 반복해서
+    //   - _frameTimer가 WEATHER_FRAME_INTERVAL 이상인 동안(while) 반복해서
     //     _frameTimer -= WEATHER_FRAME_INTERVAL, _currentFrame = (_currentFrame + 1) % 4.
     if (!_isLoaded)
         return;
 
     _frameTimer += deltaTime;
 
-    while (_frameTimer >= GameConstants::WEATHER_FRAME_INTERVAL)
+    while (_frameTimer >= WEATHER_FRAME_INTERVAL)
     {
-        _frameTimer -= GameConstants::WEATHER_FRAME_INTERVAL;
+        _frameTimer -= WEATHER_FRAME_INTERVAL;
         _currentFrame = (_currentFrame + 1) % 4;
     }
 }
@@ -115,9 +116,9 @@ void Weather::Render(const RenderContext& context, bool hasWind, float windScrol
         }
     }
 
-    for (float y = 0.0f; y < GameConstants::SCREEN_HEIGHT; y += height)
+    for (float y = 0.0f; y < SCREEN_HEIGHT; y += height)
     {
-        for (float x = baseX - width; x < GameConstants::SCREEN_WIDTH; x += width)
+        for (float x = baseX - width; x < SCREEN_WIDTH; x += width)
         {
             texture.Render(context, Vector2{ x, y }, sourceRect);
         }

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+constexpr float PI = 3.14159265358979f;
+
 using int32 = std::int32_t;
 using uint32 = std::uint32_t;
 using uint64 = std::uint64_t;

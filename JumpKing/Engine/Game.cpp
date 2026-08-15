@@ -6,6 +6,7 @@
 #include "Engine/ResourceCatalog.h"
 #include "Engine/TimeManager.h"
 #include "Engine/GameConstants.h"
+using namespace GameConstants;
 #include "Framework/SceneManager.h"
 
 #include <string>
@@ -178,8 +179,8 @@ void Game::Render()
     // 이전 Actor가 남긴 이동·회전 변환이 다음 프레임에 영향을 주지 않도록 초기화합니다.
     _renderTarget->SetTransform(
         D2D1::Matrix3x2F::Scale(
-            static_cast<float>(GameConstants::WINDOW_SCALE), 
-            static_cast<float>(GameConstants::WINDOW_SCALE)
+            static_cast<float>(WINDOW_SCALE),
+            static_cast<float>(WINDOW_SCALE)
         )
     );
     _renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));

@@ -40,9 +40,7 @@ public:
 	void UpdateAnimation(float deltaTime);
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
-	void ApplyIceFriction(float deltaTime);
 	void ApplySlopeSlide(float deltaTime);
-	void ApplyIceMovement(float deltaTime, bool isLeftPressed, bool isRightPressed);
 
 	void ApplyWind(float deltaTime);
 	void SetWindForceX(float forceX) { _windForceX = forceX; }
@@ -56,8 +54,9 @@ private:
 	ColliderAABB* _collider = nullptr;
 	JumpState _jumpState = JumpState::Ready;
 
+	float _jumpAngle = 0.0f;   // 0=위, +=오른쪽, -=왼쪽
+
 	Vector2 _velocity;
-	Vector2 _jumpDirection = { 0.0f, -1.0f };
 
 	float _jumpChargeTime = 0.0f;
 	int _jumpChargeStep = 0;

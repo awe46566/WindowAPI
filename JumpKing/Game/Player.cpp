@@ -3,6 +3,7 @@
 #include "Engine/SpriteRenderer.h"
 #include "Engine/InputManager.h"
 #include "Engine/GameConstants.h"
+using namespace GameConstants;
 #include "Engine/DebugRenderer.h"
 #include "Engine/ResourceCatalog.h"
 #include "Framework/CollisionManager.h"
@@ -27,10 +28,10 @@ void Player::Init()
 	}
 
 	_collider = AddComponent<ColliderAABB>();
-	_collider->SetSize(Vector2{ GameConstants::PLAYER_COLLIDER_WIDTH, GameConstants::PLAYER_COLLIDER_HEIGHT });
+	_collider->SetSize(Vector2{ PLAYER_COLLIDER_WIDTH, PLAYER_COLLIDER_HEIGHT });
 
-	const float offsetX = (PLAYER_SPRITE_CELL_SIZE - GameConstants::PLAYER_COLLIDER_WIDTH) / 2.0f;
-	const float offsetY = PLAYER_SPRITE_CELL_SIZE - GameConstants::PLAYER_COLLIDER_HEIGHT;
+	const float offsetX = (PLAYER_SPRITE_CELL_SIZE - PLAYER_COLLIDER_WIDTH) / 2.0f;
+	const float offsetY = PLAYER_SPRITE_CELL_SIZE - PLAYER_COLLIDER_HEIGHT;
 	_collider->SetOffset(Vector2{ offsetX, offsetY });
 }
 
@@ -96,37 +97,21 @@ void Player::Move(float deltaTime)
 		{
 			ApplySlopeSlide(deltaTime);
 		}
-		else if (_groundMaterial == PlatformMaterial::Ice)
-		{
-			ApplyIceMovement(deltaTime, isLeftPressed, isRightPressed);
-		}
 		else
 		{
 			// sprite FlipX
 			if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
 			else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
-			
+
 			if (isLeftPressed && !isRightPressed)
 			{
-				_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;				
+				_velocity.x = -PLAYER_MOVE_SPEED;
 			}
 			else if (isRightPressed && !isLeftPressed)
 			{
-				_velocity.x = GameConstants::PLAYER_MOVE_SPEED;				
+				_velocity.x = PLAYER_MOVE_SPEED;
 			}
-			else
-			{
-				float frictionDelta = GameConstants::PLAYER_GROUND_FRICTION * deltaTime;
-
-				if (_velocity.x > 0.0f)
-				{
-					_velocity.x = max(0.0f, _velocity.x - frictionDelta);
-				}
-				else if (_velocity.x < 0.0f)
-				{
-					_velocity.x = min(0.0f, _velocity.x + frictionDelta);
-				}
-			}
+			// 입력 없으면 아무것도 안 함 - 감속은 VerticalCollision의 매 프레임 slip이 담당
 		}
 
 	}
@@ -136,14 +121,8 @@ void Player::Move(float deltaTime)
 		{
 			ApplySlopeSlide(deltaTime);
 		}
-		else if (_groundMaterial == PlatformMaterial::Ice)
-		{
-			ApplyIceFriction(deltaTime);
-		}
-		else
-		{
-			_velocity.x = 0.0f;
-		}	
+		// 평지에서는 아무것도 안 함 - King.py도 차징 중엔 _walk를 호출하지 않고
+		// 잔여 속도를 매 프레임 slip에 맡긴다 (일반 바닥은 다음 프레임 즉시 0, 얼음은 서서히 감쇠)
 	}
 
 	nextPosition.x += _velocity.x * deltaTime;
@@ -164,12 +143,12 @@ void Player::ApplySlopeSlide(float deltaTime)
 {
 	// 입력 무시, 내리막 가속 + 재질별 마찰
 	float downhillSign = (_groundSlope.x > 0.0f) ? -1.0f : 1.0f;
-	_velocity.x += downhillSign * GameConstants::PLAYER_SLOPE_SLIDE_ACCEL * deltaTime;
+	_velocity.x += downhillSign * PLAYER_SLOPE_SLIDE_ACCEL * deltaTime;
 
 	// 재질별 마찰 감속 (0을 지나쳐 역방향으로 뒤집히지 않도록 가드)
 	float slopeFriction = (_groundMaterial == PlatformMaterial::Ice)
-		? GameConstants::PLAYER_SLOPE_ICE_FRICTION
-		: GameConstants::PLAYER_SLOPE_FRICTION;
+		? PLAYER_SLOPE_ICE_FRICTION
+		: PLAYER_SLOPE_FRICTION;
 	float frictionDelta = slopeFriction * deltaTime;
 
 	if (_velocity.x > 0.0f)
@@ -182,45 +161,9 @@ void Player::ApplySlopeSlide(float deltaTime)
 	}
 
 	_velocity.x = clamp(_velocity.x,
-		-GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED,
-		GameConstants::PLAYER_SLOPE_MAX_SLIDE_SPEED);
+		-PLAYER_SLOPE_MAX_SLIDE_SPEED,
+		PLAYER_SLOPE_MAX_SLIDE_SPEED);
 }
-
-void Player::ApplyIceMovement(float deltaTime, bool isLeftPressed, bool isRightPressed)
-{
-	// sprite FlipX
-	if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
-	else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
-
-	// 입력 방향으로 가속 + PLAYER_ICE_FRICTION으로 감쇠			
-	if (isLeftPressed && !isRightPressed)
-	{
-		_velocity.x = -GameConstants::PLAYER_MOVE_SPEED;
-	}
-	else if (isRightPressed && !isLeftPressed)
-	{
-		_velocity.x = GameConstants::PLAYER_MOVE_SPEED;
-	}
-	else
-	{
-		ApplyIceFriction(deltaTime);
-	}
-}
-
-void Player::ApplyIceFriction(float deltaTime)
-{
-	float frictionDelta = GameConstants::PLAYER_ICE_FRICTION * deltaTime;
-
-	if (_velocity.x > 0.0f)
-	{
-		_velocity.x = max(0.0f, _velocity.x - frictionDelta);
-	}
-	else if (_velocity.x < 0.0f)
-	{
-		_velocity.x = min(0.0f, _velocity.x + frictionDelta);
-	}
-}
-
 
 void Player::UpdateNoclip(float deltaTime)
 {
@@ -234,20 +177,20 @@ void Player::UpdateNoclip(float deltaTime)
 
 	if (isLeftPressed && !isRightPressed)
 	{
-		position.x -= GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+		position.x -= PLAYER_NOCLIP_SPEED * deltaTime;
 	}
 	else if (isRightPressed && !isLeftPressed)
 	{
-		position.x += GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+		position.x += PLAYER_NOCLIP_SPEED * deltaTime;
 	}
 
 	if (isUpPressed && !isDownPressed)
 	{
-		position.y -= GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+		position.y -= PLAYER_NOCLIP_SPEED * deltaTime;
 	}
 	else if (isDownPressed && !isUpPressed)
 	{
-		position.y += GameConstants::PLAYER_NOCLIP_SPEED * deltaTime;
+		position.y += PLAYER_NOCLIP_SPEED * deltaTime;
 	}
 
 	SetPosition(position);
@@ -261,8 +204,16 @@ void Player::ApplyGravity(float deltaTime)
 	_isGrounded = false;
 
 	// 화면 좌표에서는 y가 증가할수록 아래쪽이므로 중력은 양수 방향
-	_velocity.y += GameConstants::PLAYER_GRAVITY * deltaTime;
-	_velocity.y = min(_velocity.y, GameConstants::PLAYER_MAX_FALL_SPEED);
+	_velocity.y += PLAYER_GRAVITY * deltaTime;
+
+	// 축별이 아니라 전체 크기 기준으로 상한 클램프 (파이썬의 전역 maxSpeed와 동일한 방식)
+	float speed = hypotf(_velocity.x, _velocity.y);
+	if (speed > PLAYER_MAX_FALL_SPEED)
+	{
+		float scale = PLAYER_MAX_FALL_SPEED / speed;
+		_velocity.x *= scale;
+		_velocity.y *= scale;
+	}
 
 	nextPosition.y += _velocity.y * deltaTime;
 	VerticalCollision(nextPosition, deltaTime);
@@ -287,23 +238,31 @@ void Player::UpdateJump(float deltaTime)
 			{				
 				_jumpChargeTime = 0.0f;
 				_jumpChargeStep = 1;
-				_jumpDirection = { 0.0f, -1.0f };
+				_jumpAngle = 0.0f;
 				_jumpState = JumpState::Charging;				
 			}
 			break;
 
 		case JumpState::Charging:
 			if (input.GetButtonPressed(KeyType::Space))
-			{				
+			{
 				//방향 설정
 				ChargingDirection();
 
-				//점프 충전 최대치 설정
-				_jumpChargeTime += deltaTime;		
-				_jumpChargeTime = min(_jumpChargeTime, GameConstants::PLAYER_MAX_JUMP_CHARGE_TIME);
+				_jumpChargeTime += deltaTime;
+
+				// King.py:335-341 오토파이어 - 최대 차지(jumpCount=30에 대응)를 넘기면
+				// SPACE를 떼지 않아도 이번 프레임의 방향으로 즉시 발사
+				if (_jumpChargeTime > PLAYER_MAX_JUMP_CHARGE_TIME)
+				{
+					_jumpChargeStep = PLAYER_MAX_JUMP_CHARGE_STEP;
+					StartJump();
+					_jumpState = JumpState::AirBorne;
+					break;
+				}
+
 				//점프 충전 게이지 1~35단계
-				_jumpChargeStep = 1 + static_cast<int>((_jumpChargeTime / GameConstants::PLAYER_MAX_JUMP_CHARGE_TIME) * (GameConstants::PLAYER_MAX_JUMP_CHARGE_STEP - 1));
-				
+				_jumpChargeStep = 1 + static_cast<int>((_jumpChargeTime / PLAYER_MAX_JUMP_CHARGE_TIME) * (PLAYER_MAX_JUMP_CHARGE_STEP - 1));
 			}
 
   			if (input.GetButtonUp(KeyType::Space))
@@ -321,11 +280,21 @@ void Player::UpdateJump(float deltaTime)
 void Player::StartJump()
 {
 	//점프 충전량과 좌우 방향에 따라 velocity 설정
-	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(GameConstants::PLAYER_MAX_JUMP_CHARGE_STEP - 1);
-	const float jumpSpeed = GameConstants::PLAYER_MIN_JUMP_SPEED + (GameConstants::PLAYER_MAX_JUMP_SPEED - GameConstants::PLAYER_MIN_JUMP_SPEED) * chargeRatio;
+	const float chargeRatio = static_cast<float>(_jumpChargeStep - 1) / static_cast<float>(PLAYER_MAX_JUMP_CHARGE_STEP - 1);
 
-	_velocity.x = _jumpDirection.x * jumpSpeed;
-	_velocity.y = _jumpDirection.y * jumpSpeed;
+	//speed = 1.5 + (jumpCount/5)**1.13 을 그대로 이식 (jumpCount ≈ chargeRatio * 30)
+	const float jumpCountEq = chargeRatio * PLAYER_JUMP_ANGLE_CHARGE_REFERENCE;
+	float jumpSpeed = (1.5f + powf(jumpCountEq / 5.0f, PLAYER_JUMP_SPEED_CURVE_EXPONENT)) * 60.0f;
+
+	//방향 점프 보너스 (+0.9 * 60fps)
+	if (_jumpAngle != 0.0f)
+		jumpSpeed += PLAYER_JUMP_DIRECTIONAL_SPEED_BONUS;
+
+	jumpSpeed = min(jumpSpeed, PLAYER_MAX_JUMP_SPEED);
+
+	// 기존 속도에 더함 (덮어쓰지 않음) - 착지 직전 잔여 속도가 다음 점프에 자연스럽게 섞임
+	_velocity.x += sinf(_jumpAngle) * jumpSpeed;
+	_velocity.y += -cosf(_jumpAngle) * jumpSpeed;
 }
 
 void Player::OnLanded()
@@ -334,11 +303,7 @@ void Player::OnLanded()
 	_jumpChargeTime = 0.0f;
 	_jumpChargeStep = 1;
 
-	if (_groundMaterial != PlatformMaterial::Ice) 
-		_velocity.x = 0.0f;
-	_velocity.y = 0.0f;
-	
-	_jumpDirection = { 0.0f, -1.0f };
+	_jumpAngle = 0.0f;
 	_jumpState = JumpState::Ready;
 }
 
@@ -350,24 +315,24 @@ void Player::ChargingDirection()
 	bool isRightPressed = input.GetButtonPressed(KeyType::Right) || input.GetButtonDown(KeyType::Right);
 
 	// 점프 일정 거리 이하면 수평 속도 조정
-	float horizontalDirection = (_jumpChargeStep < 21) ? GameConstants::PLAYER_LOW_HORIZONTAL_JUMP_DIRECTION : GameConstants::PLAYER_HORIZONTAL_JUMP_DIRECTION;
+	float chargeRatio = (_jumpChargeStep - 1) / float(PLAYER_MAX_JUMP_CHARGE_STEP - 1);
+	float angleMagnitude = PLAYER_JUMP_MAX_ANGLE_RADIANS
+		* (1.0f - (chargeRatio * PLAYER_JUMP_ANGLE_CHARGE_REFERENCE) / PLAYER_JUMP_ANGLE_CHARGE_DIVISOR);
 
 	if (isLeftPressed && !isRightPressed)
 	{
-		_jumpDirection = { -horizontalDirection, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
+		_jumpAngle = -angleMagnitude;
 		_spriteRenderer->setFlipX(true);
 	}
 	else if (isRightPressed && !isLeftPressed)
 	{
-		_jumpDirection = { horizontalDirection, GameConstants::PLAYER_VERTICAL_JUMP_DIRECTION };
+		_jumpAngle = angleMagnitude;
 		_spriteRenderer->setFlipX(false);
 	}
 	else
 	{
-		_jumpDirection = { 0.0f, -1.0f };
+		_jumpAngle = 0.0f;
 	}
-
-	_jumpDirection.Normalize();
 }
 
 void Player::HorizontalCollision(Vector2& nextPosition)
@@ -380,6 +345,8 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 	//수평 충돌 체크
 	if (_platforms != nullptr)
 	{
+		bool wallBounced = false;   // 이음매에서 여러 플랫폼이 동시에 걸려도 반사는 프레임당 한 번만
+
 		for (const PlatformData& platform : *_platforms)
 		{
 			if (platform.hasSlope)
@@ -397,11 +364,36 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 				{
 					nextPosition.x += hit.normal.x * hit.depth;
 
-					// velocity의 부호를 뒤집어 방향 Bounce 힘만큼 반사
-					_velocity.x = -_velocity.x * GameConstants::PLAYER_WALL_BOUNCE_RESTITUTION;
+					// 공중에 있을 때만 반사한다.
+					// 땅에서 걷다가 벽에 막히는 건 위치만 보정되고 속도 반사는 없음.
+					if (!_isGrounded && !wallBounced)
+					{
+						wallBounced = true;
 
-					if (!_isGrounded)				
-						_collisionFlash = true;
+						// 각도를 접어서 반사 (단순 축 반전이 아님).
+						// 그 순간의 velocity에서만 잠깐 각도/크기를 뽑아 쓰고 바로 velocity로 되돌린다 (지속 상태 없음).
+						float angle = atan2f(_velocity.x, -_velocity.y);
+						float speed = hypotf(_velocity.x, _velocity.y);
+
+						if (-cosf(angle) <= 0.0f)
+							angle = -angle * PLAYER_WALL_ANGLE_ELASTICITY;
+						else
+						{
+							// (π - angle)을 그대로 빼면 angle이 -180° 경계를 넘을 때
+							// 물리적으로는 같은 방향인데 결과가 반대쪽(위쪽)으로 튀는 문제가 있어,
+							// 차이를 -180°~180°로 다시 감싼(wrap) 뒤 접는다.
+							float diff = atan2f(sinf(angle - PI), cosf(angle - PI));
+							angle = PI - diff * PLAYER_WALL_ANGLE_ELASTICITY;
+						}
+
+						speed *= PLAYER_WALL_BOUNCE_RESTITUTION;
+
+						_velocity.x = sinf(angle) * speed;
+						_velocity.y = -cosf(angle) * speed;
+
+						if (!_isGrounded)
+							_collisionFlash = true;
+					}
 				}
 			}
 		}
@@ -452,20 +444,28 @@ void Player::VerticalCollision(Vector2& nextPosition, float deltaTime)
 		if (groundedOnSlope && hit.normal.y < 0.0f)
 			continue;
 
-		nextPosition.y += hit.normal.y * hit.depth;
-		_velocity.y = 0.0f;
+		nextPosition.y += hit.normal.y * hit.depth;		
 
 		// 위쪽으로 밀려났다면 플랫폼 위에 착지
 		if (hit.normal.y < 0.0f)
 		{
+			_velocity.y = 0.0f;
 			_isGrounded = true;
 			_groundMaterial = platform.material;
 			_groundSlope = { 0.0f, 0.0f };
+
+			// King.py:812-816 - 땅에 닿아있는 매 프레임 재질별 slip을 곱한다 (착지 순간만이 아님)
+			float slip = (_groundMaterial == PlatformMaterial::Ice) ? PLAYER_LANDING_SLIP_ICE : PLAYER_LANDING_SLIP_NORMAL;
+			_velocity.x *= slip;
 
 			if (_jumpState == JumpState::AirBorne)
 			{
 				OnLanded();
 			}
+		}
+		else
+		{
+			_velocity.y = -_velocity.y * PLAYER_CEILING_BOUNCE_RESTITUTION;
 		}
 	}
 }
@@ -499,7 +499,7 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 		// 표면에서 벗어나 접지가 끊겼다가(→AirBorne→OnLanded로 velocity.x가
 		// 0으로 리셋) 다시 붙는 멈칫거림이 생겼었다.
 		float frameTravel = (abs(_velocity.x) + abs(_velocity.y)) * deltaTime;
-		float tolerance = max(GameConstants::PLAYER_SLOPE_SNAP_TOLERANCE, frameTravel);
+		float tolerance = max(PLAYER_SLOPE_SNAP_TOLERANCE, frameTravel);
 
 		float centerX = (nextBounds.Right() + nextBounds.Left()) * 0.5f;
 		float surfaceY = GetSlopeSurfaceY(platform, centerX);
@@ -579,7 +579,7 @@ void Player::UpdateAnimation(float deltaTime)
 			break;
 
 		case PlayerAnimState::Move:
-			_spriteRenderer->ResetAnim(static_cast<int32>(PlayerAnimState::Move), true, GameConstants::PLAYER_MOVE_ANIM_DURATION, 3);
+			_spriteRenderer->ResetAnim(static_cast<int32>(PlayerAnimState::Move), true, PLAYER_MOVE_ANIM_DURATION, 3);
 			break;
 
 		case PlayerAnimState::Charge:

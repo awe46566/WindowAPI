@@ -5,6 +5,7 @@
 #include "Engine/DebugRenderer.h"
 #include "Engine/InputManager.h"
 #include "Engine/GameConstants.h"
+using namespace GameConstants;
 #include "Game/GameScene.h"
 #include "Game/LevelData.h"
 #include "Player.h"
@@ -88,7 +89,7 @@ void GameScene::Update(float deltaTime)
     if (!_levels.empty())
     {
         _player->SetWindForceX(CurrentLevel().hasWind
-            ? _wind.GetForce() * GameConstants::WIND_FORCE_ACCEL
+            ? _wind.GetForce() * WIND_FORCE_ACCEL
             : 0.0f);
     }
 
@@ -98,19 +99,19 @@ void GameScene::Update(float deltaTime)
 
 void GameScene::CheckLevelTransition()
 {
-    // TODO: _player->GetPosition().y 가 0 또는 GameConstants::SCREEN_HEIGHT를
+    // TODO: _player->GetPosition().y 가 0 또는 SCREEN_HEIGHT를
     // 벗어났는지 확인하고, 벗어났다면 TransitionToLevel(newIndex, newY)를 호출한다.
     // - 위로 나감(y < 0) -> index + 1, 새 y = y + SCREEN_HEIGHT
     // - 아래로 나감(y > SCREEN_HEIGHT) -> index - 1, 새 y = y - SCREEN_HEIGHT
     // - _levels 범위를 벗어나는 index(맨 위/맨 아래 레벨)는 전환하지 않는다.
     if (_player->GetPosition().y < 0.0f)
     {     
-        float nextY = _player->GetPosition().y + GameConstants::SCREEN_HEIGHT;
+        float nextY = _player->GetPosition().y + SCREEN_HEIGHT;
         TransitionToLevel(_currentLevelIndex + 1, nextY);
     }
-    else if (_player->GetPosition().y > GameConstants::SCREEN_HEIGHT)
+    else if (_player->GetPosition().y > SCREEN_HEIGHT)
     {
-        float nextY = _player->GetPosition().y - GameConstants::SCREEN_HEIGHT;
+        float nextY = _player->GetPosition().y - SCREEN_HEIGHT;
         TransitionToLevel(_currentLevelIndex - 1, nextY);
     }
 

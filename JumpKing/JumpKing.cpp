@@ -7,6 +7,7 @@
 #include "Engine/Game.h"
 #include "Engine/Types.h"
 #include "Engine/GameConstants.h"
+using namespace GameConstants;
 
 #define MAX_LOADSTRING 100
 
@@ -66,7 +67,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     QueryPerformanceFrequency(&frequency);
     QueryPerformanceCounter(&previousFrame);
 
-    const double targetFrameSeconds = 1.0 / GameConstants::TARGET_FRAME_RATE;
+    const double targetFrameSeconds = 1.0 / TARGET_FRAME_RATE;
 
     // 메시지가 없어도 Update와 Render가 계속 실행되는 게임 루프입니다.
     while (msg.message != WM_QUIT)
@@ -155,8 +156,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    RECT windowRect{
        0,
        0,
-       GameConstants::SCREEN_WIDTH * GameConstants::WINDOW_SCALE,
-       GameConstants::SCREEN_HEIGHT * GameConstants::WINDOW_SCALE};
+       SCREEN_WIDTH * WINDOW_SCALE,
+       SCREEN_HEIGHT * WINDOW_SCALE};
 
    AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, TRUE);
 
