@@ -32,6 +32,7 @@ public:
 	void ApplyGravity(float deltaTime);
 	void UpdateJump(float deltaTime);
 	void UpdateNoclip(float deltaTime);
+	void UpdateStun(float deltaTime);
 	void StartJump();
 	void OnLanded();
 	void ChargingDirection();
@@ -41,8 +42,8 @@ public:
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
 	void ApplySlopeSlide(float deltaTime);
-
 	void ApplyWind(float deltaTime);
+
 	void SetWindForceX(float forceX) { _windForceX = forceX; }
 
 private:
@@ -69,6 +70,9 @@ private:
 	bool _isGrounded = false;
 	PlatformMaterial _groundMaterial = PlatformMaterial::Land;
 	Vector2 _groundSlope{};
+
+	bool _isStunned = false;
+	float _stunTimer = 0.0f;
 
 	bool _noclip = false;
 

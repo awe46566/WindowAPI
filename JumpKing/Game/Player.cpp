@@ -57,9 +57,16 @@ void Player::Update(float deltaTime)
 		return;
 	}
 
-	UpdateJump(deltaTime);
-
-	Move(deltaTime);
+	if (_isStunned)
+	{
+		UpdateStun(deltaTime);
+	}
+	else
+	{
+		UpdateJump(deltaTime);
+		Move(deltaTime);
+	}
+	
 	ApplyWind(deltaTime);
 	ApplyGravity(deltaTime);
 
@@ -350,7 +357,20 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 		for (const PlatformData& platform : *_platforms)
 		{
 			if (platform.hasSlope)
-				continue;
+			{
+				// 오르막 경사면은 걸어서 올라탈 수 없게 벽처럼 막는다 (점프로 넘어가거나
+				// 위에서 착지하는 건 그대로 허용 - 공중에 있을 때는 건드리지 않는다).
+				if (!_isGrounded || !IsSlopeFloor(platform))
+					continue;
+
+				bool risingRight = IsSlopeRisingRight(platform);
+				bool movingIntoClimb =
+					(risingRight && _velocity.x > 0.0f) ||
+					(!risingRight && _velocity.x < 0.0f);
+
+				if (!movingIntoClimb)
+					continue;
+			}
 
 			const Rect nextBounds =
 				_collider->GetBounds(nextPosition);
@@ -449,6 +469,12 @@ void Player::VerticalCollision(Vector2& nextPosition, float deltaTime)
 		// 위쪽으로 밀려났다면 플랫폼 위에 착지
 		if (hit.normal.y < 0.0f)
 		{
+			if (hypotf(_velocity.x, _velocity.y) >= PLAYER_MAX_FALL_SPEED - 0.01f)
+			{
+				_isStunned = true;
+				_stunTimer = PLAYER_STUN_DURATION;
+			}
+
 			_velocity.y = 0.0f;
 			_isGrounded = true;
 			_groundMaterial = platform.material;
@@ -502,6 +528,23 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 		float tolerance = max(PLAYER_SLOPE_SNAP_TOLERANCE, frameTravel);
 
 		float centerX = (nextBounds.Right() + nextBounds.Left()) * 0.5f;
+
+		// 이미 이 슬로프에 붙어서 이동 중이 아니라면, 콜라이더 중심이 실제로
+		// 이 타일의 x 범위 안에 있을 때만 착지를 인정한다. 그렇지 않으면
+		// 인접한 flat 타일 경계 근처에서 GetSlopeSurfaceY의 연장(extrapolation)된
+		// 표면 때문에 flat 타일 위에 서 있는데도 슬로프에 착지한 것으로
+		// 잘못 판정되어 미끄러지는 문제가 생긴다. 이미 붙어있던 슬로프라면
+		// 기존처럼 경계 밖으로도 연장을 허용해 램프 반대쪽 끝에서 부드럽게 빠져나간다.
+		bool alreadyOnThisSlope = _isGrounded
+			&& _groundSlope.x == platform.slope.x
+			&& _groundSlope.y == platform.slope.y;
+
+		if (!alreadyOnThisSlope
+			&& (centerX < platform.bounds.Left() || centerX > platform.bounds.Right()))
+		{
+			return false;
+		}
+
 		float surfaceY = GetSlopeSurfaceY(platform, centerX);
 		float bottomDiff = surfaceY - nextBounds.Bottom();
 		float topDiff = surfaceY - nextBounds.Top();
@@ -543,6 +586,20 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 	return false;
 }
 
+void Player::UpdateStun(float deltaTime)
+{
+	_stunTimer -= deltaTime;
+	if (_stunTimer <= 0.0f)
+	{
+		if (InputManager::GetInstance().GetButtonDown(KeyType::Left) ||
+			InputManager::GetInstance().GetButtonDown(KeyType::Right) ||
+			InputManager::GetInstance().GetButtonDown(KeyType::Space))
+		{
+			_isStunned = false;
+		}		
+	}
+}
+
 void Player::UpdateAnimation(float deltaTime)
 {
 	if (_spriteRenderer == nullptr)
@@ -552,7 +609,11 @@ void Player::UpdateAnimation(float deltaTime)
 
 	PlayerAnimState desired = PlayerAnimState::Idle;
 
-	if (_collisionFlash)
+	if (_isStunned)
+	{
+		desired = PlayerAnimState::Hurt;
+	}
+	else if (_collisionFlash)
 	{
 		desired = PlayerAnimState::Collision;
 	}
@@ -604,6 +665,10 @@ void Player::UpdateAnimation(float deltaTime)
 
 		case PlayerAnimState::Down:
 			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Down), 0);
+			break;
+
+		case PlayerAnimState::Hurt:
+			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Hurt), 0);
 			break;
 
 		default:

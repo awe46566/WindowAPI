@@ -47,6 +47,9 @@ namespace GameConstants
     constexpr float PLAYER_LANDING_SLIP_NORMAL = 0.0f;
     constexpr float PLAYER_LANDING_SLIP_ICE = 0.95f;
 
+    // Hard-landing stun duration (seconds) - placeholder, tune by playtest
+    constexpr float PLAYER_STUN_DURATION = 0.5f;
+
     // Slope slide speed cap / friction - King.py:165,787,789
     constexpr float PLAYER_SLOPE_MAX_SLIDE_SPEED = 420.0f;
     constexpr float PLAYER_SLOPE_FRICTION = 21.0f;
