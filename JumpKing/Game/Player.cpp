@@ -588,7 +588,27 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 		}
 		else if (topDiff >= -tolerance && topDiff <= tolerance)
 		{
-			_velocity.y = 0.0f;
+			// 경사면을 거울면으로 삼아 속도를 반사한다 (평평한 천장의
+			// -velocity.y * restitution을 일반화한 것 - gradient=0이면 결과가 같다).
+			Vector2 left, right;
+			GetSlopeEndpoints(platform, left, right);
+			float gradient = (right.y - left.y) / (right.x - left.x);
+
+			Vector2 normal{ -gradient, 1.0f };
+			float normalLength = hypotf(normal.x, normal.y);
+			normal.x /= normalLength;
+			normal.y /= normalLength;
+
+			float dot = (_velocity.x * normal.x) + (_velocity.y * normal.y);
+
+			// 표면 쪽으로 파고드는 중일 때만 반사한다 - 이미 멀어지는 프레임까지
+			// 반사하면 tolerance 창 안에서 계속 다시 튕겨 떨리게 된다.
+			if (dot < 0.0f)
+			{
+				_velocity.x = (_velocity.x - 2.0f * dot * normal.x) * PLAYER_CEILING_BOUNCE_RESTITUTION;
+				_velocity.y = (_velocity.y - 2.0f * dot * normal.y) * PLAYER_CEILING_BOUNCE_RESTITUTION;
+			}
+
 			nextPosition.y += topDiff;
 		}
 	}
