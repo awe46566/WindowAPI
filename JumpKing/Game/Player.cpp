@@ -73,6 +73,11 @@ void Player::Update(float deltaTime)
 	UpdateAnimation(deltaTime);
 }
 
+Rect Player::GetColliderBounds() const
+{
+	return _collider->GetBounds(GetPosition());
+}
+
 void Player::Render(const RenderContext& context)
 {
 	Actor::Render(context);

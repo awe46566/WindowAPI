@@ -40,6 +40,7 @@ public:
 	void VerticalCollision(Vector2& nextPosition, float deltaTime, bool wasGrounded);
 	void UpdateAnimation(float deltaTime);
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
+	Rect GetColliderBounds() const;
 
 	void ApplySlopeSlide(float deltaTime);
 	void ApplyWind(float deltaTime);

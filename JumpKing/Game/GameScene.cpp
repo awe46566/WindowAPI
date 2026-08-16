@@ -60,10 +60,22 @@ void GameScene::Init()
 
         if (LoadAllLevelData(levelPath.lexically_normal(), _levels))
         {
-            _isBackgroundLoaded = LoadLayerTexture(CurrentLevel().layers.background, _backgroundTexture);
-            _isMidgroundLoaded = LoadLayerTexture(CurrentLevel().layers.midground, _midgroundTexture);
-            _isForegroundLoaded = LoadLayerTexture(CurrentLevel().layers.foreground, _foregroundTexture);
-            _weather.LoadVariant(CurrentLevel().weather, CurrentLevel().index);
+            const size_t levelCount = _levels.size();
+            _backgroundTextures.resize(levelCount);
+            _midgroundTextures.resize(levelCount);
+            _foregroundTextures.resize(levelCount);
+            _isBackgroundLoaded.resize(levelCount, false);
+            _isMidgroundLoaded.resize(levelCount, false);
+            _isForegroundLoaded.resize(levelCount, false);
+            _weathers.resize(levelCount);
+
+            for (size_t i = 0; i < levelCount; ++i)
+            {
+                _isBackgroundLoaded[i] = LoadLayerTexture(_levels[i].layers.background, _backgroundTextures[i]);
+                _isMidgroundLoaded[i] = LoadLayerTexture(_levels[i].layers.midground, _midgroundTextures[i]);
+                _isForegroundLoaded[i] = LoadLayerTexture(_levels[i].layers.foreground, _foregroundTextures[i]);
+                _weathers[i].LoadVariant(_levels[i].weather, _levels[i].index);
+            }
         }
     }
 
@@ -84,70 +96,81 @@ void GameScene::Init()
 void GameScene::Update(float deltaTime)
 {
     _wind.Update(deltaTime);
-    _weather.Update(deltaTime);
 
     if (!_levels.empty())
     {
+        _weathers[_currentLevelIndex].Update(deltaTime);
         _player->SetWindForceX(CurrentLevel().hasWind
             ? _wind.GetForce() * WIND_FORCE_ACCEL
             : 0.0f);
     }
 
     Scene::Update(deltaTime);
-    CheckLevelTransition();
+    CheckLevelTransition(deltaTime);
 }
 
-void GameScene::CheckLevelTransition()
+void GameScene::CheckLevelTransition(float deltaTime)
 {
-    // TODO: _player->GetPosition().y 가 0 또는 SCREEN_HEIGHT를
-    // 벗어났는지 확인하고, 벗어났다면 TransitionToLevel(newIndex, newY)를 호출한다.
-    // - 위로 나감(y < 0) -> index + 1, 새 y = y + SCREEN_HEIGHT
-    // - 아래로 나감(y > SCREEN_HEIGHT) -> index - 1, 새 y = y - SCREEN_HEIGHT
-    // - _levels 범위를 벗어나는 index(맨 위/맨 아래 레벨)는 전환하지 않는다.
-    if (_player->GetPosition().y < 0.0f)
-    {     
+    // player_king.png 셀(36x36) 안에서 콜라이더가 offsetY(14px)만큼 아래로
+    // 밀려 있어서, position(스프라이트 앵커)은 콜라이더보다 위쪽에 있다. 화면
+    // 경계 판정을 anchor 기준으로 하면 화면 위쪽 36px 안의 낮은 플랫폼 위에
+    // 가만히 서 있기만 해도 anchor가 음수가 되어 매 프레임 전환이 발생한다.
+    //
+    // 위/아래 판정 모두 콜라이더의 "위쪽" 한 점만 기준으로 삼는다. 위쪽은
+    // Bottom(), 아래쪽은 Top()처럼 서로 다른 기준점을 섞으면, 콜라이더 높이(22px)만큼
+    // 좌표가 어긋나서 전환 직후 새 레벨에서 반대 방향 경계를 즉시 다시 넘은 것으로
+    // 계산되어 버린다(도착하자마자 되튕겨나가 반복 전환됨).
+    const Rect colliderBounds = _player->GetColliderBounds();
+
+    if (colliderBounds.Top() < 0.0f)
+    {
         float nextY = _player->GetPosition().y + SCREEN_HEIGHT;
-        TransitionToLevel(_currentLevelIndex + 1, nextY);
+        TransitionToLevel(_currentLevelIndex + 1, nextY, deltaTime);
     }
-    else if (_player->GetPosition().y > SCREEN_HEIGHT)
+    else if (colliderBounds.Top() > SCREEN_HEIGHT)
     {
         float nextY = _player->GetPosition().y - SCREEN_HEIGHT;
-        TransitionToLevel(_currentLevelIndex - 1, nextY);
+        TransitionToLevel(_currentLevelIndex - 1, nextY, deltaTime);
     }
-
 }
 
-void GameScene::TransitionToLevel(int newIndex, float newY)
+void GameScene::TransitionToLevel(int newIndex, float newY, float deltaTime)
 {
-    // TODO: _currentLevelIndex를 newIndex로 바꾸고, CurrentLevel()의
-    // background/midground/foreground를 LoadLayerTexture로 다시 로드해
-    // _isXLoaded 플래그와 함께 갱신한다. _player->SetPlatforms(&CurrentLevel().platforms)로
-    // 새 레벨의 플랫폼을 연결하고, 플레이어 x는 유지한 채 y만 newY로 재배치한다.
+    // 텍스처/날씨는 Init에서 레벨별로 미리 로드해 두었으므로 여기서는 인덱스만 바꾼다
+    // (매 전환마다 디스크에서 다시 로드하면 그 프레임이 느려져 다음 프레임 충돌이 씹힘).
     _currentLevelIndex = newIndex;
 
-    _isBackgroundLoaded = LoadLayerTexture(CurrentLevel().layers.background, _backgroundTexture);
-    _isMidgroundLoaded = LoadLayerTexture(CurrentLevel().layers.midground, _midgroundTexture);
-    _isForegroundLoaded = LoadLayerTexture(CurrentLevel().layers.foreground, _foregroundTexture);
-    _weather.LoadVariant(CurrentLevel().weather, CurrentLevel().index);
+    // 충돌 검사가 새 레벨의 플랫폼을 봐야 하므로 위치를 보정하기 전에 먼저 교체한다.
+    _player->SetPlatforms(&CurrentLevel().platforms);
 
     Vector2 position = _player->GetPosition();
     position.y = newY;
 
+    // 텔레포트된 위치를 그 프레임 안에 새 플랫폼 기준으로 검증한다.
+    // 그렇지 않으면 전환 지점 바로 근처 플랫폼과의 충돌이 한 프레임 씹힌다.
+    _player->HorizontalCollision(position);
+    _player->VerticalCollision(position, deltaTime, false);
+
     _player->SetPosition(position);
-    _player->SetPlatforms(&CurrentLevel().platforms);    
 }
 
 void GameScene::Render(const RenderContext& context)
 {
     // 먼저 그린 이미지가 뒤에 놓이고, 나중에 그린 이미지가 앞을 덮습니다.
-    RenderTextureLayer(_backgroundTexture, _isBackgroundLoaded, context);
-    RenderTextureLayer(_midgroundTexture, _isMidgroundLoaded, context);  
+    if (!_levels.empty())
+    {
+        RenderTextureLayer(_backgroundTextures[_currentLevelIndex], _isBackgroundLoaded[_currentLevelIndex], context);
+        RenderTextureLayer(_midgroundTextures[_currentLevelIndex], _isMidgroundLoaded[_currentLevelIndex], context);
+    }
 
     Scene::Render(context);
 
-    _weather.Render(context, CurrentLevel().hasWind, _wind.GetScrollOffset());
-    // Foreground는 플레이어보다 앞에 보여야 하므로 Actor 렌더링 뒤에 그립니다.
-    RenderTextureLayer(_foregroundTexture, _isForegroundLoaded, context);
+    if (!_levels.empty())
+    {
+        _weathers[_currentLevelIndex].Render(context, CurrentLevel().hasWind, _wind.GetScrollOffset());
+        // Foreground는 플레이어보다 앞에 보여야 하므로 Actor 렌더링 뒤에 그립니다.
+        RenderTextureLayer(_foregroundTextures[_currentLevelIndex], _isForegroundLoaded[_currentLevelIndex], context);
+    }
     DrawCollider(context);
     ColliderOnOff();
 }
