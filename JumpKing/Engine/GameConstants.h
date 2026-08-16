@@ -42,13 +42,12 @@ namespace GameConstants
     // �÷��̾� �ִϸ��̼� ��� �ð�(��)
     constexpr float PLAYER_MOVE_ANIM_DURATION = 0.2f;
 
-    // Slope movement - placeholder values, tune by playtest
     constexpr float PLAYER_SLOPE_SLIDE_ACCEL = 1000.0f;
     constexpr float PLAYER_SLOPE_SNAP_TOLERANCE = 4.0f;
     constexpr float PLAYER_LANDING_SLIP_NORMAL = 0.0f;
     constexpr float PLAYER_LANDING_SLIP_ICE = 0.95f;
 
-    // Slope slide speed cap / friction - placeholder values, tune by playtest
+    // Slope slide speed cap / friction - King.py:165,787,789
     constexpr float PLAYER_SLOPE_MAX_SLIDE_SPEED = 420.0f;
     constexpr float PLAYER_SLOPE_FRICTION = 21.0f;
     constexpr float PLAYER_SLOPE_ICE_FRICTION = 6.0f;

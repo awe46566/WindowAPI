@@ -454,7 +454,7 @@ void Player::VerticalCollision(Vector2& nextPosition, float deltaTime)
 			_groundMaterial = platform.material;
 			_groundSlope = { 0.0f, 0.0f };
 
-			// King.py:812-816 - 땅에 닿아있는 매 프레임 재질별 slip을 곱한다 (착지 순간만이 아님)
+			// 땅에 닿아있는 매 프레임 재질별 slip을 곱한다 (착지 순간만이 아님)
 			float slip = (_groundMaterial == PlatformMaterial::Ice) ? PLAYER_LANDING_SLIP_ICE : PLAYER_LANDING_SLIP_NORMAL;
 			_velocity.x *= slip;
 
@@ -510,7 +510,15 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 		{
 			if (bottomDiff >= -tolerance && bottomDiff <= tolerance)
 			{
-				_velocity.y = 0.0f;
+				// 속도를 표면 방향으로 맞춘다. 예전엔 여기서 velocity.y를 0으로 죽였는데,
+				// 그러면 내려가는 움직임이 위치 스냅으로만 만들어져서, 슬로프를 벗어나는
+				// 순간 vy=0인 채로 수평으로 튀어나가 궤적이 갑자기 꺾였다
+				// (램프 끝에서 걸리듯 튕겨 보이던 원인).
+				Vector2 left, right;
+				GetSlopeEndpoints(platform, left, right);
+				float gradient = (right.y - left.y) / (right.x - left.x);
+
+				_velocity.y = _velocity.x * gradient;
 				nextPosition.y += bottomDiff;
 
 				_isGrounded = true;
