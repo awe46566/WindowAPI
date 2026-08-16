@@ -37,7 +37,7 @@ public:
 	void OnLanded();
 	void ChargingDirection();
 	void HorizontalCollision(Vector2& nextPosition);
-	void VerticalCollision(Vector2& nextPosition, float deltaTime);
+	void VerticalCollision(Vector2& nextPosition, float deltaTime, bool wasGrounded);
 	void UpdateAnimation(float deltaTime);
 	void SetPlatforms(const vector<PlatformData>* platforms) { _platforms = platforms; }
 
@@ -48,7 +48,7 @@ public:
 
 private:
 	float GetSlopeSurfaceY(const PlatformData& platform, float x) const;
-	bool ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition, float deltaTime);
+	bool ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition, float deltaTime, bool wasGrounded);
 
 	const vector<PlatformData>* _platforms = nullptr;
 	SpriteRenderer* _spriteRenderer = nullptr;

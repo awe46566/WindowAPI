@@ -207,6 +207,9 @@ void Player::ApplyGravity(float deltaTime)
 {
 	Vector2 nextPosition = GetPosition();
 
+	// alreadyOnThisSlope 판정용으로, 리셋하기 전 "이전 프레임 끝" 시점의 접지 상태를 따로 저장해 둔다.
+	bool wasGrounded = _isGrounded;
+
 	// 매 프레임 리셋하고, VerticalCollision에서 바닥에 닿았을 때 다시 세팅한다.
 	_isGrounded = false;
 
@@ -223,7 +226,7 @@ void Player::ApplyGravity(float deltaTime)
 	}
 
 	nextPosition.y += _velocity.y * deltaTime;
-	VerticalCollision(nextPosition, deltaTime);
+	VerticalCollision(nextPosition, deltaTime, wasGrounded);
 
 	SetPosition(nextPosition);
 
@@ -420,7 +423,7 @@ void Player::HorizontalCollision(Vector2& nextPosition)
 	}
 }
 
-void Player::VerticalCollision(Vector2& nextPosition, float deltaTime)
+void Player::VerticalCollision(Vector2& nextPosition, float deltaTime, bool wasGrounded)
 {
 	if (_platforms == nullptr)
 		return;
@@ -434,7 +437,7 @@ void Player::VerticalCollision(Vector2& nextPosition, float deltaTime)
 		if (!platform.hasSlope)
 			continue;
 
-		if (ResolveSlopeCollision(platform, nextPosition, deltaTime))
+		if (ResolveSlopeCollision(platform, nextPosition, deltaTime, wasGrounded))
 			groundedOnSlope = true;
 	}
 
@@ -513,7 +516,7 @@ float Player::GetSlopeSurfaceY(const PlatformData& platform, float x) const
 	return y;
 }
 
-bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition, float deltaTime)
+bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPosition, float deltaTime, bool wasGrounded)
 {
 	const Rect nextBounds = _collider->GetBounds(nextPosition);
 
@@ -535,7 +538,9 @@ bool Player::ResolveSlopeCollision(const PlatformData& platform, Vector2& nextPo
 		// 표면 때문에 flat 타일 위에 서 있는데도 슬로프에 착지한 것으로
 		// 잘못 판정되어 미끄러지는 문제가 생긴다. 이미 붙어있던 슬로프라면
 		// 기존처럼 경계 밖으로도 연장을 허용해 램프 반대쪽 끝에서 부드럽게 빠져나간다.
-		bool alreadyOnThisSlope = _isGrounded
+		// (ApplyGravity가 이번 프레임 시작에 _isGrounded를 false로 리셋한 뒤 이 함수를 부르므로,
+		// 여기서는 리셋되기 전 "이전 프레임 끝" 상태인 wasGrounded로 판단해야 한다.)
+		bool alreadyOnThisSlope = wasGrounded
 			&& _groundSlope.x == platform.slope.x
 			&& _groundSlope.y == platform.slope.y;
 
