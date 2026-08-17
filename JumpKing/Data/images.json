@@ -515,6 +515,166 @@
       "rows": 1,
       "columns": 1
     },
+    "cloud_4_clouds": {
+      "path": "../Resource/Scrolling/4_clouds.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_6_clouds": {
+      "path": "../Resource/Scrolling/6_clouds.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_14_clouds_bg": {
+      "path": "../Resource/Scrolling/14_clouds_bg.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_14_clouds_mg": {
+      "path": "../Resource/Scrolling/14_clouds_mg.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_14_clouds_fg": {
+      "path": "../Resource/Scrolling/14_clouds_fg.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_mist_clouds1": {
+      "path": "../Resource/Scrolling/mist_clouds1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_mist_clouds2": {
+      "path": "../Resource/Scrolling/mist_clouds2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_mist_clouds3": {
+      "path": "../Resource/Scrolling/mist_clouds3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_clouds_vakttorn1": {
+      "path": "../Resource/Scrolling/clouds_vakttorn1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_clouds_vakttorn2": {
+      "path": "../Resource/Scrolling/clouds_vakttorn2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_clouds_vakttorn_dark1": {
+      "path": "../Resource/Scrolling/clouds_vakttorn_dark1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_clouds_vakttorn_dark2": {
+      "path": "../Resource/Scrolling/clouds_vakttorn_dark2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_clouds_town": {
+      "path": "../Resource/Scrolling/clouds_town.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_40_clouds": {
+      "path": "../Resource/Scrolling/40_clouds.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_41_clouds": {
+      "path": "../Resource/Scrolling/41_clouds.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_42_clouds1": {
+      "path": "../Resource/Scrolling/42_clouds1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_42_clouds2": {
+      "path": "../Resource/Scrolling/42_clouds2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "cloud_bird_cloud": {
+      "path": "../Resource/Scrolling/bird_cloud.png",
+      "rows": 4,
+      "columns": 2
+    },
+    "prop_bonfire": {
+      "path": "../Resource/props/Bonfire.png",
+      "rows": 1,
+      "columns": 3
+    },
+    "prop_flowing_water": {
+      "path": "../Resource/props/1_water.png",
+      "rows": 2,
+      "columns": 1
+    },
+    "prop_sewer_drop": {
+      "path": "../Resource/props/SewerDrop.png",
+      "rows": 1,
+      "columns": 10
+    },
+    "prop_ovenfire": {
+      "path": "../Resource/props/ovenfire.png",
+      "rows": 1,
+      "columns": 3
+    },
+    "prop_kettle": {
+      "path": "../Resource/props/kettle.png",
+      "rows": 1,
+      "columns": 3
+    },
+    "prop_grammofon": {
+      "path": "../Resource/props/grammofon.png",
+      "rows": 1,
+      "columns": 2
+    },
+    "prop_candle": {
+      "path": "../Resource/props/Candle.png",
+      "rows": 2,
+      "columns": 2
+    },
+    "prop_dungeon_torch": {
+      "path": "../Resource/props/DungeonTorch.png",
+      "rows": 2,
+      "columns": 2
+    },
+    "prop_flag": {
+      "path": "../Resource/props/Flag.png",
+      "rows": 5,
+      "columns": 2
+    },
+    "prop_gargoyle": {
+      "path": "../Resource/props/gargoyle.png",
+      "rows": 1,
+      "columns": 2
+    },
+    "prop_merchant": {
+      "path": "../Resource/props/merchant.png",
+      "rows": 2,
+      "columns": 2
+    },
+    "npc_hermit": {
+      "path": "../Resource/props/hermit.png",
+      "rows": 3,
+      "columns": 3
+    },
+    "npc_old_man": {
+      "path": "../Resource/props/old_man.png",
+      "rows": 3,
+      "columns": 3
+    },
+    "npc_skeleton": {
+      "path": "../Resource/props/skeleton.png",
+      "rows": 1,
+      "columns": 2
+    },
     "weather_rain_0": {
       "path": "../Resource/weather/rain0.png",
       "rows": 1,

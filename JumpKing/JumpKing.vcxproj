@@ -151,6 +151,8 @@
     <ClInclude Include="Game\LevelData.h" />
     <ClInclude Include="Game\Wind.h" />
     <ClInclude Include="Game\Weather.h" />
+    <ClInclude Include="Game\Scrolling.h" />
+    <ClInclude Include="Game\Props.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="JumpKing.h" />
     <ClInclude Include="pch.h" />
@@ -176,6 +178,8 @@
     <ClCompile Include="Game\LevelData.cpp" />
     <ClCompile Include="Game\Wind.cpp" />
     <ClCompile Include="Game\Weather.cpp" />
+    <ClCompile Include="Game\Scrolling.cpp" />
+    <ClCompile Include="Game\Props.cpp" />
     <ClCompile Include="JumpKing.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

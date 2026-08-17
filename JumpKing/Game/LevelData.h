@@ -55,6 +55,39 @@ struct LevelLayers
     std::string foreground;
 };
 
+enum class ScrollLayer
+{
+    Background,
+    Foreground
+};
+
+struct ScrollingCloudData
+{
+    std::string image;
+    Vector2 position;
+    float speed = 0.0f; // px/sec
+    ScrollLayer layer = ScrollLayer::Background;
+};
+
+// Cloud와 달리 여러 장을 겹쳐 타일링하지 않고, 애니메이션되는 한 마리가
+// 화면을 가로질러 날아가다 반대편으로 다시 나타나는 형태의 스크롤 오브젝트.
+struct ScrollingBirdData
+{
+    std::string image;
+    Vector2 position;
+    float speed = 0.0f; // px/sec, 부호가 방향을 나타냄
+    ScrollLayer layer = ScrollLayer::Background;
+};
+
+// 위치 고정, 전체 프레임을 순서대로 반복 재생하는 장식용 소품.
+struct PropData
+{
+    std::string image;
+    Vector2 position;
+    float frameInterval = 0.1f; // 초/프레임
+    bool flipX = false;
+};
+
 struct LevelData
 {
     int index = 0;
@@ -66,6 +99,9 @@ struct LevelData
 
     bool hasWind = false;
     WeatherType weather = WeatherType::None;
+    std::vector<ScrollingCloudData> scrolling;
+    std::vector<ScrollingBirdData> birds;
+    std::vector<PropData> props;
 };
 
 bool LoadLevelData(

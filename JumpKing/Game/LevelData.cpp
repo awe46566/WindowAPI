@@ -59,6 +59,52 @@ namespace
             loaded.platforms.push_back(data);
         }
 
+        if (level.contains("scrolling"))
+        {
+            for (const nlohmann::json& cloud : level.at("scrolling"))
+            {
+                ScrollingCloudData data;
+                data.image = cloud.at("image").get<std::string>();
+                data.position = { cloud.at("x").get<float>(), cloud.at("y").get<float>() };
+                data.speed = cloud.at("speed").get<float>();
+
+                const std::string layer = cloud.value("layer", std::string("bg"));
+                data.layer = layer == "fg" ? ScrollLayer::Foreground : ScrollLayer::Background;
+
+                loaded.scrolling.push_back(data);
+            }
+        }
+
+        if (level.contains("birds"))
+        {
+            for (const nlohmann::json& bird : level.at("birds"))
+            {
+                ScrollingBirdData data;
+                data.image = bird.at("image").get<std::string>();
+                data.position = { bird.at("x").get<float>(), bird.at("y").get<float>() };
+                data.speed = bird.at("speed").get<float>();
+
+                const std::string layer = bird.value("layer", std::string("bg"));
+                data.layer = layer == "fg" ? ScrollLayer::Foreground : ScrollLayer::Background;
+
+                loaded.birds.push_back(data);
+            }
+        }
+
+        if (level.contains("props"))
+        {
+            for (const nlohmann::json& prop : level.at("props"))
+            {
+                PropData data;
+                data.image = prop.at("image").get<std::string>();
+                data.position = { prop.at("x").get<float>(), prop.at("y").get<float>() };
+                data.frameInterval = prop.value("frameInterval", 0.1f);
+                data.flipX = prop.value("flipX", false);
+
+                loaded.props.push_back(data);
+            }
+        }
+
         loaded.hasWind = level.value("wind", false);
 
         const std::string weather = level.value("weather", std::string(""));

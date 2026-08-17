@@ -68,6 +68,8 @@ void GameScene::Init()
             _isMidgroundLoaded.resize(levelCount, false);
             _isForegroundLoaded.resize(levelCount, false);
             _weathers.resize(levelCount);
+            _scrollingClouds.resize(levelCount);
+            _props.resize(levelCount);
 
             for (size_t i = 0; i < levelCount; ++i)
             {
@@ -75,6 +77,8 @@ void GameScene::Init()
                 _isMidgroundLoaded[i] = LoadLayerTexture(_levels[i].layers.midground, _midgroundTextures[i]);
                 _isForegroundLoaded[i] = LoadLayerTexture(_levels[i].layers.foreground, _foregroundTextures[i]);
                 _weathers[i].LoadVariant(_levels[i].weather, _levels[i].index);
+                _scrollingClouds[i].Load(_levels[i].scrolling, _levels[i].birds);
+                _props[i].Load(_levels[i].props);
             }
         }
     }
@@ -100,6 +104,8 @@ void GameScene::Update(float deltaTime)
     if (!_levels.empty())
     {
         _weathers[_currentLevelIndex].Update(deltaTime);
+        _scrollingClouds[_currentLevelIndex].Update(deltaTime);
+        _props[_currentLevelIndex].Update(deltaTime);
         _player->SetWindForceX(CurrentLevel().hasWind
             ? _wind.GetForce() * WIND_FORCE_ACCEL
             : 0.0f);
@@ -160,7 +166,10 @@ void GameScene::Render(const RenderContext& context)
     if (!_levels.empty())
     {
         RenderTextureLayer(_backgroundTextures[_currentLevelIndex], _isBackgroundLoaded[_currentLevelIndex], context);
+        _scrollingClouds[_currentLevelIndex].Render(context, ScrollLayer::Background);
         RenderTextureLayer(_midgroundTextures[_currentLevelIndex], _isMidgroundLoaded[_currentLevelIndex], context);
+        // 소품은 미드그라운드보다 앞, 플레이어보다는 뒤에 깔립니다.
+        _props[_currentLevelIndex].Render(context);
     }
 
     Scene::Render(context);
@@ -170,6 +179,8 @@ void GameScene::Render(const RenderContext& context)
         _weathers[_currentLevelIndex].Render(context, CurrentLevel().hasWind, _wind.GetScrollOffset());
         // Foreground는 플레이어보다 앞에 보여야 하므로 Actor 렌더링 뒤에 그립니다.
         RenderTextureLayer(_foregroundTextures[_currentLevelIndex], _isForegroundLoaded[_currentLevelIndex], context);
+        // fg 구름/안개는 포그라운드보다도 위, 플레이어를 가릴 수 있는 맨 앞 레이어입니다.
+        _scrollingClouds[_currentLevelIndex].Render(context, ScrollLayer::Foreground);
     }
     DrawCollider(context);
     ColliderOnOff();

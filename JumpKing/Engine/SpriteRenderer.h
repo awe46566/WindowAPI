@@ -24,6 +24,7 @@ public:
     void setFlipX(bool flipX) { _flipX = flipX; }
 
     bool IsEnd() const { return _isEnd; }
+    D2D1_SIZE_F GetFrameSize() const { return _texture.GetFrameSize(); }
 
 private:
     Texture _texture;

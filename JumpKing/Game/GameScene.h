@@ -5,6 +5,8 @@
 #include "LevelData.h"
 #include "Weather.h"
 #include "Wind.h"
+#include "Scrolling.h"
+#include "Props.h"
 #include <vector>
 
 class Player;
@@ -28,6 +30,8 @@ private:
     Player* _player = nullptr;
     Wind _wind;
     std::vector<Weather> _weathers;
+    std::vector<ScrollingClouds> _scrollingClouds;
+    std::vector<Props> _props;
 
     // 레벨 전환마다 디스크에서 다시 로드하면 그 프레임이 순간적으로 느려져
     // (deltaTime 스파이크) 다음 프레임에 충돌이 씹히므로, 레벨별로 한 번만 로드해 둔다.

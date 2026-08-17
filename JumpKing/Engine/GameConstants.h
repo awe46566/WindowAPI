@@ -62,4 +62,7 @@ namespace GameConstants
 
     // Weather - placeholder value, tune by playtest
     constexpr float WEATHER_FRAME_INTERVAL = 0.1f;   // seconds per animation frame (4-frame loop)
+
+    // Scrolling birds - placeholder value, tune by playtest
+    constexpr float BIRD_ANIM_DURATION = 0.8f;   // seconds per full 8-frame loop (0.1s/frame)
 }
