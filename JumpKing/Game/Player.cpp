@@ -67,8 +67,8 @@ void Player::Update(float deltaTime)
 		Move(deltaTime);
 	}
 	
-	ApplyWind(deltaTime);
 	ApplyGravity(deltaTime);
+	ApplyWind(deltaTime);
 
 	UpdateAnimation(deltaTime);
 }
