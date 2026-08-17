@@ -56,12 +56,6 @@ bool Weather::LoadVariant(WeatherType type, int levelIndex)
 
 void Weather::Update(float deltaTime)
 {
-    // TODO(user): Engine/SpriteRenderer.cpp의 SpriteRenderer::Update 누적/소진(catch-up)
-    // while 루프를 참고해 채운다.
-    //   - _isLoaded가 false면 아무것도 하지 않는다.
-    //   - _frameTimer += deltaTime.
-    //   - _frameTimer가 WEATHER_FRAME_INTERVAL 이상인 동안(while) 반복해서
-    //     _frameTimer -= WEATHER_FRAME_INTERVAL, _currentFrame = (_currentFrame + 1) % 4.
     if (!_isLoaded)
         return;
 

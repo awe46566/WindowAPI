@@ -103,27 +103,31 @@ void Player::Move(float deltaTime)
 
 	if (_jumpState == JumpState::Ready)
 	{	
-		_isMoveInputPressed = isLeftPressed || isRightPressed;
-		
+		bool isSnowGrounded = _isGrounded && _groundMaterial == PlatformMaterial::Snow;
+		_isMoveInputPressed = !isSnowGrounded && (isLeftPressed || isRightPressed);
+
 		if (_groundSlope.x != 0.0f || _groundSlope.y != 0.0f)
 		{
 			ApplySlopeSlide(deltaTime);
-		}
+		}		
 		else
 		{
 			// sprite FlipX
 			if (isLeftPressed && !isRightPressed) _spriteRenderer->setFlipX(true);
 			else if (isRightPressed && !isLeftPressed) _spriteRenderer->setFlipX(false);
 
-			if (isLeftPressed && !isRightPressed)
+			if (!isSnowGrounded)
 			{
-				_velocity.x = -PLAYER_MOVE_SPEED;
+				if (isLeftPressed && !isRightPressed)
+				{
+					_velocity.x = -PLAYER_MOVE_SPEED;
+				}
+				else if (isRightPressed && !isLeftPressed)
+				{
+					_velocity.x = PLAYER_MOVE_SPEED;
+				}
 			}
-			else if (isRightPressed && !isLeftPressed)
-			{
-				_velocity.x = PLAYER_MOVE_SPEED;
-			}
-			// 입력 없으면 아무것도 안 함 - 감속은 VerticalCollision의 매 프레임 slip이 담당
+						
 		}
 
 	}
@@ -133,7 +137,7 @@ void Player::Move(float deltaTime)
 		{
 			ApplySlopeSlide(deltaTime);
 		}
-		// 평지에서는 아무것도 안 함 - King.py도 차징 중엔 _walk를 호출하지 않고
+		// 평지에서는 아무것도 안 함. 차징 중엔 _walk를 호출하지 않고
 		// 잔여 속도를 매 프레임 slip에 맡긴다 (일반 바닥은 다음 프레임 즉시 0, 얼음은 서서히 감쇠)
 	}
 
