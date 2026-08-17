@@ -105,6 +105,18 @@ namespace
             }
         }
 
+        if (level.contains("hiddenWalls"))
+        {
+            for (const nlohmann::json& hidden : level.at("hiddenWalls"))
+            {
+                PropData data;
+                data.image = hidden.at("image").get<std::string>();
+                data.position = { hidden.at("x").get<float>(), hidden.at("y").get<float>() };
+              
+                loaded.hiddenWalls.push_back(data);
+            }
+        }
+
         loaded.hasWind = level.value("wind", false);
 
         const std::string weather = level.value("weather", std::string(""));

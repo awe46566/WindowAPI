@@ -22,6 +22,8 @@ public:
     void SetFrame(int32 row, int32 col);
     void SetFullFrame(bool fullFrame) { _fullFrame = fullFrame; }
     void setFlipX(bool flipX) { _flipX = flipX; }
+    void SetOpacity(float opacity) { _opacity = opacity; }
+    float GetOpacity() const { return _opacity; }
 
     bool IsEnd() const { return _isEnd; }
     D2D1_SIZE_F GetFrameSize() const { return _texture.GetFrameSize(); }
@@ -38,6 +40,7 @@ private:
     bool _loop = false;
     bool _fullFrame = false;
     bool _flipX = false;
+    float _opacity = 1.0f;
 
     float _duration = 0.0f;
     float _sumTime = 0.0f;

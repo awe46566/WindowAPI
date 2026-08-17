@@ -12,7 +12,8 @@
       },
       "props": [
         { "image": "prop_bonfire", "x": 160, "y": 298, "frameInterval": 0.0833 },
-        { "image": "prop_flowing_water", "x": 0, "y": 283, "frameInterval": 0.1667 }
+        { "image": "prop_flowing_water", "x": 0, "y": 283, "frameInterval": 0.1667 },
+        { "image": "npc_old_man", "x": 320, "y": 302, "frameInterval": 1.0 }
       ],
       "platforms": [
         {
@@ -752,6 +753,12 @@
         { "image": "prop_sewer_drop", "x": 340, "y": 160, "frameInterval": 0.1 },
         { "image": "prop_candle", "x": 305, "y": 287, "frameInterval": 0.1 }
       ],
+      "hiddenWalls": [
+        { "image": "hiddenwall_6_1", "x": 303, "y": 223 },
+        { "image": "hiddenwall_6_2_1", "x": 382, "y": 47 },
+        { "image": "hiddenwall_6_2_2", "x": 288, "y": 47 },
+        { "image": "hiddenwall_6_3", "x": 167, "y": 0 }
+      ],
       "platforms": [
         {
           "id": "p000",
@@ -1193,6 +1200,10 @@
       "layers": {
         "midground": "mg_08"
       },
+      "hiddenWalls": [
+        { "image": "hiddenwall_7_1_1", "x": 152, "y": 279 },
+        { "image": "hiddenwall_7_1_2", "x": 240, "y": 303 }
+      ],
       "platforms": [
         {
           "id": "p000",
@@ -1486,6 +1497,9 @@
         "foreground": "fg_09"
       },
       "weather" : "light_rain",
+      "props": [
+        { "image": "npc_skeleton", "x": 402, "y": 246, "frameInterval": 1.0 }
+      ],
       "platforms": [
         {
           "id": "p000",
@@ -4442,6 +4456,9 @@
         "background": "bg_22",
         "foreground": "fg_22"
       },
+      "hiddenWalls": [
+        { "image": "hiddenwall_21_1", "x": 7, "y": 287 }
+      ],
       "scrolling": [
         { "image": "cloud_clouds_vakttorn1", "x": -30, "y": 20, "speed": 6.0, "layer": "bg" },
         { "image": "cloud_clouds_vakttorn2", "x": -10, "y": 160, "speed": 3.0, "layer": "bg" }
@@ -4890,7 +4907,8 @@
       ],
       "props": [
         { "image": "prop_flag", "x": 97, "y": 57, "frameInterval": 0.1 },
-        { "image": "prop_flag", "x": 242, "y": 88, "frameInterval": 0.1 }
+        { "image": "prop_flag", "x": 242, "y": 88, "frameInterval": 0.1 },
+        { "image": "npc_hermit", "x": 380, "y": 312, "frameInterval": 1.0 }
       ],
       "weather" :"light_snow",
       "platforms": [

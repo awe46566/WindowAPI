@@ -70,6 +70,7 @@ void GameScene::Init()
             _weathers.resize(levelCount);
             _scrollingClouds.resize(levelCount);
             _props.resize(levelCount);
+            _hiddenWalls.resize(levelCount);
 
             for (size_t i = 0; i < levelCount; ++i)
             {
@@ -79,6 +80,7 @@ void GameScene::Init()
                 _weathers[i].LoadVariant(_levels[i].weather, _levels[i].index);
                 _scrollingClouds[i].Load(_levels[i].scrolling, _levels[i].birds);
                 _props[i].Load(_levels[i].props);
+                _hiddenWalls[i].Load(_levels[i].hiddenWalls);
             }
         }
     }
@@ -95,6 +97,8 @@ void GameScene::Init()
     }
     _player = player;
     AddActor(player);
+
+    _jumpEffect.Load();
 }
 
 void GameScene::Update(float deltaTime)
@@ -106,12 +110,22 @@ void GameScene::Update(float deltaTime)
         _weathers[_currentLevelIndex].Update(deltaTime);
         _scrollingClouds[_currentLevelIndex].Update(deltaTime);
         _props[_currentLevelIndex].Update(deltaTime);
+        _hiddenWalls[_currentLevelIndex].Update(deltaTime, _player->GetColliderBounds());
         _player->SetWindForceX(CurrentLevel().hasWind
             ? _wind.GetForce() * WIND_FORCE_ACCEL
             : 0.0f);
     }
 
     Scene::Update(deltaTime);
+
+    Vector2 jumpEffectPosition;
+    PlatformMaterial jumpEffectMaterial;
+    if (_player->ConsumeJumpEffectTrigger(jumpEffectPosition, jumpEffectMaterial))
+    {
+        _jumpEffect.Play(jumpEffectPosition, jumpEffectMaterial);
+    }
+    _jumpEffect.Update(deltaTime);
+
     CheckLevelTransition(deltaTime);
 }
 
@@ -173,12 +187,15 @@ void GameScene::Render(const RenderContext& context)
     }
 
     Scene::Render(context);
+    _jumpEffect.Render(context);
 
     if (!_levels.empty())
     {
         _weathers[_currentLevelIndex].Render(context, CurrentLevel().hasWind, _wind.GetScrollOffset());
         // Foreground는 플레이어보다 앞에 보여야 하므로 Actor 렌더링 뒤에 그립니다.
         RenderTextureLayer(_foregroundTextures[_currentLevelIndex], _isForegroundLoaded[_currentLevelIndex], context);
+        // hidden wall은 foreground보다도 앞, 플레이어를 가려서 "진짜 벽" 착시를 줘야 합니다.
+        _hiddenWalls[_currentLevelIndex].Render(context);
         // fg 구름/안개는 포그라운드보다도 위, 플레이어를 가릴 수 있는 맨 앞 레이어입니다.
         _scrollingClouds[_currentLevelIndex].Render(context, ScrollLayer::Foreground);
     }

@@ -20,7 +20,8 @@ public:
         const RenderContext& context,
         const Vector2& position,
         const D2D1_RECT_F& sourceRect,
-        bool flipX = false);
+        bool flipX = false,
+        float opacity = 1.0f);
 
     ID2D1Bitmap* GetOrCreateBitmap(const RenderContext& context)
     {

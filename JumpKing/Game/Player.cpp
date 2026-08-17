@@ -314,6 +314,21 @@ void Player::StartJump()
 	// 기존 속도에 더함 (덮어쓰지 않음) - 착지 직전 잔여 속도가 다음 점프에 자연스럽게 섞임
 	_velocity.x += sinf(_jumpAngle) * jumpSpeed;
 	_velocity.y += -cosf(_jumpAngle) * jumpSpeed;
+
+	_jumpEffectPending = true;
+}
+
+bool Player::ConsumeJumpEffectTrigger(Vector2& outPosition, PlatformMaterial& outMaterial)
+{
+	if (!_jumpEffectPending)
+	{
+		return false;
+	}
+
+	_jumpEffectPending = false;
+	outPosition = GetPosition();
+	outMaterial = _groundMaterial;
+	return true;
 }
 
 void Player::OnLanded()

@@ -675,6 +675,41 @@
       "rows": 1,
       "columns": 2
     },
+    "hiddenwall_6_1": {
+      "path": "../Resource/hiddenwalls/6_hidden_wall1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "hiddenwall_6_2_1": {
+      "path": "../Resource/hiddenwalls/6_hidden_wall2_1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "hiddenwall_6_2_2": {
+      "path": "../Resource/hiddenwalls/6_hidden_wall2_2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "hiddenwall_6_3": {
+      "path": "../Resource/hiddenwalls/6_hidden_wall3.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "hiddenwall_7_1_1": {
+      "path": "../Resource/hiddenwalls/7_hidden_wall1_1.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "hiddenwall_7_1_2": {
+      "path": "../Resource/hiddenwalls/7_hidden_wall1_2.png",
+      "rows": 1,
+      "columns": 1
+    },
+    "hiddenwall_21_1": {
+      "path": "../Resource/hiddenwalls/21_hidden_wall1.png",
+      "rows": 1,
+      "columns": 1
+    },
     "weather_rain_0": {
       "path": "../Resource/weather/rain0.png",
       "rows": 1,
@@ -779,6 +814,16 @@
       "path": "../Resource/weather/rainmask13.png",
       "rows": 1,
       "columns": 1
+    },
+    "particle_jump": {
+      "path": "../Resource/images/particles/jump_particle.png",
+      "rows": 1,
+      "columns": 5
+    },
+    "particle_jump_snow": {
+      "path": "../Resource/images/particles/snow_jump_particle.png",
+      "rows": 3,
+      "columns": 4
     }
   }
 }

@@ -81,7 +81,7 @@ void SpriteRenderer::Render(const RenderContext& context, const Vector2& ownerPo
         sourceX + frameSize.width,
         sourceY + frameSize.height);
 
-    _texture.Render(context, ownerPosition, sourceRect, _flipX);
+    _texture.Render(context, ownerPosition, sourceRect, _flipX, _opacity);
 }
 
 void SpriteRenderer::ResetAnim(int32 row, bool loop, float duration, int32 frameCount)

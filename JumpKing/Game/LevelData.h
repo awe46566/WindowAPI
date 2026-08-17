@@ -102,6 +102,7 @@ struct LevelData
     std::vector<ScrollingCloudData> scrolling;
     std::vector<ScrollingBirdData> birds;
     std::vector<PropData> props;
+    std::vector<PropData> hiddenWalls;
 };
 
 bool LoadLevelData(

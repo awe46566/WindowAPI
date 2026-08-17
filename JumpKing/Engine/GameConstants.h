@@ -50,6 +50,9 @@ namespace GameConstants
     // Hard-landing stun duration (seconds) - placeholder, tune by playtest
     constexpr float PLAYER_STUN_DURATION = 0.5f;
 
+    // 점프 시작 파티클 재생 시간(초)
+    constexpr float PARTICLE_JUMP_ANIM_DURATION = 0.2f;
+
     // Slope slide speed cap / friction - King.py:165,787,789
     constexpr float PLAYER_SLOPE_MAX_SLIDE_SPEED = 420.0f;
     constexpr float PLAYER_SLOPE_FRICTION = 21.0f;
@@ -65,4 +68,9 @@ namespace GameConstants
 
     // Scrolling birds - placeholder value, tune by playtest
     constexpr float BIRD_ANIM_DURATION = 0.8f;   // seconds per full 8-frame loop (0.1s/frame)
+
+    // Hidden walls - fade speed (opacity fraction per second, both fade-in/out)
+    // JumpKingAtHome-master hiddenwalls.py: opacity -+= 55 (out of 255) per frame @ ~60fps
+    // -> full fade takes about (255/55)/60 ≈ 0.077s -> ≈ 13.0/s
+    constexpr float HIDDEN_WALL_FADE_SPEED = 13.0f;
 }

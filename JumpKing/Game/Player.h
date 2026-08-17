@@ -35,6 +35,7 @@ public:
 	void UpdateStun(float deltaTime);
 	void StartJump();
 	void OnLanded();
+	bool ConsumeJumpEffectTrigger(Vector2& outPosition, PlatformMaterial& outMaterial);
 	void ChargingDirection();
 	void HorizontalCollision(Vector2& nextPosition);
 	void VerticalCollision(Vector2& nextPosition, float deltaTime, bool wasGrounded);
@@ -78,4 +79,6 @@ private:
 	bool _noclip = false;
 
 	float _windForceX = 0.0f;
+
+	bool _jumpEffectPending = false;
 };

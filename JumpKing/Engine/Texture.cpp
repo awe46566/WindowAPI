@@ -123,7 +123,7 @@ bool Texture::CreateBitmap(const RenderContext& context)
     return true;
 }
 
-void Texture::Render(const RenderContext& context, const Vector2& position, const D2D1_RECT_F& sourceRect, bool flipX)
+void Texture::Render(const RenderContext& context, const Vector2& position, const D2D1_RECT_F& sourceRect, bool flipX, float opacity)
 {
     if (!CreateBitmap(context))
     {
@@ -163,7 +163,7 @@ void Texture::Render(const RenderContext& context, const Vector2& position, cons
     context.target->DrawBitmap(
         _bitmap.Get(),
         destinationRect,
-        1.0f,
+        opacity,
         D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
         sourceRect);
 
