@@ -24,9 +24,23 @@ bool ResourceCatalog::Load(const std::filesystem::path& jsonPath)
             resource.columns = value.value("columns", 1);
             _images.emplace(id, std::move(resource));
         }
+      
+        _sounds.clear();
+        if (document.contains("sounds"))
+        {
+            for (const auto& [id, value] : document.at("sounds").items())
+            {
+                SoundResource resource;
+                resource.path = (projectRoot / value.at("path").get<std::string>()).lexically_normal();
+                _sounds.emplace(id, std::move(resource));
+            }
+        }
+
+        
     }
     catch (const nlohmann::json::exception&)
     {
+        _sounds.clear();
         _images.clear();
         return false;
     }
@@ -39,3 +53,10 @@ const ImageResource* ResourceCatalog::FindImage(const std::string& id) const
     const auto found = _images.find(id);
     return found == _images.end() ? nullptr : &found->second;
 }
+
+const SoundResource* ResourceCatalog::FindSound(const std::string& id) const
+{
+    const auto found = _sounds.find(id);
+    return found == _sounds.end() ? nullptr : &found->second;
+}
+

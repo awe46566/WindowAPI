@@ -1,4 +1,18 @@
 {
+  "sounds": {
+    "king_jump": {
+      "path" : "../Resource/Audio/King/Land/king_jump.wav"
+    },
+    "king_land": {
+      "path" : "../Resource/Audio/King/Land/king_land.wav"
+    },
+    "king_bump": {
+      "path" : "../Resource/Audio/King/Land/king_bump.wav"
+    },
+    "king_splat": {
+      "path" : "../Resource/Audio/King/Land/king_splat.wav"
+    }
+  },
   "images": {
     "lobby_logo": {
       "path": "../Resource/images/logos/title_logo.png",

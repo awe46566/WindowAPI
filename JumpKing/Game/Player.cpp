@@ -6,6 +6,7 @@
 using namespace GameConstants;
 #include "Engine/DebugRenderer.h"
 #include "Engine/ResourceCatalog.h"
+#include "Engine/SoundManager.h"
 #include "Framework/CollisionManager.h"
 #include "Framework/ColliderAABB.h"
 #include "Game/LevelData.h"
@@ -270,7 +271,7 @@ void Player::UpdateJump(float deltaTime)
 
 				_jumpChargeTime += deltaTime;
 
-				// King.py:335-341 오토파이어 - 최대 차지(jumpCount=30에 대응)를 넘기면
+				// 오토파이어 - 최대 차지(jumpCount=30에 대응)를 넘기면
 				// SPACE를 떼지 않아도 이번 프레임의 방향으로 즉시 발사
 				if (_jumpChargeTime > PLAYER_MAX_JUMP_CHARGE_TIME)
 				{
@@ -286,8 +287,8 @@ void Player::UpdateJump(float deltaTime)
 
   			if (input.GetButtonUp(KeyType::Space))
 			{
-				StartJump();
-				_jumpState = JumpState::AirBorne;
+				StartJump();				
+				_jumpState = JumpState::AirBorne;				
 			}
 			break;
 
@@ -339,6 +340,8 @@ void Player::OnLanded()
 
 	_jumpAngle = 0.0f;
 	_jumpState = JumpState::Ready;
+
+	SoundManager::GetInstance().Play("king_land");
 }
 
 void Player::ChargingDirection()
@@ -706,10 +709,12 @@ void Player::UpdateAnimation(float deltaTime)
 
 		case PlayerAnimState::Collision:
 			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Collision), 0);
+			SoundManager::GetInstance().Play("king_bump");
 			break;
 
 		case PlayerAnimState::Up:
 			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Up), 0);
+			SoundManager::GetInstance().Play("king_jump");
 			break;
 
 		case PlayerAnimState::Down:
@@ -718,6 +723,7 @@ void Player::UpdateAnimation(float deltaTime)
 
 		case PlayerAnimState::Hurt:
 			_spriteRenderer->SetFrame(static_cast<int32>(PlayerAnimState::Hurt), 0);
+			SoundManager::GetInstance().Play("king_splat");
 			break;
 
 		default:

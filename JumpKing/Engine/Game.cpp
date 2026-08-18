@@ -6,6 +6,7 @@
 #include "Engine/ResourceCatalog.h"
 #include "Engine/TimeManager.h"
 #include "Engine/GameConstants.h"
+#include "Engine/SoundManager.h"
 using namespace GameConstants;
 #include "Framework/SceneManager.h"
 
@@ -69,6 +70,7 @@ bool Game::Init(HWND window)
 
     TimeManager::GetInstance().Init();
     InputManager::GetInstance().Init(_window);
+    SoundManager::GetInstance().Init(_window);
 
     wchar_t executablePath[MAX_PATH]{};
     const DWORD pathLength = GetModuleFileNameW(
