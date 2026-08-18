@@ -52,7 +52,9 @@ struct HitResult
 
 enum class SceneType
 {
+    Main,
     Game,
+    Ending,
     Count
 };
 

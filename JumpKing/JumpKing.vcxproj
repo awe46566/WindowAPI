@@ -149,7 +149,9 @@
     <ClInclude Include="Framework\Component.h" />
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\SceneManager.h" />
+    <ClInclude Include="Game\MainScene.h" />
     <ClInclude Include="Game\GameScene.h" />
+    <ClInclude Include="Game\EndingScene.h" />
     <ClInclude Include="Game\LevelData.h" />
     <ClInclude Include="Game\Wind.h" />
     <ClInclude Include="Game\Weather.h" />
@@ -180,7 +182,9 @@
     <ClCompile Include="Framework\Component.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
+    <ClCompile Include="Game\MainScene.cpp" />
     <ClCompile Include="Game\GameScene.cpp" />
+    <ClCompile Include="Game\EndingScene.cpp" />
     <ClCompile Include="Game\LevelData.cpp" />
     <ClCompile Include="Game\Wind.cpp" />
     <ClCompile Include="Game\Weather.cpp" />

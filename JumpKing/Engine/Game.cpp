@@ -7,10 +7,9 @@
 #include "Engine/TimeManager.h"
 #include "Engine/GameConstants.h"
 #include "Engine/SoundManager.h"
-using namespace GameConstants;
 #include "Framework/SceneManager.h"
 
-#include <string>
+using namespace GameConstants;
 
 bool Game::Init(HWND window)
 {
