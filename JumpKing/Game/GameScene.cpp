@@ -142,7 +142,10 @@ void GameScene::CheckLevelTransition(float deltaTime)
     // 계산되어 버린다(도착하자마자 되튕겨나가 반복 전환됨).
     const Rect colliderBounds = _player->GetColliderBounds();
 
-    if (colliderBounds.Top() < 0.0f)
+    
+       
+
+    if (colliderBounds.Top() < 0.0f && _currentLevelIndex +1 < static_cast<int>(_levels.size()))
     {
         float nextY = _player->GetPosition().y + SCREEN_HEIGHT;
         TransitionToLevel(_currentLevelIndex + 1, nextY, deltaTime);
@@ -151,7 +154,7 @@ void GameScene::CheckLevelTransition(float deltaTime)
     {
         float nextY = _player->GetPosition().y - SCREEN_HEIGHT;
         TransitionToLevel(_currentLevelIndex - 1, nextY, deltaTime);
-    }
+    }    
 }
 
 void GameScene::TransitionToLevel(int newIndex, float newY, float deltaTime)
