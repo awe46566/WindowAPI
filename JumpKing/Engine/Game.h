@@ -50,4 +50,5 @@ private:
     Microsoft::WRL::ComPtr<IDWriteTextFormat> _defaultTextFormat;
     Microsoft::WRL::ComPtr<IWICImagingFactory> _wicFactory;
     uint64 _deviceGeneration = 0;
+    int32 _lastDisplayedFps = -1;
 };

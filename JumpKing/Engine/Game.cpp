@@ -197,16 +197,14 @@ void Game::Render()
 
     SceneManager::GetInstance().Render(context);
 
-    const std::wstring fpsText =
-        L"FPS: " + std::to_wstring(TimeManager::GetInstance().GetFPS());
-    const D2D1_RECT_F fpsRect = D2D1::RectF(20.0f, 20.0f, 220.0f, 50.0f);
-    _renderTarget->DrawTextW(
-        fpsText.c_str(),
-        static_cast<UINT32>(fpsText.size()),
-        _defaultTextFormat.Get(),
-        fpsRect,
-        _defaultBrush.Get());
-
+    int32 fps = TimeManager::GetInstance().GetFPS();
+    if (fps != _lastDisplayedFps)
+    {
+        const std::wstring titleText = L"JumpKing - FPS: " + std::to_wstring(fps);
+        SetWindowTextW(_window, titleText.c_str());
+        _lastDisplayedFps = fps;
+    }
+    
     // 실제 그리기 결과와 장치 상태는 EndDraw에서 확인합니다.
     const HRESULT result = _renderTarget->EndDraw();
     if (result == D2DERR_RECREATE_TARGET)
