@@ -8774,6 +8774,9 @@
         "width": 20,
         "height": 20
       },
+      "props": [
+        { "image": "princess", "x": 334, "y": 112, "frameInterval": 0.3 }
+      ],
       "platforms": [
         {
           "id": "p000",

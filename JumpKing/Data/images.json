@@ -29,6 +29,11 @@
       "rows": 7,
       "columns": 3
     },
+    "princess": {
+      "path": "../Resource/images/sheets/princess.png",
+      "rows": 1,
+      "columns": 3
+    },
     "mg_01": {
       "path": "../Resource/MG/1.png",
       "rows": 1,
