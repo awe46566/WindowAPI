@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Game/LevelData.h"
-#include "../../BounceBall_Data/Json/nlohmann/json.hpp"
+#include "../Json/nlohmann/json.hpp"
 
 namespace
 {

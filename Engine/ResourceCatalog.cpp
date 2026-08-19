@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Engine/ResourceCatalog.h"
-#include "../../BounceBall_Data/Json/nlohmann/json.hpp"
+#include "../Json/nlohmann/json.hpp"
 
 bool ResourceCatalog::Load(const std::filesystem::path& jsonPath)
 {
