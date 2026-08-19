@@ -8,27 +8,10 @@ using int32 = std::int32_t;
 using uint32 = std::uint32_t;
 using uint64 = std::uint64_t;
 
-#define SMALL_NUMBER			(1.e-8f)
-
 struct Vector2
 {
     float x = 0.0f;
     float y = 0.0f;
-
-    float Length()
-    {
-        return sqrt(x * x + y * y);
-    }
-
-    void Normalize()
-    {
-        float length = Length();
-        if (length < SMALL_NUMBER)
-            return;
-
-        x /= length;
-        y /= length;
-    }
 };
 
 struct Rect
@@ -60,23 +43,12 @@ enum class SceneType
 
 enum class ActorType
 {
-    Background,
-    Foreground,
-    Mainground,
-    Effect,
     Player,
 };
 
 enum class RenderLayer
 {
-    Background,
-    Mainground,
     Player,
-    Foreground,
-    Effect,
-
-    // 최대 개수
-    Count
 };
 
 enum class JumpState

@@ -27,7 +27,6 @@ struct PlatformData
     Rect bounds{};
     Vector2 slope{};
     bool hasSlope = false;
-    bool support = false;
     PlatformMaterial material = PlatformMaterial::Land;
 };
 
@@ -107,10 +106,5 @@ struct LevelData
     std::vector<PropData> props;
     std::vector<PropData> hiddenWalls;
 };
-
-bool LoadLevelData(
-    const std::filesystem::path& jsonPath,
-    const std::string& levelId,
-    LevelData& output);
 
 bool LoadAllLevelData(const filesystem::path& jsonPath, vector<LevelData>& output);

@@ -56,9 +56,3 @@ void DebugRenderer::ToggleColliderLine()
 	_showCollider = !_showCollider;
 }
 
-bool DebugRenderer::VisibleState()
-{
-	return _showCollider;
-}
-
-

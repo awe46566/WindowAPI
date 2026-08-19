@@ -179,7 +179,6 @@
     <ClCompile Include="Engine\TimeManager.cpp" />
     <ClCompile Include="Framework\Actor.cpp" />
     <ClCompile Include="Framework\CollisionManager.cpp" />
-    <ClCompile Include="Framework\Component.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\SceneManager.cpp" />
     <ClCompile Include="Game\MainScene.cpp" />

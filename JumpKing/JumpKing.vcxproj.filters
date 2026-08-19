@@ -155,9 +155,6 @@
     <ClCompile Include="Framework\Actor.cpp">
       <Filter>소스 파일\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Component.cpp">
-      <Filter>소스 파일\Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Scene.cpp">
       <Filter>소스 파일\Framework</Filter>
     </ClCompile>

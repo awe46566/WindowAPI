@@ -76,14 +76,7 @@ void MainScene::Update(float deltaTime)
 }
 
 void MainScene::Render(const RenderContext& context)
-{   
-    HRESULT DrawText(
-        const WCHAR * string,
-        UINT32 stringLength,
-        IDWriteTextFormat * textFormat,
-        const D2D1_RECT_F & layoutRect,
-        ID2D1Brush * defaultForegroundBrush);
-
+{
     const D2D1_RECT_F sourceRect = D2D1::RectF(
         0.0f,
         0.0f,

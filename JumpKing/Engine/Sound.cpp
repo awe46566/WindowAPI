@@ -85,14 +85,3 @@ void Sound::Play(bool loop)
 	else
 		_soundBuffer->Play(0, 0, 0);
 }
-
-void Sound::Stop(bool reset)
-{
-	if (!_soundBuffer)
-		return;
-
-	_soundBuffer->Stop();
-
-	if (reset)
-		_soundBuffer->SetCurrentPosition(0);
-}

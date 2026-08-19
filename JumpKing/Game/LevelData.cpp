@@ -52,7 +52,6 @@ namespace
 
             PlatformData data;
             data.bounds = { x, y, width, height };
-            data.support = platform.value("support", false);
 
             if (!platform.at("slope").is_null())
             {
@@ -150,24 +149,6 @@ namespace
     }
 }
 
-bool LoadLevelData(const std::filesystem::path& jsonPath, const std::string& levelId, LevelData& output)
-{
-    ifstream input(jsonPath);
-    if (!input) 
-        return false;
-
-    try
-    {
-        const nlohmann::json document = nlohmann::json::parse(input);
-        const nlohmann::json& level = document.at("levels").at(levelId);
-        return ParseLevelData(level, output);
-    }
-    catch (const nlohmann::json::exception&)
-    {
-        return false;
-    }
-}
-
 bool LoadAllLevelData(const filesystem::path& jsonPath, vector<LevelData>& output)
 {
     ifstream input(jsonPath);
@@ -185,9 +166,8 @@ bool LoadAllLevelData(const filesystem::path& jsonPath, vector<LevelData>& outpu
         {
             LevelData data;
             if (!ParseLevelData(levelJson, data))
-            {
-                false;
-            }
+                continue;
+
             loaded.push_back(move(data));
         }
 
