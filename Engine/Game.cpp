@@ -83,7 +83,7 @@ bool Game::Init(HWND window)
     }
 
     const fs::path catalogPath =
-        fs::path(executablePath).parent_path() / L".." / L".." /
+        fs::path(executablePath).parent_path() /
         L"Data" / L"images.json";
     if (!ResourceCatalog::GetInstance().Load(catalogPath.lexically_normal()))
     {

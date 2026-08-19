@@ -18,7 +18,7 @@ void EndingScene::Init()
     if (pathLength > 0 && pathLength < ARRAYSIZE(executablePath))
     {
         const fs::path fontPath =
-            fs::path(executablePath).parent_path() / L".." / L".." / L"Resource" / L"Fonts" / L"ttf_pixolde_bold.ttf";
+            fs::path(executablePath).parent_path() / L"Resource" / L"Fonts" / L"ttf_pixolde_bold.ttf";
 
         Microsoft::WRL::ComPtr<IDWriteFactory5> factory5;
         Game::GetInstance().GetWriteFactory()->QueryInterface(IID_PPV_ARGS(&factory5));
