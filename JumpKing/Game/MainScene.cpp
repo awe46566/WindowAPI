@@ -26,18 +26,37 @@ void MainScene::Init()
     if (pathLength > 0 && pathLength < ARRAYSIZE(executablePath))
     {
         const fs::path fontPath =
-            fs::path(executablePath).parent_path() / L".." / L".." / L"Resource" / L"Fonts" / L"ttf_alkhemikal.ttf";
+            fs::path(executablePath).parent_path() / L".." / L".." / L"Resource" / L"Fonts" / L"ttf_pixolde_bold.ttf";
 
-        AddFontResourceExW(fontPath.c_str(), FR_PRIVATE, nullptr);
+        Microsoft::WRL::ComPtr<IDWriteFactory5> factory5;
+        Game::GetInstance().GetWriteFactory()->QueryInterface(IID_PPV_ARGS(&factory5));
+
+        Microsoft::WRL::ComPtr<IDWriteFontSetBuilder1> fontSetBuilder;
+        factory5->CreateFontSetBuilder(&fontSetBuilder);
+
+        Microsoft::WRL::ComPtr<IDWriteFontFile> fontFile;
+        factory5->CreateFontFileReference(fontPath.c_str(), nullptr, &fontFile);
+        fontSetBuilder->AddFontFile(fontFile.Get());
+
+        Microsoft::WRL::ComPtr<IDWriteFontSet> fontSet;
+        fontSetBuilder->CreateFontSet(&fontSet);
+
+        factory5->CreateFontCollectionFromFontSet(fontSet.Get(), _fontCollection.GetAddressOf());
+
+
         Game::GetInstance().GetWriteFactory()->CreateTextFormat(
-            L"ttf_alkhemikal.ttf",                        // fontFamilyName — ttf_alkhemikal의 실제 family name
-            nullptr,                       // fontCollection — 시스템 컬렉션 사용
+            L"Pixolde", 
+            _fontCollection.Get(),
             DWRITE_FONT_WEIGHT_NORMAL,
             DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,
-            24.0f,                         // fontSize — 원하는 크기로 조절
-            L"en-us",                      // localeName
+            16.0f,                         // fontSize — 원하는 크기로 조절
+            L"en-us",              
             _titleTextFormat.GetAddressOf());
+
+        // 가로/세로 중앙 정렬 옵션
+        _titleTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+        _titleTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
 }
 
@@ -47,11 +66,17 @@ void MainScene::Update(float deltaTime)
     {
         SceneManager::GetInstance().RequestSceneChange(SceneType::Game);
     }
+
+    _blinkTimer += deltaTime;
+    if (_blinkTimer >= 0.5f)
+    {
+        _blinkTimer = 0.0f;
+        _isTextVisible = !_isTextVisible;
+    }
 }
 
 void MainScene::Render(const RenderContext& context)
-{
-    // TODO: 로고 텍스처 렌더링 + "PRESS SPACE TO START" 텍스트 렌더링
+{   
     HRESULT DrawText(
         const WCHAR * string,
         UINT32 stringLength,
@@ -75,7 +100,7 @@ void MainScene::Render(const RenderContext& context)
         0.0f,
         0.0f,
         static_cast<float>(GameConstants::SCREEN_WIDTH),
-        static_cast<float>(GameConstants::SCREEN_HEIGHT));
+        static_cast<float>(GameConstants::SCREEN_HEIGHT + 180));
 
     context.target->FillRectangle(BackGroundRect, context.defaultBrush);
 
@@ -84,17 +109,20 @@ void MainScene::Render(const RenderContext& context)
         Vector2{GameConstants::SCREEN_WIDTH / 10, GameConstants::SCREEN_WIDTH / 12 },
         sourceRect);
 
-    const std::wstring StartText = L"PRESS SPACE TO START";
+    const std::wstring StartText = L"PRESS SPACE";
 
     const D2D1_COLOR_F previousColor = context.defaultBrush->GetColor();
     context.defaultBrush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
 
-    context.target->DrawText(
-        StartText.c_str(),
-        static_cast<UINT32>(StartText.length()),
-        _titleTextFormat.Get(),
-        TextRect,
-        context.defaultBrush);
+    if (_isTextVisible)
+    {
+        context.target->DrawText(
+            StartText.c_str(),
+            static_cast<UINT32>(StartText.length()),
+            _titleTextFormat.Get(),
+            TextRect,
+            context.defaultBrush);
+    }
 
     context.defaultBrush->SetColor(previousColor);
 }

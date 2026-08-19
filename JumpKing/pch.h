@@ -7,6 +7,7 @@
 // Direct2D: 2D 그리기, DirectWrite: 텍스트, WIC: PNG 디코딩
 #include <d2d1.h>
 #include <dwrite.h>
+#include <dwrite_3.h>
 #include <wincodec.h>
 // ComPtr: COM 객체의 AddRef/Release를 자동 관리
 #include <wrl/client.h>

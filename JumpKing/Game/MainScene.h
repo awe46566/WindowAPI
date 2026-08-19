@@ -18,5 +18,10 @@ public:
 private:
     Texture _logoTexture;
     bool _isLogoLoaded = false;
+
+    float _blinkTimer = 0.0f;
+    bool _isTextVisible = true;
+
     Microsoft::WRL::ComPtr<IDWriteTextFormat> _titleTextFormat;
+    Microsoft::WRL::ComPtr<IDWriteFontCollection1> _fontCollection;
 };
