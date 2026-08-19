@@ -58,7 +58,7 @@ void GameScene::Init()
     if (pathLength > 0 && pathLength < ARRAYSIZE(executablePath))
     {
         const fs::path levelPath =
-            fs::path(executablePath).parent_path() / L".." / L".." / L"JumpKing" / L"Data" / L"levels.json";
+            fs::path(executablePath).parent_path() / L".." / L".." / L"Data" / L"levels.json";
 
         if (LoadAllLevelData(levelPath.lexically_normal(), _levels))
         {

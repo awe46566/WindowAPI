@@ -84,7 +84,7 @@ bool Game::Init(HWND window)
 
     const fs::path catalogPath =
         fs::path(executablePath).parent_path() / L".." / L".." /
-        L"JumpKing" / L"Data" / L"images.json";
+        L"Data" / L"images.json";
     if (!ResourceCatalog::GetInstance().Load(catalogPath.lexically_normal()))
     {
         Cleanup();

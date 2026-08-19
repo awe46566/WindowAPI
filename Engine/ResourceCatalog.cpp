@@ -13,7 +13,7 @@ bool ResourceCatalog::Load(const std::filesystem::path& jsonPath)
     try
     {
         const nlohmann::json document = nlohmann::json::parse(input);
-        const std::filesystem::path projectRoot = jsonPath.parent_path().parent_path();
+        const std::filesystem::path projectRoot = jsonPath.parent_path();
 
         _images.clear();
         for (const auto& [id, value] : document.at("images").items())
