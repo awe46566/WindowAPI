@@ -45,7 +45,7 @@ namespace GameConstants
     constexpr float PLAYER_SLOPE_SLIDE_ACCEL = 1000.0f;
     constexpr float PLAYER_SLOPE_SNAP_TOLERANCE = 4.0f;
     constexpr float PLAYER_LANDING_SLIP_NORMAL = 0.0f;
-    constexpr float PLAYER_LANDING_SLIP_ICE = 0.95f;
+    constexpr float PLAYER_LANDING_SLIP_ICE = 0.9f;
 
     // Hard-landing stun duration (seconds) - placeholder, tune by playtest
     constexpr float PLAYER_STUN_DURATION = 0.5f;

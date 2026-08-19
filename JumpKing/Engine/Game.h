@@ -32,6 +32,11 @@ public:
         return _wicFactory.Get();
     }
 
+    IDWriteFactory* GetWriteFactory() const
+    {
+        return _dwriteFactory.Get();
+    }
+
 private:
     Game() = default;
     ~Game() = default;

@@ -2,6 +2,7 @@
 
 #include "Framework/Scene.h"
 #include "Engine/Texture.h"
+#include "Engine/Types.h"
 
 // TODO: 다음 단계에서 함께 채운다.
 // - Init(): ResourceCatalog에서 "lobby_logo" 이미지를 찾아 _logoTexture에 Load
@@ -17,4 +18,5 @@ public:
 private:
     Texture _logoTexture;
     bool _isLogoLoaded = false;
+    Microsoft::WRL::ComPtr<IDWriteTextFormat> _titleTextFormat;
 };
