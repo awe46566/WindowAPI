@@ -5,6 +5,8 @@
 #include "Engine/DebugRenderer.h"
 #include "Engine/InputManager.h"
 #include "Engine/GameConstants.h"
+#include "Framework/CollisionManager.h"
+#include "Framework/SceneManager.h"
 using namespace GameConstants;
 #include "Game/GameScene.h"
 #include "Game/LevelData.h"
@@ -141,8 +143,14 @@ void GameScene::CheckLevelTransition(float deltaTime)
     // 좌표가 어긋나서 전환 직후 새 레벨에서 반대 방향 경계를 즉시 다시 넘은 것으로
     // 계산되어 버린다(도착하자마자 되튕겨나가 반복 전환됨).
     const Rect colliderBounds = _player->GetColliderBounds();
+    HitResult hit;
 
-    
+    if (CurrentLevel().hasEndTrigger && 
+        CollisionManager::GetInstance().CheckAABBToAABB(colliderBounds, CurrentLevel().endTrigger, hit))
+    {
+        SceneManager::GetInstance().RequestSceneChange(SceneType::Ending);
+        return;
+    }
        
 
     if (colliderBounds.Top() < 0.0f && _currentLevelIndex +1 < static_cast<int>(_levels.size()))
@@ -226,6 +234,7 @@ void GameScene::DrawCollider(const RenderContext& context)
         }
 
         DebugRenderer::DrawRect(context, platform.bounds, D2D1::ColorF(D2D1::ColorF::Red));
+        DebugRenderer::DrawRect(context, CurrentLevel().endTrigger, D2D1::ColorF(D2D1::ColorF::Pink));
     }
 }
 

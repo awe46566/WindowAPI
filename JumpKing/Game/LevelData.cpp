@@ -30,6 +30,19 @@ namespace
             loaded.hasSpawn = true;
         }
 
+        if (level.contains("endTrigger"))
+        {
+            const nlohmann::json& trigger = level.at("endTrigger");
+            loaded.endTrigger =
+            {
+                trigger.at("x").get<float>(),
+                trigger.at("y").get<float>(),
+                trigger.at("width").get<float>(),
+                trigger.at("height").get<float>()
+            };
+            loaded.hasEndTrigger = true;
+        }
+
         for (const nlohmann::json& platform : level.at("platforms"))
         {
             const float x = platform.at("x").get<float>();

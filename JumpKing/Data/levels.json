@@ -8768,6 +8768,12 @@
         "background": "bg_43",
         "foreground": "fg_43"
       },
+      "endTrigger": {
+        "x": 340,
+        "y": 123,
+        "width": 20,
+        "height": 20
+      },
       "platforms": [
         {
           "id": "p000",

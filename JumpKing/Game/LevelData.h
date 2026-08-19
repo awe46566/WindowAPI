@@ -97,6 +97,9 @@ struct LevelData
     bool hasSpawn = false;
     std::vector<PlatformData> platforms;
 
+    Rect endTrigger{};
+    bool hasEndTrigger = false;
+
     bool hasWind = false;
     WeatherType weather = WeatherType::None;
     std::vector<ScrollingCloudData> scrolling;
